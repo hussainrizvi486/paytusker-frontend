@@ -1,0 +1,125 @@
+.header-main__nav {
+    padding: 1rem .5rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: .875rem;
+    /* display: flex;
+    justify-content: space-between;
+    align-items: center; */
+}
+
+.header-center__section {
+    grid-row: 2;
+    grid-column: span 2;
+}
+
+.header-text__logo {
+    font-weight: 700;
+    font-size: var(--text-xl);
+    font-family: 'Poppins', sans-serif;
+    color: #7f7f7f;
+    cursor: pointer;
+}
+
+.header-text__logo a {
+    all: unset;
+}
+
+
+.header-text__logo a img{
+    max-width: 150px;
+}
+
+.header-nav {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: .5rem;
+}
+
+.search-box__input {
+    height: 2.5rem;
+    padding: .5rem;
+    display: flex;
+    align-items: center;
+    border: 1px solid #939393;
+    border-radius: 5px;
+}
+
+.search-box__input input {
+    flex: auto;
+    height: 100%;
+    border: none;
+    font-family: 'Poppins', sans-serif;
+
+}
+
+.search-box__input button {
+    all: unset;
+    color: #444444;
+    cursor: pointer;
+}
+
+.search-box__input button svg {
+    --size: 1.4rem;
+    height: var(--size);
+    width: var(--size);
+}
+
+
+.header-search-box {
+    position: relative;
+}
+
+.header-search-box:focus-within .search-results__container {
+    display: block;
+}
+
+.search-results__container {
+    position: absolute;
+    top: 100%;
+    background-color: #fff;
+    width: 100%;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    box-shadow: 0px 5px 10px #7f7f7f;
+    z-index: 9;
+
+    display: none;
+}
+
+.search-results__list {
+    list-style: none;
+}
+
+.search-results__list li {
+    font-family: 'Poppins', sans-serif;
+    font-size: var(--text-sm);
+    padding:  0.5rem .6rem;
+    cursor: pointer;
+}
+
+.search-results__list li:hover {
+    background-color: #dbdbdb;
+}
+
+.search-results__list li:not(:last-of-type) {
+    border-bottom: 1px solid #c5c5c5;
+}
+
+@media (min-width: 800px) {
+    .header-center__section {
+        all: unset;
+    }
+
+    .header-main__nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        /* grid-template-columns: repeat(3, 1fr); */
+    }
+
+    .header-search-box {
+        width: 500px;
+    }
+}

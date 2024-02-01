@@ -1,0 +1,141 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&family=Roboto:wght@400;500;700&display=swap');
+
+:root {
+    --text-xs: .75rem;
+    --text-sm: .875rem;
+    --text-md: 1rem;
+    --text-lg: 1.25rem;
+    --text-xl: 1.5rem;
+    --text-xxl: 1.75rem;
+    --text-3xl: 2rem;
+    --text-4xl: 2.25rem;
+    --text-5xl: 2.5rem;
+
+    --icon-size-md: 1rem;
+
+    --color-dark-grey: #434343;
+    --color-grey-md: #666;
+    --color-pink: #f11682;
+
+
+
+    --color-primary: var(--color-dark-grey);
+    --color-primary-bg: var(--color-dark-grey);
+    --text-color-primary: var(--color-grey-md);
+    --font-fm-poppins: 'Poppins', 'Roboto', sans-serif;
+
+    --input-font: 'Poppins', 'Roboto', sans-serif;
+    --input-border-color: #666;
+
+    /* --icon-size: 1.5rem; */
+
+}
+
+
+body {
+    color: var(--text-color-primary);
+}
+
+#app-container {
+    min-height: 100vh;
+    max-width: 1280px;
+    margin-inline: auto !important;
+}
+
+
+/* Button */
+.btn {
+    padding: .6rem 1.5rem;
+    border: none;
+    outline: transparent;
+    cursor: pointer;
+    font-size: var(--font-md);
+    border-radius: .25rem;
+    font-family: 'Poppins', sans-serif;
+
+}
+
+.btn-sm {
+    padding: .4rem 1rem;
+    font-size: var(--text-sm);
+}
+
+.btn-primary {
+    background-color: var(--color-primary) !important;
+    color: #fff !important;
+}
+
+.btn-primary:focus-visible {
+    background-color: var(--color-primary) !important;
+}
+
+.btn-full {
+    width: 100%;
+}
+
+.btn-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .5rem;
+    line-height: 1;
+    font-size: var(--text-sm);
+
+}
+
+.btn-icon svg {
+    height: var(--icon-size-md);
+    width: var(--icon-size-md);
+}
+
+
+.input {
+    border: none;
+    outline: none;
+    border: 1px solid var(--input-border-color);
+    padding: .4rem .25rem;
+    border-radius: .25rem;
+    font-family: var(--input-font);
+    /* width: max-content; */
+}
+
+.input-sm {
+    width: 5rem;
+}
+
+/*  */
+
+.page-container {
+    /* padding-inline: .5rem; */
+    min-height: 100vh;
+}
+
+
+.section-heading {
+    font-size: var(--text-lg);
+    font-weight: 500;
+    margin-bottom: .5rem;
+}
+
+/* user pages */
+
+
+.user-sidebar {
+    display: none;
+
+}
+
+@media (min-width: 900px) {
+    .sidebar-page {
+        display: flex;
+        gap: 1rem;
+    }
+
+    .user-sidebar {
+        display: block;
+    }
+
+    .sidebar-page__content {
+        flex: auto;
+    }
+}

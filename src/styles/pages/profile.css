@@ -1,0 +1,30 @@
+.profile-page {
+    padding-inline: .5rem;
+    padding-top: 1rem;
+}
+
+
+.profile-pg__heading {
+    font-size: var(--text-lg);
+    font-weight: 600;
+}
+
+.user-details-grid {
+    margin-top: 1.5rem;
+    display: grid;
+    gap: 1.25rem;
+}
+
+@media (min-width: 550px) {
+    .user-details-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem .5rem;
+    }
+}
+
+@media (min-width: 900px) {
+    .user-details-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+    }
+}

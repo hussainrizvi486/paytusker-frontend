@@ -1,0 +1,45 @@
+.pg-footer {
+    padding: 1rem 0.5rem;
+}
+
+.pg-footer__upper-section {
+    display: grid;
+}
+
+.footer-section__logo img {
+    width: 15rem;
+}
+
+.footer-links__tab {
+    text-align: center;
+}
+
+.footer-links__container {
+    margin-bottom: 1rem;
+}
+
+.footer-links__ul {
+    list-style: none;
+    margin-top: .5rem;
+}
+
+.footer-links__ul li {
+    margin-bottom: .25rem;
+}
+
+
+.footer-email__tab {
+    margin-top: 2rem;
+}
+
+.footer-email__input-box {
+    margin-top: .5rem;
+}
+
+.pg-footer__copyrights {
+    margin-top: 1rem;
+    padding: 1rem .5rem 0 .5rem;
+    border-top: 1px solid #a6a6a6;
+    text-align: center;
+    font-size: var(--text-sm);
+}
