@@ -10,6 +10,7 @@ export const UserSidebar = () => {
     const sidebarLinks = [
         { label: "My Account", url: "/profile", icon: <UserCog /> },
         { label: "Address Book", url: "/profile/address", icon: <MapPinned /> },
+        { label: "Add Address", url: "/profile/address/add", icon: <ScrollText /> },
         { label: "My Orders", url: "/profile/orders", icon: <ScrollText /> },
         { label: "My Reviews", url: "/" },
         { label: "My Whislist", url: "/" }
@@ -17,7 +18,6 @@ export const UserSidebar = () => {
 
     return (
         <div className="user-sidebar">
-
             <div className="sidebar-heading">
                 Hello {authUser.username}
             </div>
@@ -30,13 +30,13 @@ export const UserSidebar = () => {
                 </div>
             </nav>
 
-        </div >
+        </div>
     )
 }
 
 export default UserSidebar
 
-const SidebarNavElement = ({ url, label, icon }) => {
+const SidebarNavElement = ({ url, label }) => {
     return (
         <div className={window.location.pathname === url ? "sidebar-nav-el__wrapper active" : "sidebar-nav-el__wrapper"}>
             <Link to={url} className="sidebar-nav-el">

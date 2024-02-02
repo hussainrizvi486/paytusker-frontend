@@ -20,8 +20,7 @@ const Home = () => {
 
             setLoading(false)
         } catch (error) {
-            toast.error("Error")
-            console.log(error)
+            toast.error("Server Error")
             setLoading(false)
         }
     }
@@ -94,15 +93,13 @@ const Home = () => {
                 <section className="home-section">
                     <div className="section-heading">
                         Categories
-                    </div>
-
+                </div>
                     <div className="home-categories-row">
                         {categories.map((val, i) => <CategoryCard key={i}
                             category={val.name}
                             image={val.image}
                         />)}
                     </div>
-
                 </section>
 
 
@@ -116,8 +113,6 @@ const Home = () => {
                         </div>
                     </section>
                 }
-
-
 
             </main>
         </>

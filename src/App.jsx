@@ -27,6 +27,7 @@ const Profile = lazy(() => import("./pages/Profile/Profile"));
 const Register = lazy(() => import("./pages/Register/Register"));
 const Search = lazy(() => import("./pages/Search/Search"));
 const Orders = lazy(() => import("./pages/Orders/Orders"));
+const AddAddress = lazy(() => import("./pages/AddAddress/AddAddress"));
 
 import { Footer } from "./layouts"
 
@@ -62,6 +63,7 @@ function App() {
               <Route path="/cart" element={<Cart />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/profile/address" element={<Address />} />
+              <Route path="/profile/address/add" element={<AddAddress />} />
               <Route path="/profile/orders" element={<Orders />} />
             </Route>
 

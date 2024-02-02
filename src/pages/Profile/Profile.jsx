@@ -1,11 +1,17 @@
 import { useGetUserDetailsQuery } from "../../features/api/api"
 import { UserSidebar, Header } from "../../layouts"
 import { Freeze } from "../../components"
-import { User } from "lucide-react"
 import { LogOut } from "../../redux/slices/authSlice"
 import { useDispatch } from "react-redux"
+import { useEffect } from "react"
+import { useNavigate } from "react-router-dom"
+import toast from "react-hot-toast"
+
 const Profile = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+
   const userProfileFields = [
     {
       "fieldname": "first_name",
@@ -38,14 +44,24 @@ const Profile = () => {
       "value": ""
     },
   ]
-  const { data, isLoading } = useGetUserDetailsQuery()
-  console.log(data)
+
+  const { data, isLoading, isError } = useGetUserDetailsQuery()
+
   if (data) {
     userProfileFields.map((val) => {
       val.value = data[val.fieldname]
     })
   }
+
+  if (isError) {
+    toast.error("Something went wrong.")
+    navigate("/")
+  }
+  useEffect(() => { }, [isError])
+
   if (isLoading) return <Freeze />
+
+
   return (
     <div>
       <div>
@@ -61,6 +77,7 @@ const Profile = () => {
             <div className="heading-md">My Profile</div>
             <form className="user-details-grid" >
               {userProfileFields?.map((val, idx) =>
+
                 <div className="input-box" key={idx}>
                   <div className="input-box__label">{val.label}</div>
                   <div className="input-box__input">
@@ -70,6 +87,7 @@ const Profile = () => {
                     />
                   </div>
                 </div>
+                
               )}
 
             </form>

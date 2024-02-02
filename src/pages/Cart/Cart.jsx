@@ -9,6 +9,8 @@ import { Freeze } from "../../components/Loaders/Freeze"
 import { FormatCurreny } from "../../utils"
 import { CreateOrder } from "../../redux/actions/User"
 import { Navbar } from "../../layouts"
+import toast from "react-hot-toast"
+import { useNavigate } from "react-router-dom"
 
 const paymentMethods = [
     {
@@ -31,12 +33,16 @@ const paymentMethods = [
 
 
 const Cart = () => {
-    const { data, isLoading, isSuccess } = useGetCartDetailsQuery({});
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const { data, isLoading, isSuccess, isError } = useGetCartDetailsQuery({});
+    const [editQty, qtyResults] = useUpdateQtyMutation();
+
     const [cartData, setCartData] = useState({})
     const [pageLoading, setPageLoading] = useState(isLoading)
     const [paymentMethod, setPaymentMethod] = useState(null)
-    const dispatch = useDispatch();
-    const [editQty, qtyResults] = useUpdateQtyMutation();
+
     let cart_state = useSelector((state) => state.cart);
 
     const CheckoutCart = () => {
@@ -67,17 +73,21 @@ const Cart = () => {
 
     }, [qtyResults])
 
+
+    if (isError) {
+        toast.error("Something went wrong.")
+        navigate("/")
+    }
+    useEffect(() => { }, [isError])
+
     if (pageLoading) return <Freeze />
 
     return (
         <>
             <div className='cart-page'>
-                {/* <Header /> */}
                 <Navbar title={"Your Cart"} />
-
                 <div className="cart-items__wrapper">
                     <div className="ci-w2">
-
                         <div className="cart-items__container">
                             {cartData?.items?.map((item, index) =>
                                 <CartItemCard key={index}

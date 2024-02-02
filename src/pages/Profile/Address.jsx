@@ -1,12 +1,11 @@
-import { ArrowLeft, Plus } from "lucide-react"
-import { useState } from "react"
-import { Link } from "react-router-dom"
+/* eslint-disable react/prop-types */
+import { Plus } from "lucide-react"
 import { Header, UserSidebar } from "../../layouts"
 import { useGetUserAddressQuery } from "../../features/api/api"
 
 const Address = () => {
     const { data } = useGetUserAddressQuery()
-
+    console.log(data)
     return (
         <div>
             <Header />
@@ -17,7 +16,6 @@ const Address = () => {
                     {data ? <div className="address-cards-container">
                         {data.map((val, idx) => <AddressCard key={idx} data={val} />)}
                     </div>
-
                         : <div className="add-addr-container">
                             <div className="flex-center h-100">
                                 <button className="btn btn-icon add-address__btn">
@@ -28,8 +26,7 @@ const Address = () => {
                 </div>
 
             </div>
-        </div >
-
+        </div>
     )
 }
 
