@@ -117,10 +117,9 @@ const Product = () => {
                 <section className="product-reviews">
                     <div className="section-heading">Top Cusomer reviews</div>
                     <div>
-                        <ReviewCard />
-                        <ReviewCard />
-                        <ReviewCard />
-                        <ReviewCard />
+                        {productData?.reviews.map((val, i) =>
+                            <ReviewCard key={i} data={val} />
+                        )}
                     </div>
                 </section>
             </main>
@@ -131,30 +130,35 @@ const Product = () => {
 export default Product
 
 
-const ReviewCard = () => {
+const ReviewCard = ({ data }) => {
+    const noImage = "https://artscimedia.case.edu/wp-content/uploads/sites/79/2016/12/14205134/no-user-image.gif"
+
     return (
         <div className="product-review-card">
             <div className="review-card__upper">
                 <div className="review-card__upper-sec-1">
                     <div className="review-card__profile-img">
-                        <img src="https://artscimedia.case.edu/wp-content/uploads/sites/79/2016/12/14205134/no-user-image.gif" />
+                        <img src={data?.customer_image ? `:8000${data?.customer_image}`: noImage} />
                     </div>
                     <div className="">
-                        Customer Name
+                        {data?.customer_name}
                     </div>
                 </div>
 
-                <div className="rc-rating-row">
+                {/* <br /> */}
+                <Rating rating={data?.rating} />
+                <br />
+                {/* <div className="rc-rating-row">
                     <Star className="active" />
                     <Star className="active" />
                     <Star className="active" />
                     <Star />
                     <Star />
-                </div>
+                </div> */}
             </div>
 
             <div className="review-card__lower">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit voluptates obcaecati quae, qui quo at corporis optio assumenda harum aliquid aut deserunt quas nobis, quis doloremque quaerat iste velit dolor?Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit voluptates obcaecati quae, qui quo at corporis optio assumenda harum aliquid aut deserunt quas nobis, quis doloremque quaerat iste velit dolor?
+                {data?.review_content}
             </div>
         </div>
     )
