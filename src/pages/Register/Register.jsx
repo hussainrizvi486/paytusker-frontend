@@ -3,37 +3,37 @@ import { Header } from "../../layouts";
 import axios from "axios"
 import { API_URL } from "../../redux/store"
 import toast from "react-hot-toast"
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Freeze } from "../../components"
 import { useNavigate } from "react-router-dom";
+import PhoneInput from 'react-phone-input-2'
+
+import 'react-phone-input-2/lib/style.css'
+
 
 const Register = () => {
-    const navigate = useNavigate()
-    const [pageLoading, setPageLoading] = useState(false)
+    const navigate = useNavigate();
+    const registerFormData = {};
+
+    const [pageLoading, setPageLoading] = useState(false);
+    const [FormMsg, setFormMsg] = useState({ message: "", status: "" })
+
+
     const submitForm = (e) => {
         e.preventDefault()
-        console.log(e.target)
-        const data = new FormData(e.target);
-        const reqBody = {
-            first_name: data.get("first_name"),
-            last_name: data.get("last_name"),
-            username: data.get("username"),
-            phone: data.get("phone"),
-            email: data.get("email"),
-            password: data.get("password"),
-        }
-
-        registerUser(reqBody)
+        registerUser(registerFormData)
     }
+
     const registerUser = async (payload) => {
         try {
+            setPageLoading(true)
             const req = await axios.post(`${API_URL}/api/register/`, payload)
             if (req.status === 200) {
                 toast.success("User Created")
                 setFormMsg(() => {
                     return { type: "success", message: "User Created" };
                 });
-                // navigate("/login")
+                navigate("/login")
             }
         } catch (error) {
             let errorMsg = ""
@@ -41,14 +41,15 @@ const Register = () => {
             if (error.message == "Network Error") { errorMsg = "Server is unresponsive." }
             if (error?.response?.data) { errorMsg = error?.response?.data }
             // success
+            setPageLoading(false)
             toast.error(errorMsg)
-            setFormMsg(() => {
-                return { type: "error", message: errorMsg };
-            });
+            // setFormMsg(() => {
+            //     return { type: "error", message: errorMsg };
+            // });
 
         }
+        console.log(registerFormData)
     }
-    const [FormMsg, setFormMsg] = useState({ message: "", status: "" })
 
 
     if (pageLoading) return <Freeze />
@@ -68,14 +69,20 @@ const Register = () => {
                             <div className="input-box">
                                 <div className="input-box__label"></div>
                                 <div className="input-box__input">
-                                    <input type="text" placeholder="First Name" className="auth-input" required name="first_name" />
+                                    <input type="text" placeholder="First Name" className="auth-input" required name="first_name"
+                                        onChange={(e) => registerFormData[e.target.name] = e.target.value}
+                                        defaultValue={registerFormData["first_name"] || ""}
+                                    />
                                 </div>
                             </div>
 
                             <div className="input-box">
                                 <div className="input-box__label"></div>
                                 <div className="input-box__input">
-                                    <input type="text" placeholder="Last Name" className="auth-input" required name="last_name" />
+                                    <input type="text" placeholder="Last Name" className="auth-input" required name="last_name"
+                                        onChange={(e) => registerFormData[e.target.name] = e.target.value}
+                                        defaultValue={registerFormData["last_name"] || ""}
+                                    />
                                 </div>
                             </div>
                         </div>
@@ -83,27 +90,44 @@ const Register = () => {
                         <div className="input-box">
                             <div className="input-box__label"></div>
                             <div className="input-box__input">
-                                <input type="text" placeholder="Username" className="auth-input" required name="username" />
+                                <input type="text" placeholder="Username" className="auth-input" required name="username"
+                                    onChange={(e) => registerFormData[e.target.name] = e.target.value}
+                                    defaultValue={registerFormData["username"] || ""}
+                                />
                             </div>
                         </div>
 
                         <div className="input-box">
                             <div className="input-box__label"></div>
                             <div className="input-box__input">
-                                <input type="text" placeholder="Email" className="auth-input" required name="email" />
+                                <input type="text" placeholder="Email" className="auth-input" required name="email"
+                                    onChange={(e) => registerFormData[e.target.name] = e.target.value}
+                                    defaultValue={registerFormData["email"] || ""}
+                                />
                             </div>
                         </div>
                         <div className="input-box">
                             <div className="input-box__label"></div>
                             <div className="input-box__input">
-                                <input type="text" placeholder="Phone" className="auth-input" required name="phone" />
+                                {/* <input type="text" placeholder="Phone" className="auth-input" required name="phone"
+                                    onChange={(e) => registerFormData[e.target.name] = e.target.value}
+                                    defaultValue={registerFormData["phone"] || ""}
+                                /> */}
+
+                                <PhoneInput 
+                                showDropdown={true}
+                                />
                             </div>
                         </div>
 
                         <div className="input-box">
                             <div className="input-box__label"></div>
                             <div className="input-box__input">
-                                <input type="text" placeholder="Password" className="auth-input" required name="password" />
+                                <input type="text" placeholder="Password" className="auth-input" required name="password"
+                                    onChange={(e) => registerFormData[e.target.name] = e.target.value}
+                                    defaultValue={registerFormData["password"] || ""}
+
+                                />
                             </div>
                         </div>
                     </div>

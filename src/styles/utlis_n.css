@@ -92,6 +92,14 @@
     font-weight: 600;
 }
 
+@media (max-width: 500px) {
+    .heading-md {
+        font-size: var(--text-md);
+        font-weight: 600;
+    }
+}
+
+
 
 /* HEIGHT/WIDTH */
 .h-100 {

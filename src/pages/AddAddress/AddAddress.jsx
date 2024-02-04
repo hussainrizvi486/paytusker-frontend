@@ -1,5 +1,5 @@
 
-import { Header, UserSidebar } from "../../layouts"
+import { Header, Navbar, UserSidebar } from "../../layouts"
 
 const AddAddress = () => {
     const addAddressFields = [
@@ -33,22 +33,23 @@ const AddAddress = () => {
             "label": "House No /Street /Area",
             "fieldtype": "text",
         },
-        {
-            "fieldname": "default_address",
-            "label": "Default Address",
-            "fieldtype": "checkbox",
-
-        },
+        // {
+        //     "fieldname": "default_address",
+        //     "label": "Default Address",
+        //     "fieldtype": "checkbox",
+        // },
     ]
     return (
         <div>
             <Header />
+            {/* <Navbar title={"Address"}/> */}
             <div className="sidebar-page ">
                 <UserSidebar />
                 <div className="sidebar-page__content address-page">
-                    <div className="heading-md">Add Address</div>
-                    <div>
+                    <div className="heading-md">Add New Address</div>
 
+
+                    <div className="address-form__fields">
                         {
                             addAddressFields.map((val, i) =>
                                 <div className="input-box" key={i}>
@@ -59,6 +60,7 @@ const AddAddress = () => {
                                         />
                                     </div>
                                 </div>
+                                
                             )
                         }
 

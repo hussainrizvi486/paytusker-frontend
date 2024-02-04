@@ -101,7 +101,10 @@ section.home-section {
 
 
 .home-categories-row {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-}
+    display: grid;
+
+/* @media (min-width:) {}
+
+.home-categories-row.products-grid {
+    grid-template-columns: repeat(8, 1fr);
+} */

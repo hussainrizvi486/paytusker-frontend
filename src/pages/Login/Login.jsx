@@ -55,7 +55,8 @@ const Login = () => {
                     user: user
                 }
             })
-            navigate("/")
+            window.location.href = "/"
+            // navigate("/")
         }
 
     }

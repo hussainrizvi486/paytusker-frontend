@@ -93,8 +93,8 @@ const Home = () => {
                 <section className="home-section">
                     <div className="section-heading">
                         Categories
-                </div>
-                    <div className="home-categories-row">
+                    </div>
+                    <div className="home-categories-row products-grid">
                         {categories.map((val, i) => <CategoryCard key={i}
                             category={val.name}
                             image={val.image}
