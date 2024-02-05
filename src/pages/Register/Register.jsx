@@ -114,8 +114,9 @@ const Register = () => {
                                     defaultValue={registerFormData["phone"] || ""}
                                 /> */}
 
-                                <PhoneInput 
-                                showDropdown={true}
+                                <PhoneInput
+                                    showDropdown={true}
+                                    country={"us"}
                                 />
                             </div>
                         </div>

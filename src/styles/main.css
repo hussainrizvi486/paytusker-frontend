@@ -203,7 +203,8 @@
     margin-top: 2.5rem;
 }
 
-.input-box__input input {
+.input-box__input input,
+select {
     padding: .5rem;
     width: 100%;
     outline: transparent;
@@ -218,7 +219,8 @@
     margin-left: .4rem;
 }
 
-.input-box__input input:focus-visible {
+.input-box__input input:focus-visible,
+select:focus-visible {
     outline: 1px solid #a3a3a3;
 }
 
