@@ -113,7 +113,7 @@ body {
 /*  */
 
 .page-container {
-    /* padding-inline: .5rem; */
+    padding-inline: .5rem;
     min-height: 100vh;
 }
 
@@ -133,6 +133,10 @@ body {
 }
 
 @media (min-width: 900px) {
+    .page-container {
+        padding-inline: 1rem;
+    }
+
     .sidebar-page {
         display: flex;
         gap: 1rem;

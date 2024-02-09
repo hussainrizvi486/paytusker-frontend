@@ -62,15 +62,17 @@ const AddressCard = ({ data }) => {
                     Default Address
                 </div> */}
             </div>
+
+            <div className="text-sm">
+             {data?.address_type}
+            </div>
+
             <div className="text-sm">
                 {data.city}, {data.country}
             </div>
 
             <div className="address-card__info text-sm" >
-                {data?.address_line_1} {data?.address_line_2}
-            </div>
-            <div className="text-sm">
-                Street No: {data?.street_no}
+                {data?.address_line_1}
             </div>
         </div>
     )

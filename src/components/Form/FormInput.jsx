@@ -5,6 +5,7 @@ export const FormInput = ({ data }) => {
             <div className="input-box__input">
                 <input placeholder={data?.label || ""} name={data?.fieldname || ""}
                     type={data.fieldtype}
+                    required={data.mandatory}
                 />
             </div>
         </div>

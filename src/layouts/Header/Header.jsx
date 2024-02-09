@@ -62,7 +62,7 @@ const HeaderSearchBox = ({ placeholder = "Type somthing here." }) => {
         const query = searchInpRef.current.value
 
         if (location.pathname != "/search") {
-            navigate(`search?query=${query}`)
+            navigate(`/search?query=${query}`)
         }
         else {
             setSearchParams((params) => {

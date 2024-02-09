@@ -1,54 +1,66 @@
-
 import { FormInput } from "../../components/Form/FormInput"
 import { FormSelect } from "../../components/Form/FormSelect"
-import { Header, Navbar, UserSidebar } from "../../layouts"
+import { Header, UserSidebar } from "../../layouts"
+import { useAddUserAddressMutation } from "../../features/api/api"
+import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { Freeze } from "../../components"
 
 const AddAddress = () => {
+    const [addAddress, apiResponse] = useAddUserAddressMutation()
+    let navigate = useNavigate();
+    const [pageLoading, setPageLoading] = useState(false)
     const addAddressFields = [
         {
             "fieldname": "address_title",
             "label": "Address Title",
             "fieldtype": "text",
+            "mandatory": true,
         },
         {
             "fieldname": "country",
             "label": "Country",
             "fieldtype": "text",
+            "mandatory": true,
         },
         {
             "fieldname": "state",
             "label": "State",
             "fieldtype": "text",
+            "mandatory": true,
         },
         {
             "fieldname": "address_type",
             "label": "Address Type",
             "fieldtype": "text",
+            "mandatory": true,
         },
         {
             "fieldname": "city",
             "label": "City",
             "fieldtype": "text",
-        },
-        {
-            "fieldname": "city",
-            "label": "City",
-            "fieldtype": "select",
-            "options": ["text1", "Test1"],
+            "mandatory": true,
         },
         {
             "fieldname": "details",
             "label": "House No /Street /Area",
             "fieldtype": "text",
+            "mandatory": true,
         },
-        // {
-        //     "fieldname": "default_address",
-        //     "label": "Default Address",
-        //     "fieldtype": "checkbox",
-        // },
     ]
 
-    const f2Submit = (e) => {
+    useEffect(() => {
+        setPageLoading(apiResponse.isLoading)
+
+    }, [apiResponse])
+
+
+    if (apiResponse.isSuccess) {
+        // toast.success("Address Added")
+        navigate("/profile/address");
+    }
+
+    const f2Submit = async (e) => {
         const data = {}
         const formData = new FormData(e.target)
 
@@ -56,8 +68,11 @@ const AddAddress = () => {
             data[key] = value
         }
 
-        console.log(data)
+        addAddress(data)
     }
+
+    if (pageLoading) return <Freeze />
+
     return (
         <div>
             <Header />
@@ -70,7 +85,7 @@ const AddAddress = () => {
                     </div>
 
                     <div className="address-page__content">
-                        {generateForm(addAddressFields, f2Submit)}
+                        {generateForm(addAddressFields, f2Submit, "Save")}
                     </div>
 
 

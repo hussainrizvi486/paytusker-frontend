@@ -30,7 +30,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 
 export const apiSlice = createApi({
     baseQuery: baseQueryWithReauth,
-    tagTypes: ["updateCart"],
+    tagTypes: ["updateCart", "refreshAddress"],
     endpoints: (builder) => ({
         LoginUser: builder.mutation({
             query: (body) => ({
@@ -78,11 +78,21 @@ export const apiSlice = createApi({
                 method: "GET",
             }),
         }),
+
         getUserAddress: builder.query({
             query: () => ({
                 url: "/api/get-user-address/",
                 method: "GET",
             }),
+            providesTags: ["refreshAddress"]
+        }),
+        addUserAddress: builder.mutation({
+            query: (data) => ({
+                url: "/api/add-user-address/",
+                method: "POST",
+                body: data,
+            }),
+            invalidatesTags: (res, error) => error ? [] : ["refreshAddress"]
         }),
     })
 });
@@ -96,4 +106,5 @@ export const { useLoginUserMutation,
     useGetCustomerOrdersQuery,
     useGetUserDetailsQuery,
     useGetUserAddressQuery,
+    useAddUserAddressMutation,
 } = apiSlice;
