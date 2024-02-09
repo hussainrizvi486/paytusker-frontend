@@ -1,3 +1,40 @@
+.web-form__fields {
+    --form-cols: 1;
+    display: grid;
+    grid-template-columns: repeat(var(--form-cols), 1fr);
+}
+
+
+.web-form .input-box__label {
+    margin-bottom: .5rem;
+
+}
+
 .web-form .input-box {
     margin-bottom: 1rem;
+}
+
+.input-box__select {
+    position: relative;
+}
+
+.input-box__select-icon {
+    position: absolute;
+    right: 1%;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+    pointer-events: none;
+}
+
+.input-box__input select {
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+@media (min-width: 550px) {
+    .web-form__fields {
+        gap: .5rem;
+        --form-cols: 2;
+    }
 }

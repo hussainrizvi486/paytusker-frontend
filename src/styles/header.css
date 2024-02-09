@@ -62,8 +62,8 @@
 
 .search-box__input button svg {
     --size: 1.4rem;
-    height: var(--size);
-    width: var(--size);
+    height: var(--icon-size-md);
+    width: var(--icon-size-md);
 }
 
 

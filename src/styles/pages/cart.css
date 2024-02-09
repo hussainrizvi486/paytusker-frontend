@@ -24,8 +24,8 @@
 
 .cart-qty-btn svg {
     --size: 1.2rem;
-    height: var(--size);
-    width: var(--size);
+    height: var(--icon-size-md);
+    width: var(--icon-size-md);
 }
 
 .cart-qty-input {

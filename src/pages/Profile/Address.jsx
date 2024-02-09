@@ -1,10 +1,11 @@
-/* eslint-disable react/prop-types */
-import { Plus } from "lucide-react"
 import { Header, UserSidebar } from "../../layouts"
 import { useGetUserAddressQuery } from "../../features/api/api"
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 const Address = () => {
-    const { data } = useGetUserAddressQuery()
+    const { data, isLoading } = useGetUserAddressQuery()
+
     console.log(data)
     return (
         <div>
@@ -13,22 +14,39 @@ const Address = () => {
                 <UserSidebar />
                 <div className="sidebar-page__content address-page">
                     <div className="heading-md">Address Book</div>
-                    {data ? <div className="address-cards-container">
-                        {data.map((val, idx) => <AddressCard key={idx} data={val} />)}
+                    <div className="address-cards-container">
+
+                        {isLoading ?
+                            <>
+                                <AddressCardLoadingSkeleton />
+                                <AddressCardLoadingSkeleton />
+                                <AddressCardLoadingSkeleton />
+                                <AddressCardLoadingSkeleton />
+                            </>
+                            : <></>}
+                        {data?.map((val, idx) => <AddressCard key={idx} data={val} />)}
                     </div>
-                        : <div className="add-addr-container">
-                            <div className="flex-center h-100">
-                                <button className="btn btn-icon add-address__btn">
-                                    <Plus /> <span>Add New Address</span>
-                                </button>
-                            </div>
-                        </div>}
                 </div>
 
             </div>
         </div>
     )
 }
+
+
+const AddressCardLoadingSkeleton = () => {
+    return <div className="address-card__wrapper">
+        <Skeleton count={4} />
+    </div>
+}
+
+{/* <div className="add-addr-container">
+    <div className="flex-center h-100">
+        <button className="btn btn-icon add-address__btn">
+            <Plus /> <span>Add New Address</span>
+        </button>
+    </div>
+</div> */}
 
 export default Address
 

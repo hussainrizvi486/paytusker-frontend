@@ -1,4 +1,3 @@
-
 export const FormInput = ({ data }) => {
     return (
         <div className="input-box" >

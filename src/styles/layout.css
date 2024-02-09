@@ -3,17 +3,37 @@
 .user-sidebar {
     /* min-height: calc(100vh - 3.3rem - 5rem); */
     min-height: 100dvh;
-    /* box-shadow: 0 0 5px #d7d7d7; */
     max-width: 16rem;
     width: 13rem;
     padding: 1rem 0;
 }
 
-.sidebar-heading {
-    /* padding: 1rem; */
+
+.profile-card {
+    display: flex;
+    align-items: center;
+    gap: .45rem;
     padding-left: .5rem;
+    cursor: pointer;
+}
+
+.profile-card__img {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 1px solid #666;
+}
+
+.profile-card__img img {
+    object-fit: cover;
+}
+
+.sidebar-heading {
+    /* padding-left: .5rem; */
     font-family: "Poppins";
     font-size: var(--text-sm);
+    font-weight: 500;
 }
 
 .sidebar-heading h1 {
@@ -26,15 +46,29 @@
     margin-top: 1rem;
 }
 
+.sidebar-child__elements-wrapper {
+    padding-left: 2rem;
+    margin-top: .25rem;
+}
+
+.sidebar-child__element {
+    margin-bottom: .5rem;
+    font-size: var(--text-sm);
+}
+
+.sidebar-child__element a {
+    color: #666;
+}
+
+.sidebar-child__element a:hover {
+    text-decoration: underline;
+}
+
 .sidebar-nav-el__wrapper {
     padding: .8rem .6rem;
     cursor: pointer;
 }
 
-.sidebar-nav-el__wrapper:hover {
-    background-color: rgb(236, 236, 236);
-
-}
 
 .sidebar-nav-el__wrapper.active {
     background-color: rgb(236, 236, 236);
@@ -55,10 +89,22 @@
     color: inherit;
 }
 
+.sidebar-nav-label:hover {
+    text-decoration: underline;
+}
+
+.sidebar-nav__label-main {
+    font-size: var(--text-sm);
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    color: inherit;
+
+}
+
 .sidebar-nav-icon svg {
     --size: 1.5rem;
-    height: var(--size);
-    width: var(--size);
+    height: var(--icon-size-md);
+    width: var(--icon-size-md);
 }
 
 

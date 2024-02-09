@@ -49,8 +49,14 @@ const AddAddress = () => {
     ]
 
     const f2Submit = (e) => {
-        e.preventDefault();
-        console.log(e.target)
+        const data = {}
+        const formData = new FormData(e.target)
+
+        for (const [key, value] of formData.entries()) {
+            data[key] = value
+        }
+
+        console.log(data)
     }
     return (
         <div>
@@ -59,33 +65,15 @@ const AddAddress = () => {
             <div className="sidebar-page ">
                 <UserSidebar />
                 <div className="sidebar-page__content address-page">
-                    <div className="heading-md">Add New Address</div>
-
-
-                    <div className="address-form__fields">
-                        {
-                            addAddressFields.map((val, i) =>
-                                <div className="input-box" key={i}>
-                                    <div className="input-box__label">{val.label}</div>
-                                    <div className="input-box__input">
-                                        <input type={val.fieldtype} placeholder={val.label} name={val.fieldname}
-                                            className={val.fieldtype === "checkbox" ? "checkbox.style-b" : ""}
-                                        />
-                                    </div>
-                                </div>
-
-                            )
-                        }
-
+                    <div className="address-page__upper">
+                        <div className="heading-md">Add New Address</div>
                     </div>
-                    {generateForm(addAddressFields, f2Submit)}
-                    {/* <div className="add-addr-container">
-                        <div className="flex-center h-100">
-                            <button className="btn btn-icon add-address__btn">
-                                <Plus /> <span>Add New Address</span>
-                            </button>
-                        </div>
-                    </div> */}
+
+                    <div className="address-page__content">
+                        {generateForm(addAddressFields, f2Submit)}
+                    </div>
+
+
                 </div>
 
             </div>
@@ -94,20 +82,22 @@ const AddAddress = () => {
 }
 
 export default AddAddress
-const generateForm = (fields, onSubmit) => {
-    let formInputTypes = ["number", "password", "text"]
-    let FormJsx = (
-        <form className="web-form" onSubmit={(e) => onSubmit(e)} >
-            <div>
+const generateForm = (fields, onSubmit, btnLabel) => {
+    const formInputTypes = ["number", "password", "text"]
+
+    const handleFormSubmit = (e) => {
+        e.preventDefault()
+        onSubmit(e)
+    }
+
+    const FormJsx = (
+        <form className="web-form" onSubmit={(e) => handleFormSubmit(e)} >
+            <div className="web-form__fields">
 
                 {fields?.map((val, i) => {
-
                     if (formInputTypes.includes(val.fieldtype)) {
                         return <FormInput key={i} data={val} />;
                     }
-
-
-
                     if (val.fieldtype === "select") {
                         return <FormSelect key={i} data={val} />;
                     }
@@ -116,7 +106,9 @@ const generateForm = (fields, onSubmit) => {
 
             </div>
             <div>
-                <button type="submit"  >Submit</button>
+                <button type="submit"
+                    className="btn btn-sm btn-primary"
+                >{btnLabel || "Submit"}</button>
             </div>
         </form>
     );

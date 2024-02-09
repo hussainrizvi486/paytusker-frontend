@@ -225,6 +225,7 @@ select:focus-visible {
 }
 
 .react-tel-input .form-control {
+    border: none !important;
     background-color: #f3f3f3 !important;
     width: 100% !important;
 
@@ -338,10 +339,8 @@ select:focus-visible {
 }
 
 
-.address-form__fields {
-    margin-top: 1.5rem;
-    display: grid;
-    gap: 1.5rem;
+.address-page__content {
+    margin-top: 1rem;
 }
 
 /* .address-form__fields {} 

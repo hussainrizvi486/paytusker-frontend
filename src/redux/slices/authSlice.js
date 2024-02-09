@@ -44,7 +44,9 @@ const authSlice = createSlice({
         },
         UpdateCredentials: (state, action) => {
             const tokens = action.payload;
+            localStorage.setItem("authTokens", JSON.stringify(tokens))
             const user = jwtDecode(tokens.access);
+            localStorage.setItem("user", JSON.stringify(user))
             state.user = user;
             state.accessToken = tokens.access;
             state.isAuthenticated = true;

@@ -3,7 +3,7 @@ import { Header } from "../../layouts";
 import axios from "axios"
 import { API_URL } from "../../redux/store"
 import toast from "react-hot-toast"
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { Freeze } from "../../components"
 import { useNavigate } from "react-router-dom";
 import PhoneInput from 'react-phone-input-2'
@@ -117,6 +117,9 @@ const Register = () => {
                                 <PhoneInput
                                     showDropdown={true}
                                     country={"us"}
+                                    inputProps={{
+                                        autoFocus: false, required: true,
+                                    }}
                                 />
                             </div>
                         </div>

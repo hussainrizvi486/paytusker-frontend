@@ -11,7 +11,10 @@
     --text-4xl: 2.25rem;
     --text-5xl: 2.5rem;
 
-    --icon-size-md: 1rem;
+
+
+    --icon-size-sm: 1rem;
+    --icon-size-md: 1.5rem;
 
     --color-dark-grey: #434343;
     --color-grey-md: #666;
@@ -61,12 +64,16 @@ body {
 }
 
 .btn-primary {
-    background-color: var(--color-primary) !important;
-    color: #fff !important;
+    background-color: var(--color-primary);
+    color: #fff;
 }
 
 .btn-primary:focus-visible {
-    background-color: var(--color-primary) !important;
+    background-color: var(--color-primary);
+}
+
+.btn-primary:hover {
+    background-color: #575757;
 }
 
 .btn-full {

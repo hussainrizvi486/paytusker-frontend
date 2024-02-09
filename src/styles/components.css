@@ -48,8 +48,8 @@
 
 .carousel-btn svg {
     --size: 1rem;
-    height: var(--size);
-    width: var(--size);
+    height: var(--icon-size-md);
+    width: var(--icon-size-md);
 }
 
 .carousel-btn--right {

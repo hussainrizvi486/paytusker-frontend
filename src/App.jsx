@@ -54,14 +54,14 @@ function App() {
         <div className="page-container">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/product/:id" element={<Product />} />
+            {/* <Route path="/product/:id" element={<Product />} /> */}
             <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
+            {/* <Route path="/register" element={<Register />} />
             <Route path="*" element={<p>Path not resolved</p>} />
-            <Route path="/search" element={<Search />} />
+            <Route path="/search" element={<Search />} /> */}
 
             <Route element={<ProtectedRoute isAuthenticated={isAuthenticated} />}>
-              <Route path="/cart" element={<Cart />} />
+              {/* <Route path="/cart" element={<Cart />} /> */}
               <Route path="/profile" element={<Profile />} />
               <Route path="/profile/address" element={<Address />} />
               <Route path="/profile/address/add" element={<AddAddress />} />
