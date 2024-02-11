@@ -4,12 +4,14 @@ import { useEffect } from "react"
 import { products } from "../../assets/data"
 import { ProductCard } from "../../components"
 import { categories } from "../../assets/data"
+
 const Search = () => {
     let [searchParams] = useSearchParams();
     const query = searchParams.get("query")
 
     useEffect(() => {
     }, [])
+
     return (
         <>
             <Header />
@@ -44,6 +46,8 @@ const Search = () => {
                         </div>
                     </div>
                 </section>
+
+
 
                 <section className="search-items">
                     <div className="search-items-query">Results for {query}: 400.</div>

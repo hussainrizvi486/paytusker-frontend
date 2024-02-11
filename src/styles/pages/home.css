@@ -103,6 +103,53 @@ section.home-section {
 .home-categories-row {
     display: grid;
 
+}
+
+@media (min-width: 300px) {
+    .home-categories-row {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        /* gap: 2rem 0.5rem; */
+        gap: 1rem 0;
+    }
+}
+
+@media (min-width: 400px) {
+    .home-categories-row {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        /* gap: 2rem 0.5rem; */
+        gap: 1rem 0;
+    }
+}
+
+@media (min-width: 768px) {
+    .home-categories-row {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        /* gap: 2rem 0.5rem; */
+        gap: 1rem 0;
+    }
+}
+
+@media (min-width: 1000px) {
+    .home-categories-row {
+        display: grid;
+        grid-template-columns: repeat(8, 1fr);
+        gap: 2rem 0.5rem;
+        /* gap: 1rem 0; */
+    }
+}
+
+@media (min-width: 1200px) {
+    .home-categories-row {
+        display: grid;
+        grid-template-columns: repeat(8, 1fr);
+        gap: 2rem 0.5rem;
+    }
+}
+}
+
 /* @media (min-width:) {}
 
 .home-categories-row.products-grid {

@@ -83,7 +83,7 @@ const HeaderSearchBox = ({ placeholder = "Type somthing here." }) => {
                 </button>
             </div>
 
-            <div className="search-results__container">
+            {/* <div className="search-results__container">
                 <ul className="search-results__list">
                     <li>Lorem ipsum dolor sit.</li>
                     <li>Lorem ipsum Lorem, ipsum.</li>
@@ -92,7 +92,7 @@ const HeaderSearchBox = ({ placeholder = "Type somthing here." }) => {
                     <li>Lorem ipsum Lorem, ipsum.</li>
                     <li>Lorem ipsum dolor sit. Lorem ipsum dolor sit.</li>
                 </ul>
-            </div>
+            </div> */}
         </form>
     )
 }
