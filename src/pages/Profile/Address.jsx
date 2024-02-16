@@ -15,7 +15,6 @@ const Address = () => {
                 <div className="sidebar-page__content address-page">
                     <div className="heading-md">Address Book</div>
                     <div className="address-cards-container">
-
                         {isLoading ?
                             <>
                                 <AddressCardLoadingSkeleton />
@@ -34,7 +33,7 @@ const Address = () => {
 }
 
 
-const AddressCardLoadingSkeleton = () => {
+export const AddressCardLoadingSkeleton = () => {
     return <div className="address-card__wrapper">
         <Skeleton count={4} />
     </div>
@@ -64,7 +63,7 @@ const AddressCard = ({ data }) => {
             </div>
 
             <div className="text-sm">
-             {data?.address_type}
+                {data?.address_type}
             </div>
 
             <div className="text-sm">

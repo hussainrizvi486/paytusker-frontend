@@ -130,3 +130,53 @@
 .img-contain {
     object-fit: contain;
 }
+
+/* MARGINS */
+
+.mx-auto {
+    margin-inline: auto;
+}
+
+.my-1 {
+    margin-top: 0.25rem;
+}
+
+.my-2 {
+    margin-top: 0.5rem;
+}
+
+.my-3 {
+    margin-top: 0.75rem;
+}
+
+.my-4 {
+    margin-top: 1rem;
+}
+
+.my-4 {
+    margin-top: 1.25rem;
+}
+
+.my-5 {
+    margin-top: 1.25rem;
+}
+
+.my-6 {
+    margin-top: 1.5rem;
+}
+
+.my-7 {
+    margin-top: 1.75rem;
+}
+
+.my-8 {
+    margin-top: 2rem;
+}
+
+.my-9 {
+    margin-top: 2.25rem;
+}
+
+.my-10 {
+    margin-top: 2.5rem;
+}

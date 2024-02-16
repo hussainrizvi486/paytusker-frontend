@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
-import { CategoryCard, Freeze, ProductCard } from "../../components";
+import { CategoryCard, Freeze, ProductCard, ProductCardLoader } from "../../components";
 import axios from 'axios';
 import { Header } from "../../layouts";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { API_URL } from "../../redux/store";
 import toast from "react-hot-toast";
 import { categories } from "../../assets/data";
-
+import Skeleton from "react-loading-skeleton";
+import { AddressCardLoadingSkeleton } from "../Profile/Address";
 
 const Home = () => {
     const [products, setProducts] = useState(null)
@@ -83,9 +84,7 @@ const Home = () => {
                                 ))}
                             </ul>
                         </div>
-
                     </div>
-
                 </section>
 
 
@@ -103,7 +102,25 @@ const Home = () => {
                 </section>
 
 
-                {loading ? Loader :
+
+
+
+
+                {loading ? <div className="home-section-products products-grid">
+                    <ProductCardLoader />
+                    <ProductCardLoader />
+                    <ProductCardLoader />
+                    <ProductCardLoader />
+                    <ProductCardLoader />
+                    <ProductCardLoader />
+                    <ProductCardLoader />
+                    <ProductCardLoader />
+                    <ProductCardLoader />
+                    <ProductCardLoader />
+                    <ProductCardLoader />
+                    <ProductCardLoader />
+                </div>
+                    :
                     <section className="home-section">
                         <div className="section-heading">Trending products</div>
                         <div className="home-section-products products-grid">
@@ -111,8 +128,12 @@ const Home = () => {
                                 product={val}
                                 key={u} />)}
                         </div>
-                    </section>
-                }
+                    </section>}
+                <div>
+
+                </div>
+
+
 
             </main>
         </>

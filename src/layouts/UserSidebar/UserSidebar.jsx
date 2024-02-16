@@ -31,7 +31,7 @@ export const UserSidebar = () => {
         <div className="user-sidebar">
             <div className="profile-card">
                 <div className="profile-card__img">
-                    <img src="https://scontent-mct1-1.xx.fbcdn.net/v/t39.30808-6/344753867_809473687443175_7139843991122716094_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=efb6e6&_nc_ohc=F3DRTXDfFOcAX9bFXb-&_nc_ht=scontent-mct1-1.xx&oh=00_AfAZ0NXl6LeXSU-BSnPT9ZHEjnGLh48Te7jlbNwKiiq9Rg&oe=65C92CA0" alt="" />
+                    <img src="https://cdn-icons-png.flaticon.com/512/7710/7710521.png" alt="" />
                 </div>
                 <div className="profile-card__content">
                     <div className="sidebar-heading">

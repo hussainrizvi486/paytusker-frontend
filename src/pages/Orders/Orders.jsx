@@ -5,6 +5,7 @@ import { Header, Navbar } from "../../layouts"
 import { Freeze } from "../../components"
 import { FormatCurreny } from "../../utils"
 import { UserSidebar } from "../../layouts"
+import { Link } from "react-router-dom"
 
 const Orders = () => {
   const { data, isLoading } = useGetCustomerOrdersQuery()
@@ -15,7 +16,7 @@ const Orders = () => {
     setOrdersData(data)
   }, [data, isLoading])
 
-  if (pageLoading) return <Freeze />
+  // if (pageLoading) return <Freeze />
   return (
     <div>
       <Header />
@@ -26,10 +27,11 @@ const Orders = () => {
             Your Orders
           </div>
           <main className="order-page-main">
+
             {orders && orders.length > 0 ? orders?.map((val, index) => (
               <OrdersCard key={index}
                 data={val} />
-            )) : <>No Orders Yet</>}
+            )) : <NoOrders />}
           </main>
         </div>
       </div>
@@ -38,6 +40,22 @@ const Orders = () => {
 }
 
 export default Orders
+
+const NoOrders = () => {
+  return (
+    <div className="flex-center">
+      <div className="my-5">
+        <div className="text-center">Currently, there are no orders placed.</div>
+        <div className="flex-center my-2">
+          <Link to={"/"}>
+            <button className="btn btn-primary btn-sm">Continue Shopping</button>
+          </Link>
+        </div>
+      </div>
+
+    </div>
+  )
+}
 
 
 const OrdersCard = ({ data }) => {
