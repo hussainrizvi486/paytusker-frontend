@@ -6,17 +6,20 @@ import { Freeze } from "../../components"
 import { FormatCurreny } from "../../utils"
 import { UserSidebar } from "../../layouts"
 import { Link } from "react-router-dom"
+import Skeleton from "react-loading-skeleton"
+import "react-loading-skeleton/dist/skeleton.css";
+
 
 const Orders = () => {
-  const { data, isLoading } = useGetCustomerOrdersQuery()
-  const [pageLoading, setPageLoading] = useState(isLoading)
+  const OrderQuery = useGetCustomerOrdersQuery()
   const [orders, setOrdersData] = useState([])
-  useEffect(() => {
-    setPageLoading(isLoading)
-    setOrdersData(data)
-  }, [data, isLoading])
 
-  // if (pageLoading) return <Freeze />
+  useEffect(() => {
+    setOrdersData(OrderQuery.data)
+
+  }, [OrderQuery])
+
+
   return (
     <div>
       <Header />
@@ -26,12 +29,17 @@ const Orders = () => {
           <div className="heading-md">
             Your Orders
           </div>
-          <main className="order-page-main">
 
-            {orders && orders.length > 0 ? orders?.map((val, index) => (
-              <OrdersCard key={index}
-                data={val} />
-            )) : <NoOrders />}
+          {/* <OrderCardLoading  skeleton_count={1} /> */}
+          <main className="order-page-main">
+            {OrderQuery.isLoading ? <OrderCardLoading  skeleton_count={1} /> :
+              OrderQuery.data?.length && !OrderQuery.isLoading === 0 ? <><NoOrders /></> :
+                orders?.map((val, index) => (
+                  <OrdersCard key={index}
+                    data={val} />
+                ))}
+
+
           </main>
         </div>
       </div>
@@ -52,7 +60,6 @@ const NoOrders = () => {
           </Link>
         </div>
       </div>
-
     </div>
   )
 }
@@ -62,16 +69,21 @@ const OrdersCard = ({ data }) => {
   return (
     <div className="order-card">
       <div>
-        <div>ORDER ID: {data?.order_id}</div>
-        <div className="order-status">
+        <div>
+          <span className="font-semibold">ORDER ID:</span> {data?.order_id}</div>
+        <div className="order-status mt-1">
           Delivered
         </div>
-        <div>
-          <span className="text-sm">Total Amount: </span>
-          {FormatCurreny(data?.grand_total)}</div>
-        <div>
-          <span className="text-sm">Total Qty: </span>
-          {data?.total_qty}</div>
+
+        <div className="my-2">
+          <div className="text-sm font-semibold">
+            <span >Total Amount: </span>
+            {FormatCurreny(data?.grand_total)}</div>
+          <div className="text-sm font-semibold">
+            <span className="text-sm">Total Qty: </span>
+            {data?.total_qty}</div>
+        </div>
+
       </div>
       <div>
         {data?.items?.map((val, index) => <OrderItemCard key={index} itemData={val} />)}
@@ -90,20 +102,49 @@ const OrderItemCard = ({ itemData }) => {
       <div className="order-item__card-details">
         <div className="order-item-card-detail__left">
           <div className="text-sm order-item__card-name">{itemData?.product_name}</div>
-          <div className="text-sm order-item__card-rate">{FormatCurreny(itemData?.rate)}</div>
+          <div className="text-sm font-semibold order-item__card-rate">{FormatCurreny(itemData?.rate)}</div>
         </div>
 
         <div className="order-item-card-detail__right">
           <div className="text-sm order-item__card-qty">
+            {/* <div className="text-sm font-semibold">Quantity </div> */}
             {itemData?.qty}
           </div>
 
           <div className="text-sm order-item__card-amount">
-            <div>{FormatCurreny(itemData?.amount)}</div>
+            <div>
+              {/* <div className="text-sm font-semibold ">Amount </div> */}
+              <span className="font-semibold">
+                {FormatCurreny(itemData?.amount)}
+              </span>
+            </div>
           </div>
         </div>
       </div>
     </div>
   )
 }
-{/* <div className="text-xs">Amount</div> */ }
+
+
+const OrderCardLoading = ({ skeleton_count = 1 }) => {
+  let count_arr = []
+  for (let i = 0; i < skeleton_count; i++) {
+    count_arr.push(i)
+  }
+
+  return (
+    <>
+      {count_arr.map(i =>
+      (<div
+        key={i}
+        className="order-card">
+        <Skeleton count={4} />
+        <br />
+        <Skeleton height={60} />
+        <Skeleton height={60} />
+      </div>)
+      )}
+
+    </>
+  )
+}

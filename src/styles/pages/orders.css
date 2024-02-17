@@ -1,6 +1,7 @@
 .order-card {
     margin-bottom: 1rem;
-    border: 1px solid #dbdbdb;
+    /* border: 1px solid #dbdbdb; */
+    border: 1px solid #c7c7c7;
     padding: .5rem;
     border-radius: 9px;
 }
@@ -12,22 +13,24 @@
 
 .order-item__card {
     padding: .25rem;
-    border-radius: 5px;
     height: 5rem;
     display: flex;
-    border: 1px solid rgb(215, 215, 215);
+    border-block: 1px solid #c7c7c7;
+}
+
+.order-item__card:not(:last-of-type) {
     margin-bottom: .5rem;
 }
 
 .order-item__card-img {
     width: 5rem;
-    object-fit: cover;
     flex-shrink: 0;
 }
 
 .order-item__card-img img {
     height: 100%;
     width: 100%;
+    object-fit: cover;
 }
 
 .order-item__card-details {
@@ -41,7 +44,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    /* padding-block: .25rem; */
+    padding-left: .25rem;
 }
 
 .order-item__card-name {
@@ -61,13 +64,13 @@
 
 .order-status {
     background: #0eca05;
-    border-radius: 9px;
-    padding: .25rem .5rem;
+    border-radius: .25rem;
+    padding: .2rem .5rem;
     width: max-content;
+    /* font-weight: 500; */
     font-size: var(--text-xs);
     font-family: Poppins, 'roboto';
     color: #fff;
-    text-transform: uppercase;
 }
 
 .order-status.delivered {

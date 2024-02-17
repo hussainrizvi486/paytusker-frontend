@@ -1,5 +1,7 @@
 import Skeleton from 'react-loading-skeleton'
 
+
+
 export const ProductCardLoader = () => {
     return (
         <div className="product-card">

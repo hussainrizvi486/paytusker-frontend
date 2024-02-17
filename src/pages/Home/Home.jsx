@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { CategoryCard, Freeze, ProductCard, ProductCardLoader } from "../../components";
+import { CategoryCard, ProductCard, ProductCardLoader } from "../../components";
 import axios from 'axios';
 import { Header } from "../../layouts";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -7,7 +7,6 @@ import { API_URL } from "../../redux/store";
 import toast from "react-hot-toast";
 import { categories } from "../../assets/data";
 import Skeleton from "react-loading-skeleton";
-import { AddressCardLoadingSkeleton } from "../Profile/Address";
 
 const Home = () => {
     const [products, setProducts] = useState(null)
@@ -101,26 +100,7 @@ const Home = () => {
                     </div>
                 </section>
 
-
-
-
-
-
-                {loading ? <div className="home-section-products products-grid">
-                    <ProductCardLoader />
-                    <ProductCardLoader />
-                    <ProductCardLoader />
-                    <ProductCardLoader />
-                    <ProductCardLoader />
-                    <ProductCardLoader />
-                    <ProductCardLoader />
-                    <ProductCardLoader />
-                    <ProductCardLoader />
-                    <ProductCardLoader />
-                    <ProductCardLoader />
-                    <ProductCardLoader />
-                </div>
-                    :
+                {loading ? <ProductLoadingGrid /> :
                     <section className="home-section">
                         <div className="section-heading">Trending products</div>
                         <div className="home-section-products products-grid">
@@ -129,11 +109,6 @@ const Home = () => {
                                 key={u} />)}
                         </div>
                     </section>}
-                <div>
-
-                </div>
-
-
 
             </main>
         </>
@@ -142,3 +117,22 @@ const Home = () => {
 }
 
 export default Home
+
+
+const ProductLoadingGrid = ({ product_count = 12 }) => {
+    let counts_arr = []
+    for (let i = 0; i < product_count; i++) {
+        counts_arr.push(i)
+    }
+
+    return (
+        <div>
+            <div className="section-heading">
+                <Skeleton count={1} />
+            </div>
+            <div className="home-section-products products-grid">
+                {counts_arr.map((i) => <ProductCardLoader key={i} />)}
+            </div>
+        </div>
+    )
+}
