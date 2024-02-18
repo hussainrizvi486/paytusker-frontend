@@ -6,6 +6,7 @@ import { getUserDetails } from "../../redux/slices/authSlice";
 export const UserSidebar = () => {
     const authUser = getUserDetails()[0]
     const sidebarLinks = [
+
         {
             label: "My Account", url: "/profile", icon: <User />, child_elements: [
                 { label: "Manage Account", url: "/profile", },
@@ -37,7 +38,6 @@ export const UserSidebar = () => {
                     <div className="sidebar-heading">
                         {authUser.username}
                     </div>
-
                 </div>
             </div>
 
@@ -58,14 +58,11 @@ export const UserSidebar = () => {
 
 export default UserSidebar
 
-const SidebarNavElement = ({ url, label, child_elements, icon }) => {
+export const SidebarNavElement = ({ url, label, child_elements, icon }) => {
     return (
         <div className="sidebar-nav-el__wrapper">
             <Link to={url} className="sidebar-nav-el">
-                <div className="sidebar-nav-icon">
-                    {icon}
-                </div>
-
+                {icon ? <div className="sidebar-nav-icon">{icon}</div> : <></>}
                 <div className="sidebar-nav__label-main">
                     {label}
                 </div>

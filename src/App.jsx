@@ -2,6 +2,7 @@
 /* eslint-disable react/no-children-prop */
 import { useEffect } from "react"
 import { Suspense, lazy } from "react"
+import "react-loading-skeleton/dist/skeleton.css";
 import { Route, Routes, useLocation, Outlet, Navigate } from "react-router-dom"
 import "./styles/global.css";
 import "./styles/utils.css";
@@ -30,14 +31,16 @@ const Search = lazy(() => import("./pages/Search/Search"));
 const Orders = lazy(() => import("./pages/Orders/Orders"));
 const AddAddress = lazy(() => import("./pages/AddAddress/AddAddress"));
 
-import { Footer } from "./layouts"
+import { Footer, MobileSideBar } from "./layouts"
 
 import Logo from "./assets/logo.png"
 import { getUserDetails } from "./redux/slices/authSlice";
+import { useSelector } from "react-redux";
 
 
 
 function App() {
+  const mobileSideOpen = useSelector((state) => state.appUi.MobileSideOpen)
   const childern = <div>
     <div>
       <img src={Logo} alt=""
@@ -50,6 +53,9 @@ function App() {
   return (
     <Suspense fallback={<Freeze children={childern} />}>
       <main id="app-container">
+
+        <MobileSideBar active={mobileSideOpen} />
+
         <ScrollToTop />
         <div className="page-container">
           <Routes>

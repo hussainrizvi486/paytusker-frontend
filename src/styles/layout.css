@@ -107,6 +107,34 @@
     width: var(--icon-size-md);
 }
 
+@media (max-width: 768px) {
+    .sidebar-nav-el__wrapper {
+        padding: 0.4rem;
+    }
+
+    .sidebar-child__elements-wrapper {
+        padding-left: 0;
+    }
+}
+
+
+.mobile-sidebar {
+    height: 100dvh;
+    width: 14rem;
+    padding-top: 1rem;
+    padding-left: 0.5rem;
+    background-color: #f1f1f1;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 9;
+    box-shadow: 0 0 0 800px #00000047;
+}
+
+
+.mobile-sidebar__upper-section {
+    padding: .4rem;
+}
 
 /* navbar */
 .page-simple-header {

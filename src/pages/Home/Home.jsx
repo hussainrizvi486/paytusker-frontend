@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { CategoryCard, ProductCard, ProductCardLoader } from "../../components";
 import axios from 'axios';
-import { Header } from "../../layouts";
+import { Header, MobileSideBar } from "../../layouts";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { API_URL } from "../../redux/store";
 import toast from "react-hot-toast";
@@ -11,11 +11,35 @@ import Skeleton from "react-loading-skeleton";
 const Home = () => {
     const [products, setProducts] = useState(null)
     const [loading, setLoading] = useState(true)
+    const ProductsData = [
+        {
+            "section_heading": "On Sale",
+            "products": []
+        },
+        {
+            "section_heading": "Recommended for you",
+            "products": []
+        },
+        {
+            "section_heading": "Top Rated",
+            "products": []
+        },
+    ]
+
     const getData = async () => {
         try {
             const response = await axios.get(`${API_URL}/api/get-products`)
             if (response.status == 200) {
-                setProducts(response.data)
+
+                let itemsCount = 0
+                let limitStart = 0
+                ProductsData.map((row) => {
+                    itemsCount += 12
+                    row.products = response.data.slice(limitStart, itemsCount)
+                    limitStart += 12
+                })
+                console.log(ProductsData)
+                setProducts(ProductsData)
             }
 
             setLoading(false)
@@ -36,8 +60,8 @@ const Home = () => {
         "https://icms-image.slatic.net/images/ims-web/abaa358e-3c50-4772-a7ff-417ef23ab1e8.png"
     ]
 
-    const Loader = <div>Loading</div>
     const [activeIndex, setActiveIndex] = useState(0)
+
     const moveSlide = (action) => {
         if (action === "next") {
             activeIndex < (slides.length - 1) ? setActiveIndex((prev) => prev + 1) : setActiveIndex(0)
@@ -66,11 +90,24 @@ const Home = () => {
                             <div className="slider-slides-container" style={{
                                 transform: `translateX(-${100 * activeIndex}%)`
                             }}>
-                                {slides?.map((slide, i) => (
-                                    <div className="slider-slide" key={i}>
+                                {/* {slides?.map((slide, i) => (
+                                    <div className="slider-slide flex-center" key={i}>
                                         <img src={slide} alt="" />
                                     </div>
-                                ))}
+                                ))} */}
+
+                                <div className="slider-slide flex-center">
+                                    <span className="font-medium">SLIDE 1</span>
+                                </div>
+                                <div className="slider-slide flex-center">
+                                    <span className="font-medium">SLIDE 2</span>
+                                </div>
+                                <div className="slider-slide flex-center">
+                                    <span className="font-medium">SLIDE 3</span>
+                                </div>
+                                <div className="slider-slide flex-center">
+                                    <span className="font-medium">SLIDE 4</span>
+                                </div>
                             </div>
                         </div>
 
@@ -92,7 +129,7 @@ const Home = () => {
                     <div className="section-heading">
                         Categories
                     </div>
-                    <div className="home-categories-row products-grid">
+                    <div className="home-categories-row">
                         {categories.map((val, i) => <CategoryCard key={i}
                             category={val.name}
                             image={val.image}
@@ -101,16 +138,23 @@ const Home = () => {
                 </section>
 
                 {loading ? <ProductLoadingGrid /> :
-                    <section className="home-section">
-                        <div className="section-heading">Trending products</div>
-                        <div className="home-section-products products-grid">
-                            {products?.map((val, u) => <ProductCard
-                                product={val}
-                                key={u} />)}
-                        </div>
-                    </section>}
+                    products.map((row, i) => (
+                        <section className="home-section" key={i}>
+                            <div className="section-heading">{row.section_heading}</div>
+                            <div className="home-section-products products-grid">
 
-            </main>
+                                {row.products?.map((val, u) =>
+                                    (<ProductCard product={val} key={u} />))
+                                }
+                            </div>
+                        </section>
+                    ))
+                }
+
+
+
+
+            </main >
         </>
 
     )

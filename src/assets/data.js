@@ -166,10 +166,7 @@ export const categories = [
         "image": "https://www.trustedreviews.com/wp-content/uploads/sites/54/2023/08/Best-smartphone-2-920x518.jpg",
         "name": "Mobile Phones"
     },
-    {
-        "image": "https://crm.paytusker.us//files/070c641.jpg",
-        "name": "Clothes"
-    },
+
     {
         "image": "https://i.dell.com/is/image/DellContent/content/dam/ss2/page-specific/category-pages/alienware-desktop-aurora-r16-notebook-m18-800x620-image-v2.png?fmt=png-alpha&wid=800&hei=620",
         "name": "Gaming"
@@ -178,7 +175,10 @@ export const categories = [
         "image": "https://crm.paytusker.us//files/05eaaf7.jpg",
         "name": "Dogs & Pets"
     },
-
+    {
+        "image": "https://crm.paytusker.us//files/070c641.jpg",
+        "name": "Clothes"
+    },
     {
         "image": "https://nsg.com.pk/wp-content/uploads/2022/08/P47_Wireless_Bluetooth_Headphone_In_Lahore_Karachi_Islamabad_Peshawar_Quetta_Mardan_Multan_Sibbi_Hyderabad_Faisalabad_Pakistan__1.jpg",
         "name": "Headphones"
@@ -187,5 +187,64 @@ export const categories = [
     {
         "image": "https://media.self.com/photos/653bd732fc0311e5c833acfe/master/pass/10%20(2).png",
         "name": "Men's shoes"
-    }
-]
+    },
+    {
+        "image": "https://png.pngtree.com/png-clipart/20221110/original/pngtree-download-software-logo-material-design-picture-image_3624755.png",
+        "name": "Software"
+    },
+    {
+        "image": "https://media.licdn.com/dms/image/D4D12AQHwzpRiQSBBuw/article-cover_image-shrink_720_1280/0/1660896887938?e=1714003200&v=beta&t=x8zE1zevovssKsD1W6D6FIa31Xo8yIrg3QPDamSbysM",
+        "name": "Toys and Games"
+    },
+    {
+        "image": "https://m.media-amazon.com/images/I/71aF7GY0cEL._AC_SX466_.jpg",
+        "name": "Automotive"
+    },
+    {
+        "image": "https://m.media-amazon.com/images/I/61Ag9mBHU+L._AC_SY300_SX300_.jpg",
+        "name": "Arts and Crafts"
+    },
+    {
+        "image": "https://crm.paytusker.us//files/070c641.jpg",
+        "name": "Clothes"
+    },
+    {
+        "image": "https://www.trustedreviews.com/wp-content/uploads/sites/54/2023/08/Best-smartphone-2-920x518.jpg",
+        "name": "Mobile Phones"
+    },
+    {
+        "image": "https://i.dell.com/is/image/DellContent/content/dam/ss2/page-specific/category-pages/alienware-desktop-aurora-r16-notebook-m18-800x620-image-v2.png?fmt=png-alpha&wid=800&hei=620",
+        "name": "Gaming"
+    },
+
+    {
+        "image": "https://nsg.com.pk/wp-content/uploads/2022/08/P47_Wireless_Bluetooth_Headphone_In_Lahore_Karachi_Islamabad_Peshawar_Quetta_Mardan_Multan_Sibbi_Hyderabad_Faisalabad_Pakistan__1.jpg",
+        "name": "Headphones"
+    },
+
+
+    {
+        "image": "https://media.self.com/photos/653bd732fc0311e5c833acfe/master/pass/10%20(2).png",
+        "name": "Men's shoes"
+    }, {
+        "image": "https://m.media-amazon.com/images/I/71aF7GY0cEL._AC_SX466_.jpg",
+        "name": "Automotive"
+    },
+    {
+        "image": "https://png.pngtree.com/png-clipart/20221110/original/pngtree-download-software-logo-material-design-picture-image_3624755.png",
+        "name": "Software"
+    },
+    {
+        "image": "https://media.licdn.com/dms/image/D4D12AQHwzpRiQSBBuw/article-cover_image-shrink_720_1280/0/1660896887938?e=1714003200&v=beta&t=x8zE1zevovssKsD1W6D6FIa31Xo8yIrg3QPDamSbysM",
+        "name": "Toys and Games"
+    },
+
+    {
+        "image": "https://m.media-amazon.com/images/I/61Ag9mBHU+L._AC_SY300_SX300_.jpg",
+        "name": "Arts and Crafts"
+    },
+    {
+        "image": "https://crm.paytusker.us//files/05eaaf7.jpg",
+        "name": "Dogs & Pets"
+    },
+].slice(10)

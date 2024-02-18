@@ -1,9 +1,10 @@
 /* eslint-disable react/prop-types */
-import { Search, ShoppingCart, User2 } from "lucide-react"
+import { AlignJustify, Search, ShoppingCart, User2 } from "lucide-react"
 import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom"
 import Logo from "../../assets/logo.png"
 import { useRef } from "react"
 import { getUserDetails } from "../../redux/slices/authSlice"
+import { ToggleMobileSideBar } from "../../redux/slices/appUislice"
 
 export const Header = () => {
     const isAuthenticated = getUserDetails()[1]
@@ -11,7 +12,14 @@ export const Header = () => {
     return (
         <header className="page-header header-main__nav">
             <div className="header-left__section">
-                <div className="header-text__logo">
+                <div className="header-left__mobile-menu"
+                    onClick={() => ToggleMobileSideBar()}
+                >
+                    <AlignJustify
+                    />
+
+                </div>
+                <div className="header-logo">
                     <Link to={"/"}>
                         <img src={Logo} alt="" />
                     </Link>
