@@ -9,8 +9,7 @@ export const MobileSideBar = ({ active }) => {
     function ToggleSideBar() { dispatch(ToggleMobileSideBar()) }
     const authenticatedSidebarLinks = [
         {
-            label: "Paytusker Home", url: "/",
-            // icon: <Home />
+            label: "Home", url: "/",
         },
         {
             label: "My Account", url: "/profile", child_elements: [

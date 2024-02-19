@@ -38,7 +38,6 @@ const Cart = () => {
 
     const { data, isLoading, isSuccess, isError } = useGetCartDetailsQuery({});
     const [editQty, qtyResults] = useUpdateQtyMutation();
-
     const [cartData, setCartData] = useState({})
     const [pageLoading, setPageLoading] = useState(isLoading)
     const [paymentMethod, setPaymentMethod] = useState(null)
@@ -121,10 +120,10 @@ const OrderSummary = ({ total, sub_total, setPaymentMethod, paymentMethod, Check
         <div className="cart-order-summary-container">
             <div className="order-summary__title">Order Summary</div>
             <div>
-                <div className="flex-jbt-atc my-2">
+                <div className="flex-align-between my-2">
                     <div>Subtotal </div><div> ({sub_total || 0} items)</div>
                 </div>
-                <div className="flex-jbt-atc my-2 text-lg font-semibold">
+                <div className="flex-align-between my-2 text-lg font-semibold">
                     <div>Total</div><div>{FormatCurreny(total)}</div>
                 </div>
             </div>
@@ -167,7 +166,7 @@ const CartItemCard = ({ price, name, qty, image, id, editQty }) => {
         editQty(payload)
     }
     return (
-        <div className="cart-item-card d-flex ">
+        <div className="cart-item-card flex ">
             <div className="cart-item-card__image-container ">
                 <img src={image} alt=""
                     className="h-100 w-100 img-contain"
@@ -178,7 +177,7 @@ const CartItemCard = ({ price, name, qty, image, id, editQty }) => {
                     <div className="text-sm">{name || ""}</div>
                 </div>
 
-                <div className="d-flex justify-content-between align-items-center">
+                <div className="flex-align-between">
                     <div className="font-medium cart-item-price">{FormatCurreny(price) || ""}</div>
 
                     <div className="remove-cart-item">

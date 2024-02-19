@@ -35,13 +35,12 @@ const Register = lazy(() => import("./pages/Register/Register"));
 const Search = lazy(() => import("./pages/Search/Search"));
 const Orders = lazy(() => import("./pages/Orders/Orders"));
 const AddAddress = lazy(() => import("./pages/AddAddress/AddAddress"));
-
+const CheckOut = lazy(() => import("./pages/CheckOut/CheckOut"))
 
 
 
 function App() {
   const mobileSideOpen = useSelector((state) => state.appUi.MobileSideOpen)
-  console.log(mobileSideOpen)
   const childern = <div>
     <div>
       <img src={Logo} alt=""
@@ -66,6 +65,7 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="*" element={<p>Path not resolved</p>} />
             <Route path="/search" element={<Search />} />
+            <Route path="/checkout" element={<CheckOut />} />
 
             <Route element={<ProtectedRoute isAuthenticated={isAuthenticated} />}>
               <Route path="/cart" element={<Cart />} />
