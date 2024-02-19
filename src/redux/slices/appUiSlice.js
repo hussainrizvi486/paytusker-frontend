@@ -9,13 +9,13 @@ const appUiSlice = createSlice({
     name: "appUiSlice",
     reducers: {
         ToggleMobileSideBar: (state) => {
+            console.log(state.MobileSideOpen)
             if (state.MobileSideOpen) {
                 state.MobileSideOpen = false
             }
             else {
                 state.MobileSideOpen = true
             }
-            console.log(state.MobileSideOpen)
         }
     }
 })

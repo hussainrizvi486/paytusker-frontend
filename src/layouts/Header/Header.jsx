@@ -5,15 +5,18 @@ import Logo from "../../assets/logo.png"
 import { useRef } from "react"
 import { getUserDetails } from "../../redux/slices/authSlice"
 import { ToggleMobileSideBar } from "../../redux/slices/appUislice"
-
+import { useDispatch } from "react-redux"
 export const Header = () => {
     const isAuthenticated = getUserDetails()[1]
+    const dispatch = useDispatch()
+
+    function ToggleSideBar() {dispatch(ToggleMobileSideBar())}
 
     return (
         <header className="page-header header-main__nav">
             <div className="header-left__section">
                 <div className="header-left__mobile-menu"
-                    onClick={() => ToggleMobileSideBar()}
+                    onClick={() => ToggleSideBar()}
                 >
                     <AlignJustify
                     />

@@ -2,8 +2,15 @@
 /* eslint-disable react/no-children-prop */
 import { useEffect } from "react"
 import { Suspense, lazy } from "react"
-import "react-loading-skeleton/dist/skeleton.css";
 import { Route, Routes, useLocation, Outlet, Navigate } from "react-router-dom"
+
+import Logo from "./assets/logo.png"
+import { Freeze } from "./components";
+import { Footer, MobileSideBar } from "./layouts"
+import { getUserDetails } from "./redux/slices/authSlice";
+import { useSelector } from "react-redux";
+
+import "react-loading-skeleton/dist/skeleton.css";
 import "./styles/global.css";
 import "./styles/utils.css";
 import "./styles/main.css";
@@ -18,7 +25,6 @@ import "./styles/pages/cart.css";
 import "./styles/pages/orders.css";
 import "./styles/pages/profile.css";
 import "./styles/layouts/footer.css";
-import { Freeze } from "./components";
 
 const Home = lazy(() => import("./pages/Home/Home"));
 const Product = lazy(() => import("./pages/Product/Product"));
@@ -31,16 +37,12 @@ const Search = lazy(() => import("./pages/Search/Search"));
 const Orders = lazy(() => import("./pages/Orders/Orders"));
 const AddAddress = lazy(() => import("./pages/AddAddress/AddAddress"));
 
-import { Footer, MobileSideBar } from "./layouts"
-
-import Logo from "./assets/logo.png"
-import { getUserDetails } from "./redux/slices/authSlice";
-import { useSelector } from "react-redux";
 
 
 
 function App() {
   const mobileSideOpen = useSelector((state) => state.appUi.MobileSideOpen)
+  console.log(mobileSideOpen)
   const childern = <div>
     <div>
       <img src={Logo} alt=""
