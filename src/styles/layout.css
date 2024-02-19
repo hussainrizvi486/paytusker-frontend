@@ -127,8 +127,17 @@
     position: fixed;
     left: 0;
     top: 0;
+    transition: transform 0.1s ease-in-out;
+}
+
+.mobile-sidebar.inactive {
+    transform: translateX(-100%);
+}
+
+.mobile-sidebar.active {
     z-index: 9;
     box-shadow: 0 0 0 800px #00000047;
+    transform: translateX(0);
 }
 
 

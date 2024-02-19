@@ -39,11 +39,9 @@ export const MobileSideBar = ({ active }) => {
     }
 
     return (
-        <div className="mobile-sidebar" style={sideBarStyle}>
+        <div className={`mobile-sidebar ${!active ? "inactive" : "active"}`} >
             <div className="mobile-sidebar__upper-section">
-                <div className="flex-end"
-
-                >
+                <div className="flex-end">
                     <button
                         className="unset"
                         onClick={ToggleSideBar}>
@@ -58,15 +56,11 @@ export const MobileSideBar = ({ active }) => {
             </div>
             <br />
 
-
-
             {authenticatedSidebarLinks.map((val, i) => (
                 <SidebarNavElement key={i} child_elements={val.child_elements} label={val.label} url={val.url}
                     icon={val.icon}
                 />
             ))}
-
-
         </div>
     )
 }

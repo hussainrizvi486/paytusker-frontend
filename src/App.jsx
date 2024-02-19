@@ -19,7 +19,6 @@ import "./styles/components.css";
 import "./styles/reset.css";
 import "./styles/layout.css";
 import "./styles/forms.css";
-import "./styles/utlis_n.css";
 import "./styles/pages/home.css";
 import "./styles/pages/cart.css";
 import "./styles/pages/orders.css";

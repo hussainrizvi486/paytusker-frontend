@@ -138,7 +138,7 @@ const Home = () => {
                 </section>
 
                 {loading ? <ProductLoadingGrid /> :
-                    products.map((row, i) => (
+                    products?.map((row, i) => (
                         <section className="home-section" key={i}>
                             <div className="section-heading">{row.section_heading}</div>
                             <div className="home-section-products products-grid">
