@@ -222,7 +222,7 @@
 }
 
 .category-card {
-    height: 9rem;
+    height: 8rem;
     /* width: 10rem; */
     padding: .5rem;
     border-radius: .25rem;
@@ -240,7 +240,7 @@
 }
 
 .category-card__img {
-    height: 7rem;
+    height: 6rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -253,7 +253,7 @@
 }
 
 .category-card__title {
-    height: 1.2rem;
+    height: 1rem;
     font-size: var(--text-xs);
     font-weight: 500;
     font-family: "Poppins", "Roboto";

@@ -27,6 +27,19 @@
     margin-bottom: .25rem;
 }
 
+.footer-links__ul li:hover {
+    text-decoration: underline;
+}
+
+.footer-payment-methods__wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.footer-payment-methods__wrapper img {
+    max-width: 4rem;
+}
 
 .footer-email__tab {
     margin-top: 2rem;

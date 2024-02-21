@@ -10,11 +10,19 @@ section.home-section {
 }
 
 .slider-container {
-    height: 300px;
     overflow: hidden;
     position: relative;
     border-radius: 6px;
+    height: 200px;
 }
+
+@media (min-width:768px) {
+    .slider-container {
+        height: 300px;
+    }
+
+}
+
 
 .slider-body {
     height: 100%;
@@ -106,11 +114,11 @@ section.home-section {
 .home-categories-row {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: .5rem;
+    gap: .25rem;
 }
 
 
-@media (min-width: 400px) {
+@media (min-width: 300px) {
     .home-categories-row {
         grid-template-columns: repeat(3, 1fr);
     }

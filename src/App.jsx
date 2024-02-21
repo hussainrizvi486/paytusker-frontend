@@ -41,6 +41,11 @@ const CheckOut = lazy(() => import("./pages/CheckOut/CheckOut"))
 
 function App() {
   const mobileSideOpen = useSelector((state) => state.appUi.MobileSideOpen)
+
+  const toggleSideBar = () => {
+
+  }
+
   const childern = <div>
     <div>
       <img src={Logo} alt=""
@@ -52,7 +57,7 @@ function App() {
 
   return (
     <Suspense fallback={<Freeze children={childern} />}>
-      <main id="app-container">
+      <main id="app-container" onClick={toggleSideBar}>
 
         <MobileSideBar active={mobileSideOpen} />
 

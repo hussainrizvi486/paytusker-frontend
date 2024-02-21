@@ -14,7 +14,7 @@
 
 
     --icon-size-sm: 1rem;
-    --icon-size-md: 1.5rem;
+    --icon-size-md: 1.25rem;
 
     --color-dark-grey: #434343;
     --color-grey-md: #666;
@@ -30,9 +30,15 @@
     --input-font: 'Poppins', 'Roboto', sans-serif;
     --input-border-color: #666;
 
-    /* --icon-size: 1.5rem; */
 
 }
+
+@media (min-width: 768px) {
+    :root {
+        --icon-size-md: 1.5rem;
+    }
+}
+
 
 
 body {

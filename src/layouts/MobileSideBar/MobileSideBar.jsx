@@ -44,7 +44,7 @@ export const MobileSideBar = ({ active }) => {
                     <button
                         className="unset"
                         onClick={ToggleSideBar}>
-                        <X />
+                        <X  className="icon-sm"/>
                     </button>
                 </div>
                 <div>

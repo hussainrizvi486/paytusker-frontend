@@ -9,7 +9,7 @@ export const Footer = () => {
         <footer className="pg-footer">
             <section className="pg-footer__upper-section">
                 <section className="footer-links__tab">
-                    
+
                     <div className="footer-links__container">
                         <div className="font-bold">Follow Us</div>
                         <ul className="footer-links__ul">
@@ -30,15 +30,20 @@ export const Footer = () => {
                             <li><a href="#" className="text-sm">Sell on Paytusker</a></li>
                         </ul>
                     </div>
+
+
+                    <div className="footer-links__container">
+                        <div className="font-bold">Paymemt Methods</div>
+                        <div className="footer-payment-methods__wrapper">
+                            <img src="https://d28wu8o6itv89t.cloudfront.net/images/visalogopngtransparentpng-1579588235384.png" alt="" />
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/1158px-Mastercard-logo.svg.png" alt="" />
+                          
+                            <img src="https://www.investopedia.com/thmb/F5w0M48xTFtv-VQE9GFpYDMA2-k=/fit-in/1500x750/filters:format(png):fill(white):max_bytes(150000):strip_icc()/Binance-0e4c4bfb014e4d9ca8f0b6e11c9db562.jpg" alt="" />
+                        </div>
+                    </div>
+
                 </section>
 
-                <section className="footer-email__tab">
-                    <div className="footer-heading font-bold text-center">Our News Letters</div>
-                    <div className="flex-center gap-1 footer-email__input-box">
-                        <input type="search" name="email" id="footer-contact__email" className="input text-center" placeholder="Enter email address" />
-                        <button className="btn btn-sm btn-primary">Subscribe</button>
-                    </div>
-                </section>
             </section>
 
 

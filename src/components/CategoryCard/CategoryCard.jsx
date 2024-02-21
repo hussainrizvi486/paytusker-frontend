@@ -7,7 +7,7 @@ export const CategoryCard = ({ image, category }) => {
             <div className="category-card__img">
                 <img src={image || noImage} alt="" />
             </div>
-            <div className="category-card__title">{category}</div>
+            <div className="category-card__title text-xs">{category}</div>
         </div>
     )
 }
