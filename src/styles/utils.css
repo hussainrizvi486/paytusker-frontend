@@ -107,7 +107,7 @@
 }
 
 .w-100 {
-    height: 100%;
+    width: 100%;
 }
 
 /* OTHER */
@@ -263,8 +263,3 @@
 .unset {
     all: unset;
 }
-
-/* .icon-sm {
-    height: var(--icon-size-md);
-    width: var(--icon-size-md);
-} */

@@ -4,6 +4,8 @@ import { useEffect } from "react"
 import { products } from "../../assets/data"
 import { ProductCard } from "../../components"
 import { categories } from "../../assets/data"
+import axios from "axios";
+import { API_URL } from "../../redux/store";
 
 const Search = () => {
     let [searchParams] = useSearchParams();

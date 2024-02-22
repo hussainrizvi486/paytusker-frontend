@@ -36,6 +36,7 @@ const Search = lazy(() => import("./pages/Search/Search"));
 const Orders = lazy(() => import("./pages/Orders/Orders"));
 const AddAddress = lazy(() => import("./pages/AddAddress/AddAddress"));
 const CheckOut = lazy(() => import("./pages/CheckOut/CheckOut"))
+const VourchersPage = lazy(() => import("./pages/Profile/Vourchers"))
 
 
 
@@ -78,6 +79,7 @@ function App() {
               <Route path="/profile/address" element={<Address />} />
               <Route path="/profile/address/add" element={<AddAddress />} />
               <Route path="/profile/orders" element={<Orders />} />
+              <Route path="/profile/vourchers" element={<VourchersPage />} />
             </Route>
 
           </Routes>

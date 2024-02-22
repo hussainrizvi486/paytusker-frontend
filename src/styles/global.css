@@ -18,10 +18,12 @@
 
     --color-dark-grey: #434343;
     --color-grey-md: #666;
+
+    --table-border-color: #c4c4c4;
+    --table-cells-padding: .45rem;
+
+
     --color-pink: #f11682;
-
-
-
     --color-primary: var(--color-dark-grey);
     --color-primary-bg: var(--color-dark-grey);
     --text-color-primary: var(--color-grey-md);
@@ -155,4 +157,27 @@ body {
     .sidebar-page__content {
         flex: auto;
     }
+}
+
+
+.table {
+    border-collapse: collapse;
+}
+
+
+.table td,
+th {
+    padding: var(--table-cells-padding);
+    font-size: var(--text-sm);
+}
+
+.table th {
+    text-align: left;
+}
+
+
+.table tr,
+td,
+th {
+    border: 1px solid var(--table-border-color);
 }

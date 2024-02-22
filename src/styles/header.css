@@ -75,6 +75,10 @@
     width: var(--icon-size-md);
 }
 
+.search-box__input:focus-within {
+    box-shadow: 0 0 10px #dededeee;
+}
+
 
 .header-search-box {
     position: relative;

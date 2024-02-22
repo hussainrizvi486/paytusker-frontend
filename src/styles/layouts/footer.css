@@ -38,7 +38,8 @@
 }
 
 .footer-payment-methods__wrapper img {
-    max-width: 4rem;
+    max-width: 3rem;
+    object-fit: contain;
 }
 
 .footer-email__tab {

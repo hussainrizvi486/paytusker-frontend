@@ -18,7 +18,7 @@ export const ProductCard = ({ product }) => {
                 </div>
 
                 <div className="card-details__lower">
-                    <div className="product-card__price font-medium">${parseFloat(product.price)}</div>
+                    <div className="product-card__price font-sm">${parseFloat(product.price)}</div>
                 </div>
             </div>
         </div>

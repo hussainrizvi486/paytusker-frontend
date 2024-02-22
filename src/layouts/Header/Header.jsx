@@ -1,16 +1,30 @@
 /* eslint-disable react/prop-types */
+import { useRef } from "react"
 import { AlignJustify, Search, ShoppingCart, User2 } from "lucide-react"
 import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom"
 import Logo from "../../assets/logo.png"
-import { useRef } from "react"
 import { getUserDetails } from "../../redux/slices/authSlice"
 import { ToggleMobileSideBar } from "../../redux/slices/appUislice"
 import { useDispatch } from "react-redux"
+import { API_URL } from "../../redux/store"
+import axios from "axios"
+
+
 export const Header = () => {
+    
+    const searchProduct = (query) => {
+        axios.get(`${API_URL}api/product/search?`, {
+            params: {
+                "query": query
+            }
+        },)
+    }
+
+
     const isAuthenticated = getUserDetails()[1]
     const dispatch = useDispatch()
 
-    function ToggleSideBar() {dispatch(ToggleMobileSideBar())}
+    function ToggleSideBar() { dispatch(ToggleMobileSideBar()) }
 
     return (
         <header className="page-header header-main__nav">
