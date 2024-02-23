@@ -9,50 +9,8 @@ import { categories } from "../../assets/data";
 import Skeleton from "react-loading-skeleton";
 
 const Home = () => {
-    const [products, setProducts] = useState([
-        {
-            "section_heading": "On Sale",
-            "products": [
-                {
-                    "id": "fedbdb8c-aa25-4eab-b566-233d37e2abe3",
-                    "product_name": "Infant-Toddler Book Display",
-                    "price": 258.7,
-                    "cover_image": "https://crm.paytusker.us/files/wb1858.2.jpg",
-                    "category": null
-                },
-                {
-                    "id": "fdfd89f1-ba3c-49f9-ba01-556c1cd42e7e",
-                    "product_name": "Nature View Live Edge Chair 10H - WB0906",
-                    "price": 455,
-                    "cover_image": "https://crm.paytusker.us/files/IMG_0551.png",
-                    "category": null
-                },
-                {
-                    "id": "fe19fb13-20ce-4fc1-bb74-cb649440b9d2",
-                    "product_name": "Dee Ocleppo Galant Classic Shoe",
-                    "price": 143,
-                    "cover_image": "https://crm.paytusker.us/files/IMG_0587.webp",
-                    "category": null
-                },
-                {
-                    "id": "fdaf67be-290c-4dac-817c-7373cc6d8018",
-                    "product_name": "Love Moschino Love Moschino Womens Dress W 5 B19 05 M 4055 A34 CREAM WHITE",
-                    "price": 91,
-                    "cover_image": "https://crm.paytusker.us/files/IMG_0638.webp",
-                    "category": null
-                }
-            ]
-        },
-        {
-            "section_heading": "Recommended for you",
-            "products": []
-        },
-        {
-            "section_heading": "Top Rated",
-            "products": []
-        }
-    ])
-    const [loading, setLoading] = useState(false)
+    const [products, setProducts] = useState()
+    const [loading, setLoading] = useState(true)
     const ProductsData = [
         {
             "section_heading": "On Sale",
@@ -93,7 +51,7 @@ const Home = () => {
 
 
     useEffect(() => {
-        // getData()
+        getData()
     }, [])
 
     const slides = [

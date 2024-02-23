@@ -7,7 +7,6 @@ import { useState } from "react";
 import { Freeze } from "../../components"
 import { useNavigate } from "react-router-dom";
 import PhoneInput from 'react-phone-input-2'
-
 import 'react-phone-input-2/lib/style.css'
 
 
@@ -21,32 +20,35 @@ const Register = () => {
 
     const submitForm = (e) => {
         e.preventDefault()
+        const formData = new FormData(e.target)
+
+        for (const [entry, value] of formData.entries()) {
+            console.log(entry, value)
+        }
         registerUser(registerFormData)
     }
 
     const registerUser = async (payload) => {
         try {
             setPageLoading(true)
-            const req = await axios.post(`${API_URL}/api/register/`, payload)
-            if (req.status === 200) {
-                toast.success("User Created")
-                setFormMsg(() => {
-                    return { type: "success", message: "User Created" };
-                });
-                navigate("/login")
-            }
+
+            setFormMsg({ "message": "test", "status": "danger" })
+            // const req = await axios.post(`${API_URL}/api/register/`, payload)
+            // if (req.status === 200) {
+            //     toast.success("User Created")
+            //     setFormMsg(() => {
+            //         return { type: "success", message: "User Created" };
+            //     });
+            //     navigate("/login")
+            // }
+            setPageLoading(false)
+
         } catch (error) {
             let errorMsg = ""
-            console.log()
             if (error.message == "Network Error") { errorMsg = "Server is unresponsive." }
             if (error?.response?.data) { errorMsg = error?.response?.data }
-            // success
             setPageLoading(false)
             toast.error(errorMsg)
-            // setFormMsg(() => {
-            //     return { type: "error", message: errorMsg };
-            // });
-
         }
         console.log(registerFormData)
     }
@@ -115,11 +117,12 @@ const Register = () => {
                                 /> */}
 
                                 <PhoneInput
-                                    showDropdown={true}
                                     country={"us"}
                                     inputProps={{
-                                        autoFocus: false, required: true,
+                                        autoFocus: false, required: "required",
+                                        name: "phone_number"
                                     }}
+
                                 />
                             </div>
                         </div>
@@ -130,16 +133,12 @@ const Register = () => {
                                 <input type="text" placeholder="Password" className="auth-input" required name="password"
                                     onChange={(e) => registerFormData[e.target.name] = e.target.value}
                                     defaultValue={registerFormData["password"] || ""}
-
                                 />
                             </div>
                         </div>
                     </div>
 
 
-                    <div className={`auth-form__msg-container auth-msg ${FormMsg.type}`}>
-                        {FormMsg.message}
-                    </div>
                     <div>
                         <div className="btn-container">
                             <button type="submit" className="auth-form__submit-btn 
@@ -155,6 +154,10 @@ const Register = () => {
                     </div>
 
                 </form>
+                <div className={`auth-form__msg-container auth-msg ${FormMsg.type}`}>
+                    {FormMsg.message}
+                </div>
+
             </div>
         </div>
     )
