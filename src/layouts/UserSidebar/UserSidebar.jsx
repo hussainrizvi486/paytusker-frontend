@@ -12,7 +12,7 @@ export const UserSidebar = () => {
                 { label: "Manage Account", url: "/profile", },
                 { label: "Address Book", url: "/profile/address", },
                 { label: "Add Address", url: "/profile/address/add", },
-                { label: "Vouchers", url: "/profile", },
+                { label: "Vouchers", url: "/profile/vourchers", },
             ]
         },
         {
@@ -36,7 +36,7 @@ export const UserSidebar = () => {
                 </div>
                 <div className="profile-card__content">
                     <div className="sidebar-heading">
-                        {authUser.username}
+                        {authUser?.username || "Customer"}
                     </div>
                 </div>
             </div>

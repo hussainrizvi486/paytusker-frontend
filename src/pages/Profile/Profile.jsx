@@ -17,46 +17,47 @@ const Profile = () => {
       "fieldname": "first_name",
       "label": "First Name",
       "read_only": true,
-      "value": ""
+      "value": "Hussain"
     },
     {
       "fieldname": "last_name",
       "label": "Last Name",
       "read_only": true,
-      "value": ""
+      "value": "rizvi"
     },
     {
       "fieldname": "username",
       "label": "Username",
       "read_only": true,
-      "value": ""
+      "value": "Hussain rizvi"
     },
     {
       "fieldname": "email",
       "label": "Email",
       "read_only": true,
-      "value": ""
+      "value": "hussainrizvi486@gmail.com"
     },
     {
       "fieldname": "phone_number",
       "label": "Phone Number",
       "read_only": true,
-      "value": ""
-    },
+      "value": "14845691136"
+    }
   ]
 
   const { data, isLoading, isError } = useGetUserDetailsQuery()
 
-  if (data) {
-    userProfileFields.map((val) => {
-      val.value = data[val.fieldname]
-    })
-  }
+  // if (data) {
+  //   userProfileFields.map((val) => {
+  //     val.value = data[val.fieldname]
+  //   })
+  //   console.log(userProfileFields)
+  // }
 
-  if (isError) {
-    toast.error("Something went wrong.")
-    navigate("/")
-  }
+  // if (isError) {
+  //   toast.error("Something went wrong.")
+  //   navigate("/")
+  // }
   useEffect(() => { }, [isError])
 
   if (isLoading) return <Freeze />
@@ -87,7 +88,7 @@ const Profile = () => {
                     />
                   </div>
                 </div>
-                
+
               )}
 
             </form>

@@ -7,7 +7,7 @@ import { API_URL } from "../../redux/store";
 import toast from "react-hot-toast";
 import { categories } from "../../assets/data";
 import Skeleton from "react-loading-skeleton";
-
+import { products as DummyProducts } from "../../webData";
 const Home = () => {
     const [products, setProducts] = useState()
     const [loading, setLoading] = useState(true)
@@ -25,29 +25,34 @@ const Home = () => {
             "products": []
         },
     ]
-
     const getData = async () => {
+        setLoading(true);
         try {
-            const response = await axios.get(`${API_URL}/api/get-products`)
-            if (response.status == 200) {
+            const response = await axios.get(`${API_URL}api/get-products`);
+            if (response.status === 200) {
+                const resData = response.data;
+                let itemsCount = 0;
+                let limitStart = 0;
+                let updatedProductsData = [...ProductsData];
 
-                let itemsCount = 0
-                let limitStart = 0
-                ProductsData.map((row) => {
-                    itemsCount += 12
-                    row.products = response.data.slice(limitStart, itemsCount)
-                    limitStart += 12
-                })
-                console.log(ProductsData)
-                setProducts(ProductsData)
+                updatedProductsData = updatedProductsData.map((row) => {
+                    itemsCount += 12;
+                    row.products = resData.slice(limitStart, itemsCount);
+                    limitStart += 12;
+                    return row;
+                });
+
+                console.log(resData);
+                console.log(updatedProductsData);
+                setProducts(updatedProductsData);
             }
-
-            setLoading(false)
         } catch (error) {
-            toast.error("Server Error")
-            setLoading(false)
+            toast.error("Server Error");
+        } finally {
+            setLoading(false);
         }
-    }
+    };
+
 
 
     useEffect(() => {
@@ -136,16 +141,23 @@ const Home = () => {
                     </div>
                 </section>
 
-                {loading ? <ProductLoadingGrid /> :
+                {loading ? (
+                    <ProductLoadingGrid />
+                ) : (
                     products?.map((row, i) => (
-                        <section className="home-section" key={i}>
-                            <div className="section-heading">{row.section_heading}</div>
-                            <div className="home-section-products products-grid">
-                                {row.products?.map((val, u) => (<ProductCard product={val} key={u} />))}
-                            </div>
-                        </section>
+                        row.products && row.products.length > 0 && (
+                            <section className="home-section" key={i}>
+                                <div className="section-heading">{row.section_heading}</div>
+                                <div className="home-section-products products-grid">
+                                    {row.products.map((val, u) => (
+                                        <ProductCard product={val} key={u} />
+                                    ))}
+                                </div>
+                            </section>
+                        )
                     ))
-                }
+                )}
+
             </main >
         </>
 

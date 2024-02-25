@@ -1,5 +1,7 @@
 .pg-footer {
+    margin-top: 3rem;
     padding: 1rem 0.5rem;
+    border-top: 1px solid #a6a6a6;
 }
 
 .pg-footer__upper-section {
@@ -15,7 +17,7 @@
 }
 
 .footer-links__container {
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
 }
 
 .footer-links__ul {
@@ -32,8 +34,10 @@
 }
 
 .footer-payment-methods__wrapper {
+    margin-top: .5rem;
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     gap: 1rem;
 }
 
@@ -56,4 +60,12 @@
     border-top: 1px solid #a6a6a6;
     text-align: center;
     font-size: var(--text-sm);
+}
+
+
+@media (min-width:600px) {
+    .footer-links__tab {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+    }
 }

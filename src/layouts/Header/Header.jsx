@@ -11,7 +11,7 @@ import axios from "axios"
 
 
 export const Header = () => {
-    
+
     const searchProduct = (query) => {
         axios.get(`${API_URL}api/product/search?`, {
             params: {
@@ -21,7 +21,8 @@ export const Header = () => {
     }
 
 
-    const isAuthenticated = getUserDetails()[1]
+    // const isAuthenticated = getUserDetails()[1]
+    const isAuthenticated = true
     const dispatch = useDispatch()
 
     function ToggleSideBar() { dispatch(ToggleMobileSideBar()) }

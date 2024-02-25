@@ -34,7 +34,7 @@ export const apiSlice = createApi({
     endpoints: (builder) => ({
         LoginUser: builder.mutation({
             query: (body) => ({
-                url: "/api/auth-token/",
+                url: "api/auth-token/",
                 method: "POST",
                 body: body
             })
@@ -42,14 +42,14 @@ export const apiSlice = createApi({
 
         getCartDetails: builder.query({
             query: () => ({
-                url: "/api/get-cart",
+                url: "api/get-cart",
             }),
             providesTags: ["updateCart"]
         }),
 
         updateQty: builder.mutation({
             query: (data) => ({
-                url: "/api/cart/update-cart",
+                url: "api/cart/update-cart",
                 method: "POST",
                 body: data,
             }),
@@ -58,7 +58,7 @@ export const apiSlice = createApi({
 
         addToCart: builder.mutation({
             query: (data) => ({
-                url: "/api/add-to-cart",
+                url: "api/add-to-cart",
                 method: "POST",
                 body: data,
             }),
@@ -67,28 +67,28 @@ export const apiSlice = createApi({
 
         getCustomerOrders: builder.query({
             query: () => ({
-                url: "/api/order/get-orders",
+                url: "api/order/get-orders",
                 method: "GET",
             }),
         }),
 
         getUserDetails: builder.query({
             query: () => ({
-                url: "/api/get-user-details/",
+                url: "api/get-user-details/",
                 method: "GET",
             }),
         }),
 
         getUserAddress: builder.query({
             query: () => ({
-                url: "/api/get-user-address/",
+                url: "api/get-user-address/",
                 method: "GET",
             }),
             providesTags: ["refreshAddress"]
         }),
         addUserAddress: builder.mutation({
             query: (data) => ({
-                url: "/api/add-user-address/",
+                url: "api/add-user-address/",
                 method: "POST",
                 body: data,
             }),

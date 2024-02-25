@@ -36,10 +36,11 @@ const Cart = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const { data, isLoading, isSuccess, isError } = useGetCartDetailsQuery({});
+    const { data, isLoading: getItemsLoading, isSuccess, isError } = useGetCartDetailsQuery({});
     const [editQty, qtyResults] = useUpdateQtyMutation();
-    const [cartData, setCartData] = useState({})
-    const [pageLoading, setPageLoading] = useState(isLoading)
+    const [cartData, setCartData] = useState(
+    )
+    const [pageLoading, setPageLoading] = useState(getItemsLoading)
     const [paymentMethod, setPaymentMethod] = useState(null)
 
     let cart_state = useSelector((state) => state.cart);
@@ -48,13 +49,14 @@ const Cart = () => {
         let data = {
             "payment_method": paymentMethod
         }
+        window.location.href
         CreateOrder(data)
     }
 
 
     useEffect(() => {
         if (data && isSuccess) {
-            setPageLoading(isLoading)
+            setPageLoading(getItemsLoading)
             const payload = {
                 items: data.items, total_qty: data.total_qty, total_amount: data.total_amount,
             }
@@ -62,14 +64,13 @@ const Cart = () => {
             dispatch(updateCart(payload));
         }
 
-    }, [data, dispatch, cart_state, isLoading, isSuccess]);
+    }, [data, dispatch, cart_state, getItemsLoading, isSuccess]);
 
 
     useEffect(() => {
         if (qtyResults.isLoading) {
             setPageLoading(qtyResults.isLoading)
         }
-
     }, [qtyResults])
 
 
@@ -105,7 +106,7 @@ const Cart = () => {
                 </div>
 
                 <div className="cart-summary__wrapper">
-                    <OrderSummary sub_total={cartData.total_qty} total={cartData.total_amount} setPaymentMethod={setPaymentMethod} paymentMethod={paymentMethod} CheckoutCart={CheckoutCart} />
+                    <OrderSummary sub_total={cartData?.total_qty} total={cartData?.total_amount} setPaymentMethod={setPaymentMethod} paymentMethod={paymentMethod} CheckoutCart={CheckoutCart} />
                 </div>
             </div>
         </>

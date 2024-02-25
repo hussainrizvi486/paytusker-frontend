@@ -14,7 +14,6 @@ import "react-loading-skeleton/dist/skeleton.css";
 import "./styles/global.css";
 import "./styles/utils.css";
 import "./styles/main.css";
-import "./styles/header.css";
 import "./styles/components.css";
 import "./styles/reset.css";
 import "./styles/layout.css";
@@ -23,7 +22,6 @@ import "./styles/pages/home.css";
 import "./styles/pages/cart.css";
 import "./styles/pages/orders.css";
 import "./styles/pages/profile.css";
-import "./styles/layouts/footer.css";
 
 const Home = lazy(() => import("./pages/Home/Home"));
 const Product = lazy(() => import("./pages/Product/Product"));
@@ -54,7 +52,8 @@ function App() {
     </div>
   </div>
 
-  const isAuthenticated = getUserDetails()[1]
+  // const isAuthenticated = getUserDetails()[1]
+  const isAuthenticated = true
 
   return (
     <Suspense fallback={<Freeze children={childern} />}>
@@ -73,14 +72,14 @@ function App() {
             <Route path="/search" element={<Search />} />
             <Route path="/checkout" element={<CheckOut />} />
 
-            <Route element={<ProtectedRoute isAuthenticated={isAuthenticated} />}>
+            {/* <Route element={<ProtectedRoute isAuthenticated={isAuthenticated} />}> */}
               <Route path="/cart" element={<Cart />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/profile/address" element={<Address />} />
               <Route path="/profile/address/add" element={<AddAddress />} />
               <Route path="/profile/orders" element={<Orders />} />
               <Route path="/profile/vourchers" element={<VourchersPage />} />
-            </Route>
+            {/* </Route> */}
 
           </Routes>
         </div>

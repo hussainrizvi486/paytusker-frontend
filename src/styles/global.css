@@ -1,11 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&family=Roboto:wght@400;500;700&display=swap');
+@import url("./layouts/header.css");
+@import url("./layouts/footer.css");
+@import url("./pages/searchpage.css");
+
+
 
 :root {
     --text-xs: .75rem;
     --text-sm: .875rem;
-    --text-md: 1rem;
-    --text-lg: 1.25rem;
-    --text-xl: 1.5rem;
+    --text-md: .9rem;
+    --text-lg: 1rem;
+    --text-xl: 1.15rem;
     --text-xxl: 1.75rem;
     --text-3xl: 2rem;
     --text-4xl: 2.25rem;
@@ -31,12 +36,23 @@
 
     --input-font: 'Poppins', 'Roboto', sans-serif;
     --input-border-color: #666;
-
-
 }
 
+
+
+
 @media (min-width: 768px) {
+
+
     :root {
+        --text-xs: .75rem;
+        --text-sm: .875rem;
+        --text-md: 1rem;
+        --text-lg: 1.25rem;
+        --text-xl: 1.5rem;
+        --text-xxl: 1.75rem;
+
+
         --icon-size-md: 1.5rem;
     }
 }
