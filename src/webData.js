@@ -248,3 +248,27 @@ export const categories = [
         "name": "Dogs & Pets"
     },
 ]
+
+
+
+// [
+
+//     {
+//         label: "My Account", url: "/profile", icon: <User />, child_elements: [
+//             { label: "Manage Account", url: "/profile", },
+//             { label: "Address Book", url: "/profile/address", },
+//             { label: "Add Address", url: "/profile/address/form/add", },
+//             { label: "Vouchers", url: "/profile/vourchers", },
+//         ]
+//     },
+//     {
+//         label: "My Orders", url: "/profile/orders", icon: <ScrollText />,
+//         child_elements: [
+//             { label: "Pending Orders", url: "/profile/orders", },
+//             { label: "Orders History", url: "/profile/orders", },
+//         ]
+//     },
+//     {
+//         label: "My Reviews", url: "/profile/reviews", icon: <MessageCircle />
+//     },
+// ]

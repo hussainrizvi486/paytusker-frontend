@@ -12,50 +12,9 @@ import { useAddToCartMutation } from "../../features/api/api"
 import { Rating } from "../../components/Rating/Rating"
 
 const Product = () => {
-    const [productData, setProductData] = useState({
-        "id": "fedbdb8c-aa25-4eab-b566-233d37e2abe3",
-        "creation": "2024-01-23T22:20:05.957937Z",
-        "modified": "2024-01-23T22:20:05.957937Z",
-        "product_name": "Infant-Toddler Book Display",
-        "net_price": 258.7,
-        "price": 258.7,
-        "description": "Infant-Toddler Book Display",
-        "stock": 1,
-        "disabled": false,
-        "category_id": null,
-        "cover_image": "https://crm.paytusker.us/files/wb1858.2.jpg",
-        "rating": null,
-        "item_type": "001",
-        "template_id": null,
-        "images": [
-            "https://crm.paytusker.us/files/wb1858.2.jpg",
-            "https://crm.paytusker.us/files/wb1858.4.jpg",
-            "https://crm.paytusker.us/files/wb1858.3.jpg",
-            "https://crm.paytusker.us/files/WB1858.1.jpg"
-        ],
-        "reviews": [
-            {
-                "id": "99b6d5f8-a328-4a61-88e6-740bda028908",
-                "creation": "2024-02-20T22:12:45.324824Z",
-                "modified": "2024-02-20T22:12:45.403918Z",
-                "rating": 4.0,
-                "review_content": "Test Review",
-                "customer_id": "318b4639-4bd3-4de1-9d75-c79ca52a4038",
-                "order_id": "dfeacb2d-44a9-42c1-a173-bc87548100da",
-                "product_id": "fedbdb8c-aa25-4eab-b566-233d37e2abe3",
-                "customer_name": "Hussain",
-                "user_id": "f1124151-20eb-410e-ae8d-08495787fd4e",
-                "customer_image": "/media/images/Binance-0e4c4bfb014e4d9ca8f0b6e11c9db562.png"
-            }
-        ]
-    })
-    const [productImages, setProductImages] = useState([
-        "https://crm.paytusker.us/files/wb1858.2.jpg",
-        "https://crm.paytusker.us/files/wb1858.4.jpg",
-        "https://crm.paytusker.us/files/wb1858.3.jpg",
-        "https://crm.paytusker.us/files/WB1858.1.jpg"
-    ])
-    const [pageLoading, setPageLoading] = useState(false)
+    const [productData, setProductData] = useState()
+    const [productImages, setProductImages] = useState()
+    const [pageLoading, setPageLoading] = useState(true)
     const navigate = useNavigate();
     const { id } = useParams();
     const [addItemToCart] = useAddToCartMutation();
@@ -75,13 +34,13 @@ const Product = () => {
     }
 
     useEffect(() => {
-        // getProductDetail()
+        getProductDetail()
     }, [])
 
     const addToCart = async (product_id) => {
-        // setPageLoading(true)
-        // addItemToCart({ product_id: product_id })
-        // navigate("/cart")
+        setPageLoading(true)
+        addItemToCart({ product_id: product_id })
+        navigate("/cart")
     }
 
     if (pageLoading) return <Freeze />

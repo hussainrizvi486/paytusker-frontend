@@ -3,12 +3,31 @@ import { FormSelect } from "../../components/Form/FormSelect"
 import { Header, UserSidebar } from "../../layouts"
 import { useAddUserAddressMutation } from "../../features/api/api"
 import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useSearchParams } from "react-router-dom"
 import { Freeze } from "../../components"
+import { useParams } from "react-router-dom"
+
 
 const AddAddress = () => {
     const [addAddress, apiResponse] = useAddUserAddressMutation()
+    const [searchParams] = useSearchParams()
     let navigate = useNavigate();
+    const urlParams = useParams()
+
+    const getAddressDetail = (id) => {
+        console.log(id)
+    }
+
+    let PageHeading = ""
+
+    if (urlParams.action == "add") {
+        PageHeading = "Add New Address"
+    }
+    else if (urlParams.action == "edit") {
+        PageHeading = "Edit"
+        getAddressDetail(searchParams.get("id"))
+    }
+
     const [pageLoading, setPageLoading] = useState(false)
     const addAddressFields = [
         {
@@ -49,16 +68,10 @@ const AddAddress = () => {
         },
     ]
 
-    useEffect(() => {
-        setPageLoading(apiResponse.isLoading)
-
-    }, [apiResponse])
+    useEffect(() => { setPageLoading(apiResponse.isLoading) }, [apiResponse])
+    if (apiResponse.isSuccess) { navigate("/profile/address"); }
 
 
-    if (apiResponse.isSuccess) {
-        // toast.success("Address Added")
-        navigate("/profile/address");
-    }
 
     const f2Submit = async (e) => {
         const data = {}
@@ -81,7 +94,7 @@ const AddAddress = () => {
                 <UserSidebar />
                 <div className="sidebar-page__content address-page">
                     <div className="address-page__upper">
-                        <div className="heading-md">Add New Address</div>
+                        <div className="heading-md">{PageHeading}</div>
                     </div>
 
                     <div className="address-page__content">

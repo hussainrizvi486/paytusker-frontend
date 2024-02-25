@@ -7,7 +7,6 @@
 
 .web-form .input-box__label {
     margin-bottom: .5rem;
-
 }
 
 .web-form .input-box {
@@ -31,10 +30,15 @@
     -webkit-appearance: none;
     appearance: none;
 }
+
 /* 
 input:invalid {
     outline: 1px solid #ff3838;
 } */
+
+.mandatory-flag {
+    color: #ff3838;
+}
 
 @media (min-width: 550px) {
     .web-form__fields {

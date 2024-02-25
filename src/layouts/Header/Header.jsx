@@ -21,8 +21,7 @@ export const Header = () => {
     }
 
 
-    // const isAuthenticated = getUserDetails()[1]
-    const isAuthenticated = true
+    const isAuthenticated = getUserDetails()[1]
     const dispatch = useDispatch()
 
     function ToggleSideBar() { dispatch(ToggleMobileSideBar()) }

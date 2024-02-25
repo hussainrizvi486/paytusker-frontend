@@ -32,7 +32,7 @@ const Profile = lazy(() => import("./pages/Profile/Profile"));
 const Register = lazy(() => import("./pages/Register/Register"));
 const Search = lazy(() => import("./pages/Search/Search"));
 const Orders = lazy(() => import("./pages/Orders/Orders"));
-const AddAddress = lazy(() => import("./pages/AddAddress/AddAddress"));
+const AddressForm = lazy(() => import("./pages/Profile/AddressForm"));
 const CheckOut = lazy(() => import("./pages/CheckOut/CheckOut"))
 const VourchersPage = lazy(() => import("./pages/Profile/Vourchers"))
 
@@ -52,8 +52,7 @@ function App() {
     </div>
   </div>
 
-  // const isAuthenticated = getUserDetails()[1]
-  const isAuthenticated = true
+  const isAuthenticated = getUserDetails()[1]
 
   return (
     <Suspense fallback={<Freeze children={childern} />}>
@@ -72,14 +71,14 @@ function App() {
             <Route path="/search" element={<Search />} />
             <Route path="/checkout" element={<CheckOut />} />
 
-            {/* <Route element={<ProtectedRoute isAuthenticated={isAuthenticated} />}> */}
+            <Route element={<ProtectedRoute isAuthenticated={isAuthenticated} />}>
               <Route path="/cart" element={<Cart />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/profile/address" element={<Address />} />
-              <Route path="/profile/address/add" element={<AddAddress />} />
+              <Route path="/profile/address/form/:action" element={<AddressForm />} />
               <Route path="/profile/orders" element={<Orders />} />
               <Route path="/profile/vourchers" element={<VourchersPage />} />
-            {/* </Route> */}
+            </Route>
 
           </Routes>
         </div>

@@ -60,7 +60,7 @@ const Home = () => {
     }, [])
 
     const slides = [
-        "https://icms-image.slatic.net/images/ims-web/52d77700-a938-4cc0-8aa7-6e7bb428a0ac.jpg",
+        "https://img.freepik.com/free-vector/red-flat-style-black-friday-sale-banner-template_1017-27735.jpg?w=1380&t=st=1708900725~exp=1708901325~hmac=8a8da6f08487ac3e93faa23b75400fa5f728f28baa6a866f5368c63afb434afa",
         "https://icms-image.slatic.net/images/ims-web/cd8d8e75-cbc4-4cb2-bfd9-c39eed09adcc.jpg",
         "https://icms-image.slatic.net/images/ims-web/abaa358e-3c50-4772-a7ff-417ef23ab1e8.png"
     ]
@@ -96,15 +96,14 @@ const Home = () => {
                             }}>
                                 {/* {slides?.map((slide, i) => (
                                     <div className="slider-slide flex-center" key={i}>
-                                        <img src={slide} alt="" />
                                     </div>
                                 ))} */}
 
                                 <div className="slider-slide flex-center">
-                                    <span className="font-medium">SLIDE 1</span>
+                                    <img src="https://img.freepik.com/free-vector/red-flat-style-black-friday-sale-banner-template_1017-27735.jpg?w=1380&t=st=1708900725~exp=1708901325~hmac=8a8da6f08487ac3e93faa23b75400fa5f728f28baa6a866f5368c63afb434afa" alt="" />
                                 </div>
                                 <div className="slider-slide flex-center">
-                                    <span className="font-medium">SLIDE 2</span>
+                                    <img src="https://img.freepik.com/premium-vector/winter-sale-poster-with-realistic-3d-snowflakes-gift-boxes-blue-backdrop-digital-banner_348818-1483.jpg?w=1800" alt="" />
                                 </div>
                                 <div className="slider-slide flex-center">
                                     <span className="font-medium">SLIDE 3</span>

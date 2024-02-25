@@ -36,7 +36,7 @@ export const UserSidebar = () => {
                 </div>
                 <div className="profile-card__content">
                     <div className="sidebar-heading">
-                        {authUser?.username || "Customer"}
+                        {authUser?.username || ""}
                     </div>
                 </div>
             </div>

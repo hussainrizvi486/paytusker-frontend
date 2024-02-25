@@ -1,64 +1,53 @@
+import { useDispatch } from "react-redux"
+import { Freeze } from "../../components"
 import { useGetUserDetailsQuery } from "../../features/api/api"
 import { UserSidebar, Header } from "../../layouts"
-import { Freeze } from "../../components"
 import { LogOut } from "../../redux/slices/authSlice"
-import { useDispatch } from "react-redux"
-import { useEffect } from "react"
-import { useNavigate } from "react-router-dom"
-import toast from "react-hot-toast"
 
 const Profile = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-
 
   const userProfileFields = [
     {
       "fieldname": "first_name",
       "label": "First Name",
       "read_only": true,
-      "value": "Hussain"
+      "value": ""
     },
     {
       "fieldname": "last_name",
       "label": "Last Name",
       "read_only": true,
-      "value": "rizvi"
+      "value": ""
     },
     {
       "fieldname": "username",
       "label": "Username",
       "read_only": true,
-      "value": "Hussain rizvi"
+      "value": ""
     },
     {
       "fieldname": "email",
       "label": "Email",
       "read_only": true,
-      "value": "hussainrizvi486@gmail.com"
+      "value": ""
     },
     {
       "fieldname": "phone_number",
       "label": "Phone Number",
       "read_only": true,
-      "value": "14845691136"
+      "value": ""
     }
   ]
 
-  const { data, isLoading, isError } = useGetUserDetailsQuery()
+  const { data, isLoading } = useGetUserDetailsQuery()
 
-  // if (data) {
-  //   userProfileFields.map((val) => {
-  //     val.value = data[val.fieldname]
-  //   })
-  //   console.log(userProfileFields)
-  // }
+  if (data) {
+    userProfileFields.map((val) => {
+      val.value = data[val.fieldname]
+    })
+  }
 
-  // if (isError) {
-  //   toast.error("Something went wrong.")
-  //   navigate("/")
-  // }
-  useEffect(() => { }, [isError])
 
   if (isLoading) return <Freeze />
 
@@ -67,7 +56,6 @@ const Profile = () => {
     <div>
       <div>
         <Header />
-
       </div>
 
       <div className="sidebar-page">
@@ -88,7 +76,6 @@ const Profile = () => {
                     />
                   </div>
                 </div>
-
               )}
 
             </form>
