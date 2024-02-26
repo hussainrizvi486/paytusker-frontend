@@ -11,7 +11,7 @@ export const UserSidebar = () => {
             label: "My Account", url: "/profile", icon: <User />, child_elements: [
                 { label: "Manage Account", url: "/profile", },
                 { label: "Address Book", url: "/profile/address", },
-                { label: "Add Address", url: "/profile/address/add", },
+                { label: "Add Address", url: "/profile/address/form/add", },
                 { label: "Vouchers", url: "/profile/vourchers", },
             ]
         },
