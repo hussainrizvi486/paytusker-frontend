@@ -3,7 +3,7 @@ import axios from "axios"
 import { LogOut, getUserDetails } from "../../redux/slices/authSlice"
 import { UpdateCredentials } from "../../redux/slices/authSlice";
 
-const baseUrl = import.meta.env.VITE_API_URL;
+const baseUrl = "http://66.94.104.18/";
 
 const baseQuery = fetchBaseQuery({
     baseUrl: baseUrl,

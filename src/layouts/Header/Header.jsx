@@ -8,23 +8,35 @@ import { ToggleMobileSideBar } from "../../redux/slices/appUislice"
 import { useDispatch } from "react-redux"
 import { API_URL } from "../../redux/store"
 import axios from "axios"
+import { UpdateQuery, UpdateSearchProducts } from "../../redux/slices/searchProducts"
 
 
 export const Header = () => {
-
-    const searchProduct = (query) => {
-        axios.get(`${API_URL}api/product/search?`, {
-            params: {
-                "query": query
-            }
-        },)
-    }
 
 
     const isAuthenticated = getUserDetails()[1]
     const dispatch = useDispatch()
 
     function ToggleSideBar() { dispatch(ToggleMobileSideBar()) }
+
+    const searchProduct = async (query) => {
+        console.log("searching products");
+        dispatch(UpdateQuery(query));
+        try {
+            const req = await axios.get(`${API_URL}api/product/search`, {
+                params: {
+                    query: query
+                }
+            });
+            if (req.status === 200) {
+                dispatch(UpdateSearchProducts({ products: req.data }));
+            }
+        } catch (error) {
+            console.error("Error occurred while searching products:", error);
+        }
+    };
+
+
 
     return (
         <header className="page-header header-main__nav">
@@ -45,7 +57,7 @@ export const Header = () => {
 
             <div className="header-center__section">
                 <div className="search-box__wrapper">
-                    <HeaderSearchBox />
+                    <HeaderSearchBox handleSearch={searchProduct} />
 
                 </div>
             </div>
@@ -75,7 +87,7 @@ export const Header = () => {
 }
 
 
-const HeaderSearchBox = ({ placeholder = "Type somthing here." }) => {
+const HeaderSearchBox = ({ placeholder = "Type somthing here.", handleSearch = () => { } }) => {
     const navigate = useNavigate()
     const location = useLocation()
     const params = new URLSearchParams(window.location.search)
@@ -85,6 +97,9 @@ const HeaderSearchBox = ({ placeholder = "Type somthing here." }) => {
     const search = (e) => {
         e.preventDefault()
         const query = searchInpRef.current.value
+
+
+        handleSearch(query)
 
         if (location.pathname != "/search") {
             navigate(`/search?query=${query}`)

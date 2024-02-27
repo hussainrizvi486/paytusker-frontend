@@ -26,10 +26,8 @@ const Search = () => {
                         <div className="text-xl font-medium">Filters</div>
                         <div className="search-toggle__filters-btn">
                             <button className="unset"
-
                                 onClick={() => {
                                     setSearchFiltersOpen((prev) => {
-                                        console.log(prev)
                                         if (prev) {
                                             return false
                                         }

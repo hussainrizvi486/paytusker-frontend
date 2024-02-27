@@ -42,8 +42,6 @@ const Home = () => {
                     return row;
                 });
 
-                console.log(resData);
-                console.log(updatedProductsData);
                 setProducts(updatedProductsData);
             }
         } catch (error) {
