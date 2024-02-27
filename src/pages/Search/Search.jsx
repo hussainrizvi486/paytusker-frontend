@@ -4,18 +4,23 @@ import { useEffect, useState } from "react"
 import { products } from "../../assets/data"
 import { ProductCard } from "../../components"
 import { categories } from "../../assets/data"
-import { Filter } from "lucide-react";
+import { CopySlash, Filter } from "lucide-react";
+import { useSelector } from "react-redux";
 
 
 
 
 const Search = () => {
     let [searchParams] = useSearchParams();
-    const query = searchParams.get("query")
-    const [searchFiltersOpen, setSearchFiltersOpen] = useState(false)
+    const query = searchParams.get("query");
+    const [searchFiltersOpen, setSearchFiltersOpen] = useState(false);
+    const searchProducts = useSelector((state) => state.search.searchProductsResults);
+    // const productCount = useSelector((state) => state.search.totalProductsCount);
+
 
     useEffect(() => {
-    }, [])
+        console.log(searchProducts)
+    }, [searchProducts])
 
     return (
         <>
@@ -71,9 +76,9 @@ const Search = () => {
 
 
                 <section className="search-items">
-                    <div className="search-items-query">Results for {query}: 400.</div>
+                    {/* <div className="search-items-query">Results for {query}: 400.</div> */}
                     <div className="products-grid">
-                        {products.map((val, i) => <ProductCard key={i} product={val} />)}
+                        {searchProducts?.map((val, i) => <ProductCard key={i} product={val} />)}
                     </div>
 
                     <div className="flex-end gap-1 mt-4">

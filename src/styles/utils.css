@@ -268,3 +268,7 @@
 .unset {
     all: unset;
 }
+
+.icon-sm {
+    height: var(--icon-size-sm);
+}

@@ -5,6 +5,7 @@ const initialState = {
     searchFilters: {},
     query: "",
     currentPageNum: 1,
+    totalProductsCount: 1,
     totalPages: 1,
     searchProductsResults: [],
 }

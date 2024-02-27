@@ -3,7 +3,7 @@ import axios from "axios"
 import { LogOut, getUserDetails } from "../../redux/slices/authSlice"
 import { UpdateCredentials } from "../../redux/slices/authSlice";
 
-const baseUrl = "http://66.94.104.18/";
+const baseUrl = " http://127.0.0.1:8000/";
 
 const baseQuery = fetchBaseQuery({
     baseUrl: baseUrl,
@@ -80,15 +80,16 @@ export const apiSlice = createApi({
         }),
 
         getUserAddress: builder.query({
-            query: () => ({
-                url: "api/get-user-address/",
+            query: (params) => ({
+                url: "api/get-user-address",
                 method: "GET",
+                params: params
             }),
             providesTags: ["refreshAddress"]
         }),
         addUserAddress: builder.mutation({
             query: (data) => ({
-                url: "api/add-user-address/",
+                url: "api/add-user-address",
                 method: "POST",
                 body: data,
             }),

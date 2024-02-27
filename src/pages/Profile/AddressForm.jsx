@@ -1,113 +1,119 @@
 import { FormInput } from "../../components/Form/FormInput"
 import { FormSelect } from "../../components/Form/FormSelect"
 import { Header, UserSidebar } from "../../layouts"
-import { useAddUserAddressMutation } from "../../features/api/api"
+import { useAddUserAddressMutation, useGetUserAddressQuery } from "../../features/api/api"
 import { useEffect, useState } from "react"
 import { useNavigate, useSearchParams } from "react-router-dom"
 import { Freeze } from "../../components"
 import { useParams } from "react-router-dom"
 
-
 const AddAddress = () => {
-    const [addAddress, apiResponse] = useAddUserAddressMutation()
-    const [searchParams] = useSearchParams()
-    let navigate = useNavigate();
-    const urlParams = useParams()
+    const [formData, setFormData] = useState({})
 
-    const getAddressDetail = (id) => {
-        console.log(id)
-    }
-
-    let PageHeading = ""
-
-    if (urlParams.action == "add") {
-        PageHeading = "Add New Address"
-    }
-    else if (urlParams.action == "edit") {
-        PageHeading = "Edit"
-        getAddressDetail(searchParams.get("id"))
-    }
-
-    const [pageLoading, setPageLoading] = useState(false)
     const addAddressFields = [
         {
             "fieldname": "address_title",
             "label": "Address Title",
             "fieldtype": "text",
             "mandatory": true,
+            "value": formData.address_title || ""
         },
         {
             "fieldname": "country",
             "label": "Country",
             "fieldtype": "text",
             "mandatory": true,
+            "value": formData.country || ""
         },
         {
             "fieldname": "state",
             "label": "State",
             "fieldtype": "text",
             "mandatory": true,
+            "value": formData.state || ""
         },
         {
             "fieldname": "address_type",
             "label": "Address Type",
             "fieldtype": "text",
             "mandatory": true,
+            "value": formData.address_type || ""
         },
         {
             "fieldname": "city",
             "label": "City",
             "fieldtype": "text",
             "mandatory": true,
+            "value": formData.city || ""
         },
         {
-            "fieldname": "details",
+            "fieldname": "address_line_1",
             "label": "House No /Street /Area",
             "fieldtype": "text",
             "mandatory": true,
+            "value": formData.address_line_1 || ""
         },
-    ]
+    ];
 
-    useEffect(() => { setPageLoading(apiResponse.isLoading) }, [apiResponse])
-    if (apiResponse.isSuccess) { navigate("/profile/address"); }
+    const [addAddress, apiResponse] = useAddUserAddressMutation();
+    const [searchParams] = useSearchParams();
+    const urlParams = useParams();
+    let navigate = useNavigate();
+
+    useEffect(() => {
+        if (apiResponse.isSuccess) {
+            navigate("/profile/address");
+        }
+    }, [apiResponse.isSuccess, navigate]);
+
+    useEffect(() => {
+        if (urlParams.action === "edit") {
+            const { data } = useGetUserAddressQuery({ id: searchParams.get("id") });
+            if (data) {
+                setFormData(data)
+            }
+        }
+
+    }, [searchParams, urlParams.action])
+
+
+    let pageHeading = urlParams.action === "add" ? "Add New Address" : "Edit";
+
+
+    const [pageLoading, setPageLoading] = useState(false);
 
 
 
     const f2Submit = async (e) => {
-        const data = {}
-        const formData = new FormData(e.target)
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const data = Object.fromEntries(formData.entries());
+        addAddress(data);
+    };
 
-        for (const [key, value] of formData.entries()) {
-            data[key] = value
-        }
+    useEffect(() => {
+        setPageLoading(apiResponse.isLoading);
+    }, [apiResponse.isLoading]);
 
-        addAddress(data)
-    }
-
-    if (pageLoading) return <Freeze />
+    if (pageLoading) return <Freeze />;
 
     return (
         <div>
             <Header />
-            {/* <Navbar title={"Address"}/> */}
-            <div className="sidebar-page ">
+            <div className="sidebar-page">
                 <UserSidebar />
                 <div className="sidebar-page__content address-page">
                     <div className="address-page__upper">
-                        <div className="heading-md">{PageHeading}</div>
+                        <div className="heading-md">{pageHeading}</div>
                     </div>
-
                     <div className="address-page__content">
                         {generateForm(addAddressFields, f2Submit, "Save")}
                     </div>
-
-
                 </div>
-
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default AddAddress
 const generateForm = (fields, onSubmit, btnLabel) => {

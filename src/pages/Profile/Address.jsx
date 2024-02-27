@@ -3,6 +3,8 @@ import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 
 import { Header, UserSidebar } from "../../layouts"
+import { Pencil } from "lucide-react"
+import { Link } from "react-router-dom"
 
 
 const Address = () => {
@@ -38,27 +40,17 @@ export const AddressCardLoadingSkeleton = () => {
     </div>
 }
 
-{/* <div className="add-addr-container">
-    <div className="flex-center h-100">
-        <button className="btn btn-icon add-address__btn">
-            <Plus /> <span>Add New Address</span>
-        </button>
-    </div>
-</div> */}
-
 export default Address
 
 
 const AddressCard = ({ data }) => {
     return (
         <div className="address-card__wrapper">
-            <div className="address-card__title">
-                {data?.address_title}
-            </div>
-            <div className="address-card__tags">
-                {/* <div className="tag-sm">
-                    Default Address
-                </div> */}
+            <div className="flex-align-between">
+                <div className="address-card__title">{data?.address_title}</div>
+                <Link to={`/profile/address/form/edit?id=${data?.id}`}>
+                    <Pencil className="icon-sm cursor-pointer" />
+                </Link>
             </div>
 
             <div className="text-sm">

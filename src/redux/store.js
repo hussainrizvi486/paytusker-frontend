@@ -7,7 +7,7 @@ import { apiSlice } from "../features/api/api";
 import searchProductsSlice from "./slices/searchProducts";
 
 
-export const API_URL = "http://66.94.104.18/"
+export const API_URL = "http://127.0.0.1:8000/"
 
 const store = configureStore({
     reducer: {

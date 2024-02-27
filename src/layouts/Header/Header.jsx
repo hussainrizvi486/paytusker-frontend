@@ -29,7 +29,9 @@ export const Header = () => {
                 }
             });
             if (req.status === 200) {
-                dispatch(UpdateSearchProducts({ products: req.data }));
+                if (req.data.products?.length > 0) {
+                    dispatch(UpdateSearchProducts({ products: req.data.products }));
+                }
             }
         } catch (error) {
             console.error("Error occurred while searching products:", error);
