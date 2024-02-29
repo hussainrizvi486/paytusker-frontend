@@ -136,7 +136,7 @@
 /* Home page */
 
 .products-grid {
-    padding-inline: .5rem;
+    /* padding-inline: .5rem; */
     display: grid;
 }
 
@@ -144,7 +144,7 @@
     .products-grid {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        gap: 1rem 0;
+        gap: 1rem .25rem;
     }
 }
 
@@ -152,7 +152,7 @@
     .products-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        gap: 1rem 0;
+        gap: 1rem .25rem;
     }
 }
 
@@ -160,7 +160,7 @@
     .products-grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
-        gap: 1rem 0;
+        gap: 1rem .25rem;
     }
 }
 
