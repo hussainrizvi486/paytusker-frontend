@@ -1,61 +1,63 @@
-import { FormInput } from "../../components/Form/FormInput"
-import { FormSelect } from "../../components/Form/FormSelect"
-import { Header, UserSidebar } from "../../layouts"
-import { useAddUserAddressMutation, useGetUserAddressQuery } from "../../features/api/api"
-import { useEffect, useState } from "react"
-import { useNavigate, useSearchParams } from "react-router-dom"
-import { Freeze } from "../../components"
-import { useParams } from "react-router-dom"
+import { FormInput } from "../../components/Form/FormInput";
+import { FormSelect } from "../../components/Form/FormSelect";
+import { Header, UserSidebar } from "../../layouts";
+import { useAddUserAddressMutation, useEditUserAddressMutation, useGetUserAddressQuery } from "../../features/api/api";
+import { useEffect, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import Skeleton from "react-loading-skeleton";
+import { useParams } from "react-router-dom";
+import toast from 'react-hot-toast';
+
+const AddressFormFields = [
+    {
+        "fieldname": "address_title",
+        "label": "Address Title",
+        "fieldtype": "text",
+        "mandatory": true,
+        "value": ""
+    },
+    {
+        "fieldname": "country",
+        "label": "Country",
+        "fieldtype": "text",
+        "mandatory": true,
+        "value": ""
+    },
+    {
+        "fieldname": "state",
+        "label": "State",
+        "fieldtype": "text",
+        "mandatory": true,
+        "value": ""
+    },
+    {
+        "fieldname": "address_type",
+        "label": "Address Type",
+        "fieldtype": "text",
+        "mandatory": true,
+        "value": ""
+    },
+    {
+        "fieldname": "city",
+        "label": "City",
+        "fieldtype": "text",
+        "mandatory": true,
+        "value": ""
+    },
+    {
+        "fieldname": "address_line_1",
+        "label": "House No /Street /Area",
+        "fieldtype": "text",
+        "mandatory": true,
+        "value": ""
+    },
+];
+
 
 const AddAddress = () => {
-    const [formData, setFormData] = useState({})
-
-    const addAddressFields = [
-        {
-            "fieldname": "address_title",
-            "label": "Address Title",
-            "fieldtype": "text",
-            "mandatory": true,
-            "value": formData.address_title || ""
-        },
-        {
-            "fieldname": "country",
-            "label": "Country",
-            "fieldtype": "text",
-            "mandatory": true,
-            "value": formData.country || ""
-        },
-        {
-            "fieldname": "state",
-            "label": "State",
-            "fieldtype": "text",
-            "mandatory": true,
-            "value": formData.state || ""
-        },
-        {
-            "fieldname": "address_type",
-            "label": "Address Type",
-            "fieldtype": "text",
-            "mandatory": true,
-            "value": formData.address_type || ""
-        },
-        {
-            "fieldname": "city",
-            "label": "City",
-            "fieldtype": "text",
-            "mandatory": true,
-            "value": formData.city || ""
-        },
-        {
-            "fieldname": "address_line_1",
-            "label": "House No /Street /Area",
-            "fieldtype": "text",
-            "mandatory": true,
-            "value": formData.address_line_1 || ""
-        },
-    ];
-
     const [addAddress, apiResponse] = useAddUserAddressMutation();
+
+
     const [searchParams] = useSearchParams();
     const urlParams = useParams();
     let navigate = useNavigate();
@@ -66,36 +68,13 @@ const AddAddress = () => {
         }
     }, [apiResponse.isSuccess, navigate]);
 
-    useEffect(() => {
-        if (urlParams.action === "edit") {
-            const { data } = useGetUserAddressQuery({ id: searchParams.get("id") });
-            if (data) {
-                setFormData(data)
-            }
-        }
-
-    }, [searchParams, urlParams.action])
-
 
     let pageHeading = urlParams.action === "add" ? "Add New Address" : "Edit";
-
-
     const [pageLoading, setPageLoading] = useState(false);
-
-
-
-    const f2Submit = async (e) => {
-        e.preventDefault();
-        const formData = new FormData(e.target);
-        const data = Object.fromEntries(formData.entries());
-        addAddress(data);
-    };
 
     useEffect(() => {
         setPageLoading(apiResponse.isLoading);
     }, [apiResponse.isLoading]);
-
-    if (pageLoading) return <Freeze />;
 
     return (
         <div>
@@ -107,7 +86,21 @@ const AddAddress = () => {
                         <div className="heading-md">{pageHeading}</div>
                     </div>
                     <div className="address-page__content">
-                        {generateForm(addAddressFields, f2Submit, "Save")}
+                        {
+                            pageLoading ?
+                                <AddressFormSkeleton /> : <></>
+                        }
+                        {
+                            urlParams.action === "edit" ?
+                                <EditAddressForm
+                                    searchParams={searchParams}
+                                    useGetUserAddressQuery={useGetUserAddressQuery}
+                                    addressFormFields={AddressFormFields}
+                                    generateForm={generateForm}
+                                    HandleEditApi={useEditUserAddressMutation}
+                                />
+                                : <>{generateForm(AddressFormFields, addAddress, "Save")}</>
+                        }
                     </div>
                 </div>
             </div>
@@ -115,7 +108,10 @@ const AddAddress = () => {
     );
 };
 
+
 export default AddAddress
+
+
 const generateForm = (fields, onSubmit, btnLabel) => {
     const formInputTypes = ["number", "password", "text"]
 
@@ -123,29 +119,100 @@ const generateForm = (fields, onSubmit, btnLabel) => {
         e.preventDefault()
         onSubmit(e)
     }
-
-    const FormJsx = (
+    return (
         <form className="web-form" onSubmit={(e) => handleFormSubmit(e)} >
             <div className="web-form__fields">
-
                 {fields?.map((val, i) => {
                     if (formInputTypes.includes(val.fieldtype)) {
                         return <FormInput key={i} data={val} />;
                     }
+
                     if (val.fieldtype === "select") {
                         return <FormSelect key={i} data={val} />;
                     }
                 })}
-
-
             </div>
             <div>
-                <button type="submit"
-                    className="btn btn-sm btn-primary"
-                >{btnLabel || "Submit"}</button>
+                <button type="submit" className="btn btn-sm btn-primary" >{btnLabel || "Submit"}</button>
             </div>
         </form>
     );
+}
 
-    return FormJsx;
+const EditAddressForm = ({ searchParams, useGetUserAddressQuery, addressFormFields, generateForm, HandleEditApi }) => {
+    const addressId = searchParams.get("id")
+    const { data, isLoading } = useGetUserAddressQuery({ id: addressId });
+    const [FormFields, setFormFields] = useState(addressFormFields.map(field => ({ ...field })))
+    const [editAddressApi, apiResponse] = HandleEditApi()
+    const navigate = useNavigate()
+    const [formLoading, setFormLoading] = useState(isLoading)
+
+    const HandleEdit = (e) => {
+        const formDataObj = new FormData(e.target)
+
+        const addressObject = {}
+        for (const [key, value] of formDataObj.entries()) {
+            addressObject[key] = value
+        }
+
+        const reqBody = {
+            address_object: addressObject,
+            id: addressId,
+            action: "edit"
+        }
+
+        editAddressApi(reqBody)
+    };
+
+    useEffect(() => { setFormLoading(isLoading) }, [isLoading])
+
+    useEffect(() => {
+
+        if (apiResponse.isLoading) {
+            setFormLoading(apiResponse.isLoading)
+        }
+        if (apiResponse.isSuccess) {
+            navigate("/profile/address")
+            toast.success("Address updated")
+
+        }
+
+
+    }, [apiResponse.isSuccess, apiResponse.isLoading])
+
+    useEffect(() => {
+        if (data) {
+            const updatedFields = FormFields.map(val => {
+                if (Object.keys(data).includes(val.fieldname)) {
+                    return { ...val, value: data[val.fieldname] };
+                }
+                return val;
+            });
+            setFormFields(updatedFields);
+        }
+    }, [data]);
+
+    return (
+        <>
+            {formLoading ? <AddressFormSkeleton /> :
+                generateForm(FormFields, HandleEdit, "Save")}
+        </>
+    );
+};
+
+const AddressFormSkeleton = () => {
+    return (
+        <div>
+            <div className="web-form__fields">
+                {AddressFormFields.map((val, i) => (<div key={i}>
+                    <Skeleton />
+                    <Skeleton height={36} />
+                </div>))
+                }
+            </div>
+            <br />
+            <Skeleton height={32} />
+        </div>
+
+    )
 }

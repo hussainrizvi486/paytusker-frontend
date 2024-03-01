@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { ArrowLeft, ArrowRight, BadgeCheck, Star } from "lucide-react"
+import { ArrowLeft, ArrowRight, BadgeCheck, Star, UserCheck } from "lucide-react"
 import { useEffect, useState } from "react"
 import { Header } from "../../layouts";
 import axios from "axios"
@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom"
 import { FormatCurreny } from "../../utils"
 import { useAddToCartMutation } from "../../features/api/api"
 import { Rating } from "../../components/Rating/Rating"
+import toast from "react-hot-toast";
 
 const Product = () => {
     const [productData, setProductData] = useState()
@@ -17,7 +18,7 @@ const Product = () => {
     const [pageLoading, setPageLoading] = useState(true)
     const navigate = useNavigate();
     const { id } = useParams();
-    const [addItemToCart] = useAddToCartMutation();
+    const [addItemToCart, cartApiResponse] = useAddToCartMutation();
 
     const getProductDetail = async () => {
         try {
@@ -28,20 +29,27 @@ const Product = () => {
                 setPageLoading(false)
             }
 
-        } catch (error) {
-            console.error(error)
-        }
+        } catch (error) { navigate("/") }
+    }
+
+    useEffect(() => { getProductDetail() }, [])
+
+    const addToCart = (product_id) => {
+        // setPageLoading(true)
+        addItemToCart({ product_id: product_id })
+        // navigate("/cart")
     }
 
     useEffect(() => {
-        getProductDetail()
-    }, [])
+        if (cartApiResponse.isLoading) {
+            setPageLoading(cartApiResponse.isLoading)
 
-    const addToCart = async (product_id) => {
-        setPageLoading(true)
-        addItemToCart({ product_id: product_id })
-        navigate("/cart")
-    }
+        }
+        if (cartApiResponse.isSuccess) {
+            toast.success("Item successfully added to your cart.")
+            setPageLoading(cartApiResponse.isLoading)
+        }
+    }, [cartApiResponse.isLoading, cartApiResponse.isSuccess])
 
     if (pageLoading) return <Freeze />
     return (
@@ -68,7 +76,7 @@ const Product = () => {
 
                             <div className="product-rating-wrapper">
                                 <Rating rating={productData?.rating} />
-                                <div className="font-bold">4.0</div>
+                                <div className="font-bold">{parseFloat(productData?.rating).toFixed(1)}</div>
                             </div>
 
 

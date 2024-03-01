@@ -87,6 +87,7 @@ export const apiSlice = createApi({
             }),
             providesTags: ["refreshAddress"]
         }),
+
         addUserAddress: builder.mutation({
             query: (data) => ({
                 url: "api/add-user-address",
@@ -95,6 +96,16 @@ export const apiSlice = createApi({
             }),
             invalidatesTags: (res, error) => error ? [] : ["refreshAddress"]
         }),
+
+        EditUserAddress: builder.mutation({
+            query: (data) => ({
+                url: "api/edit-user-address/",
+                method: "POST",
+                body: data,
+            }),
+            invalidatesTags: (res, error) => error ? [] : ["refreshAddress"]
+        }),
+
     })
 });
 
@@ -108,4 +119,5 @@ export const { useLoginUserMutation,
     useGetUserDetailsQuery,
     useGetUserAddressQuery,
     useAddUserAddressMutation,
+    useEditUserAddressMutation
 } = apiSlice;

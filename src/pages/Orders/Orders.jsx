@@ -10,9 +10,6 @@ import Skeleton from "react-loading-skeleton"
 
 const Orders = () => {
   const OrderQuery = useGetCustomerOrdersQuery()
-
-
-
   const [orders, setOrdersData] = useState()
 
   useEffect(() => {
@@ -29,11 +26,11 @@ const Orders = () => {
           <div className="heading-md">
             Your Orders
           </div>
-
-          {/* <OrderCardLoading  skeleton_count={1} /> */}
           <main className="order-page-main">
             {OrderQuery.isLoading ? <OrderCardLoading skeleton_count={1} /> :
-              OrderQuery.data?.length && !OrderQuery.isLoading === 0 ? <><NoOrders /></> :
+              orders?.length == 0 && !OrderQuery.isLoading ?
+                <><NoOrders /></> :
+
                 orders?.map((val, index) => (
                   <OrdersCard key={index}
                     data={val} />
@@ -52,7 +49,7 @@ export default Orders
 const NoOrders = () => {
   return (
     <div className="flex-center">
-      <div className="my-5">
+      <div className="mt-10">
         <div className="text-center">Currently, there are no orders placed.</div>
         <div className="flex-center my-2">
           <Link to={"/"}>

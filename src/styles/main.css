@@ -113,9 +113,9 @@
         display: block;
     }
 
-    .carousel-btn svg {
+    /* .carousel-btn svg {
         --size: 1rem !important;
-    }
+    } */
 
     .product-info__details {
         display: flex;

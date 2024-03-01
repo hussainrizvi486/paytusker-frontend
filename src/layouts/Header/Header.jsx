@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useRef } from "react"
-import { AlignJustify, Search, ShoppingCart, User2 } from "lucide-react"
+import { AlignJustify, Menu, Search, ShoppingCart, User2 } from "lucide-react"
 import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom"
 import Logo from "../../assets/logo.png"
 import { getUserDetails } from "../../redux/slices/authSlice"
@@ -46,8 +46,9 @@ export const Header = () => {
                 <div className="header-left__mobile-menu"
                     onClick={() => ToggleSideBar()}
                 >
-                    <AlignJustify
-                    />
+                    {/* <AlignJustify
+                    /> */}
+                    <Menu strokeWidth={2.5} />
 
                 </div>
                 <div className="header-logo">
@@ -60,7 +61,6 @@ export const Header = () => {
             <div className="header-center__section">
                 <div className="search-box__wrapper">
                     <HeaderSearchBox handleSearch={searchProduct} />
-
                 </div>
             </div>
 

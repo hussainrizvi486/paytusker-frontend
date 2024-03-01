@@ -48,8 +48,8 @@
 
 .carousel-btn svg {
     --size: 1rem;
-    height: var(--icon-size-md);
-    width: var(--icon-size-md);
+    height: var(--icon-size-sm);
+    width: var(--icon-size-sm);
 }
 
 .carousel-btn--right {
@@ -60,11 +60,11 @@
     left: 1%;
 }
 
-@media (min-width: 768px) {
+/* @media (min-width: 768px) {
     .carousel-btn svg {
         --size: 1.5rem;
     }
-}
+} */
 
 /* Product Card */
 
