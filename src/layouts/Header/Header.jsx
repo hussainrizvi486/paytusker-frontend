@@ -20,8 +20,8 @@ export const Header = () => {
     function ToggleSideBar() { dispatch(ToggleMobileSideBar()) }
 
     const searchProduct = async (query) => {
-        console.log("searching products");
         dispatch(UpdateQuery(query));
+
         try {
             const req = await axios.get(`${API_URL}api/product/search`, {
                 params: {
@@ -29,8 +29,10 @@ export const Header = () => {
                 }
             });
             if (req.status === 200) {
-                if (req.data.products?.length > 0) {
-                    dispatch(UpdateSearchProducts({ products: req.data.products }));
+                const res = req.data?.results?.products;
+                console.log()
+                if (res && res?.length > 0) {
+                    dispatch(UpdateSearchProducts({ products: res }));
                 }
             }
         } catch (error) {

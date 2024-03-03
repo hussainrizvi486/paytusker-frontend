@@ -24,6 +24,7 @@ const Product = () => {
         try {
             const req = await axios.get(`${API_URL}api/product/details/${id}`)
             if (req.status === 200) {
+                console.log(req.data)
                 setProductData(req.data)
                 setProductImages(req.data.images)
                 setPageLoading(false)
@@ -35,9 +36,7 @@ const Product = () => {
     useEffect(() => { getProductDetail() }, [])
 
     const addToCart = (product_id) => {
-        // setPageLoading(true)
         addItemToCart({ product_id: product_id })
-        // navigate("/cart")
     }
 
     useEffect(() => {
@@ -75,8 +74,8 @@ const Product = () => {
 
 
                             <div className="product-rating-wrapper">
-                                <Rating rating={productData?.rating} />
-                                <div className="font-bold">{parseFloat(productData?.rating).toFixed(1)}</div>
+                                <Rating rating={productData?.rating || 0} />
+                                <div className="font-bold">{parseInt(productData?.rating || 0).toFixed(1)}</div>
                             </div>
 
 
@@ -153,16 +152,9 @@ const ReviewCard = ({ data }) => {
                     </div>
                 </div>
 
-                {/* <br /> */}
-                <Rating rating={data?.rating} />
+                <Rating rating={data?.rating || 0} />
                 <br />
-                {/* <div className="rc-rating-row">
-                    <Star className="active" />
-                    <Star className="active" />
-                    <Star className="active" />
-                    <Star />
-                    <Star />
-                </div> */}
+
             </div>
 
             <div className="review-card__lower">

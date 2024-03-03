@@ -26,6 +26,7 @@ const searchProductsSlice = createSlice({
         },
         UpdateSearchProducts: (state, action) => {
             console.log("Products updated")
+            console.log(action.payload)
             state.searchProductsResults = action.payload.products
         }
     }

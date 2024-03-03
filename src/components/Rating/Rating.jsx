@@ -2,12 +2,13 @@
 import { Star } from "lucide-react"
 
 export const Rating = ({ rating }) => {
-    const Rating = Math.round(rating)
+
+    let _rating = parseInt(rating)
     const ratings = [1, 2, 3, 4, 5]
     return (
         <div className="rating-row">
             {
-                ratings.map((index) => (<Star key={index} className={`rating-star ${Rating >= index ? "active" : ""} `} />))
+                ratings.map((index) => (<Star key={index} className={`rating-star ${_rating >= index ? "active" : ""} `} />))
             }
         </div>
     )

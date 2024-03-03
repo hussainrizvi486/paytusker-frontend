@@ -313,3 +313,29 @@
 }
 
 /* input-box__input */
+
+
+.pagination-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: .5rem;
+}
+
+.pagination-count__btn {
+    height: 2rem;
+    width: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid;
+    border-color: var(--color-primary-bg);
+    border-radius: .25rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.pagination-count__btn.active {
+    background-color: var(--color-primary-bg);
+    color: #FFF;
+}

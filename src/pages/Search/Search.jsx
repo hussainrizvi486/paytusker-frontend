@@ -81,16 +81,45 @@ const Search = () => {
                         {searchProducts?.map((val, i) => <ProductCard key={i} product={val} />)}
                     </div>
 
-                    <div className="flex-end gap-1 mt-4">
+                    <div className="mt-4">
+                        <Pagination />
+                    </div>
+                    {/* <div className="flex-end gap-1 mt-4">
                         <button className="btn btn-sm btn-primary">Prev</button>
                         <button className="btn btn-sm btn-primary">Next</button>
-
-                    </div>
+                    </div> */}
                 </section>
-
             </main>
         </>
     )
 }
 
 export default Search
+
+
+const Pagination = ({ handleNext, setCurrentPage, handlePrev, pageCount = 1, currentPage = 1, }) => {
+    console.log()
+    return (
+        <>{pageCount > 1 ?
+            <div className="pagination-wrapper">
+                <button className="btn btn-sm btn-primary"
+                    onClick={handlePrev}
+                >Prev</button>
+                {
+                    Array(pageCount).fill(pageCount).map((v, index) => (
+                        <div
+                            className={`pagination-count__btn ${currentPage === index + 1 ? "active" : ""}`}
+                            key={v + index}
+                            onClick={() => setCurrentPage(index + 1)}
+                        >{index + 1}</div>
+                    ))
+                }
+                <button className="btn btn-sm btn-primary"
+                    onClick={handleNext}
+
+                >Next</button>
+            </div>
+            : <></>}
+        </>
+    )
+}
