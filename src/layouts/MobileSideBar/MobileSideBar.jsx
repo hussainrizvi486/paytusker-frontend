@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { ToggleMobileSideBar } from "../../redux/slices/appUislice";
+import { ToggleMobileSideBar } from "../../redux/slices/appUiSlice";
 import { SidebarNavElement } from "../UserSidebar/UserSidebar"
 import { X } from "lucide-react";
 
