@@ -6,7 +6,8 @@ import { Filter } from "lucide-react";
 import { useSelector, useDispatch } from "react-redux";
 import { useSearchProductsQuery } from "../../features/api/api";
 import { ProductLoadingGrid } from "../../components/Loaders/ProductCardLoader";
-import { UpdateCurrentPage } from "../../redux/slices/searchProducts";
+import searchProducts, { UpdateCurrentPage } from "../../redux/slices/searchProducts";
+import { ProductCard } from "../../components";
 
 
 
@@ -19,35 +20,47 @@ const Search = () => {
     const query = searchParams.get("query");
     const dispatch = useDispatch()
     const [searchFiltersOpen, setSearchFiltersOpen] = useState(false);
+    const [prdouctsData, setProductsData] = useState([]);
+
+
     const [paginationDataObj, setPaginationDataObj] = useState({
         "currentPageNum": currentPageState.currentPageNum,
         "totalPages": currentPageState.totalPages,
     })
-    const searchProducts = useSelector((state) => state.search.searchProductsResults);
+    const queryPayload = { "query": query };
+
+    const SearchAPI = useSearchProductsQuery(queryPayload);
+    // const { refetch } = useSearchProductsQuery();
+
+    const handleCurrentPage = (pageNum) => {
+        SearchAPI.refetch({ query: query, page: pageNum }, { forceRefetch: true });
+    };
 
     const handleNextPage = () => { }
     const handlePrevPage = () => { }
 
-    const handleCurrentPage = (pageNum) => {
-        dispatch(UpdateCurrentPage(pageNum))
-    }
 
-    const { data, isLoading } = useSearchProductsQuery({
-        query: query
-    })
+    useEffect(() => {
+
+
+    }, [])
+
 
 
     useEffect(() => {
-        setPaginationDataObj({
-            "currentPageNum": currentPageState.currentPageNum,
-            "totalPages": currentPageState.totalPages,
-        })
+        if (SearchAPI.data && SearchAPI.isSuccess) {
+            const data = SearchAPI.data;
+            console.log(SearchAPI.data)
+            setProductsData(data?.results)
+            let pagination_obj = {
+                totalPages: data?.total_pages,
+                currentPageNum: data?.current_page,
+            }
+            setPaginationDataObj(pagination_obj)
+        }
 
-    }, [currentPageState])
 
-
-    useEffect(() => {
-    }, [searchProducts])
+    }, [SearchAPI])
 
     return (
         <>
@@ -102,15 +115,16 @@ const Search = () => {
 
 
                 <section className="search-items">
+                    {/* {...queryPayload} */}
                     {/* <div className="search-items-query">Results for {query}.</div> */}
 
-                    {isLoading ? <ProductLoadingGrid /> : <></>}
+                    {SearchAPI.isLoading ? <ProductLoadingGrid /> : <></>}
 
-                    {/* <div className="products-grid">
-                        {searchProducts?.map((val, i) => <ProductCard key={i} product={val} />)}
-                    </div> */}
+                    <div className="products-grid">
+                        {prdouctsData?.map((val, i) => <ProductCard key={i} product={val} />)}
+                    </div>
 
-                    <div className="mt-4">
+                    <div className="search-pagination__wrapper">
                         <Pagination pageCount={paginationDataObj.totalPages}
                             currentPage={paginationDataObj.currentPageNum}
                             setCurrentPage={handleCurrentPage}
