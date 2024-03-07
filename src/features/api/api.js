@@ -88,6 +88,15 @@ export const apiSlice = createApi({
             providesTags: ["refreshAddress"]
         }),
 
+        searchProducts: builder.query({
+            query: (params) => ({
+                url: "api/product/search",
+                method: "GET",
+                params: params
+            }),
+            providesTags: ["refreshAddress"]
+        }),
+
         addUserAddress: builder.mutation({
             query: (data) => ({
                 url: "api/add-user-address",
@@ -117,6 +126,7 @@ export const { useLoginUserMutation,
     useAddToCartMutation,
     useGetCustomerOrdersQuery,
     useGetUserDetailsQuery,
+    useSearchProductsQuery,
     useGetUserAddressQuery,
     useAddUserAddressMutation,
     useEditUserAddressMutation

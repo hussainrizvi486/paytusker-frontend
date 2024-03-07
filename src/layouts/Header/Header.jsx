@@ -10,17 +10,18 @@ import { useDispatch } from "react-redux"
 import { API_URL } from "../../redux/store"
 import axios from "axios"
 import { UpdateQuery, UpdateSearchProducts } from "../../redux/slices/searchProducts"
+import { useSearchProductsQuery } from "../../features/api/api"
 
 
 export const Header = () => {
-
-
     const isAuthenticated = getUserDetails()[1]
     const dispatch = useDispatch()
 
     function ToggleSideBar() { dispatch(ToggleMobileSideBar()) }
 
+
     const searchProduct = async (query) => {
+
         dispatch(UpdateQuery(query));
 
         try {

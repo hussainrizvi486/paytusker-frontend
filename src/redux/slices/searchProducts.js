@@ -1,12 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { CopySlash } from "lucide-react";
 
 const initialState = {
     searchFilters: {},
     query: "",
     currentPageNum: 1,
-    totalProductsCount: 1,
-    totalPages: 1,
+    totalProductsCount: 0,
+    totalPages: 10,
     searchProductsResults: [],
 }
 
@@ -21,16 +20,18 @@ const searchProductsSlice = createSlice({
             state.searchFilters = {}
         },
         UpdateQuery: (state, action) => {
-            console.log(action.payload)
             state.query = action.payload
         },
+        UpdateCurrentPage: (state, action) => {
+            state.currentPageNum = action.payload
+            console.log(state.currentPageNum)
+        },
         UpdateSearchProducts: (state, action) => {
-            console.log("Products updated")
-            console.log(action.payload)
             state.searchProductsResults = action.payload.products
         }
     }
 })
 
+
 export default searchProductsSlice.reducer;
-export const { UpdateSearchProducts, UpdateFilters, UpdateQuery } = searchProductsSlice.actions;
+export const { UpdateSearchProducts, UpdateFilters, UpdateQuery, UpdateCurrentPage } = searchProductsSlice.actions;
