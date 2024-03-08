@@ -2,7 +2,7 @@ import { useSearchParams } from "react-router-dom"
 import { Header } from "../../layouts";
 import { useEffect, useState } from "react"
 import { categories } from "../../assets/data"
-import { Filter } from "lucide-react";
+import { Filter, TestTube } from "lucide-react";
 import { useSelector, useDispatch } from "react-redux";
 import { useSearchProductsQuery } from "../../features/api/api";
 import { ProductLoadingGrid } from "../../components/Loaders/ProductCardLoader";
@@ -21,22 +21,39 @@ const Search = () => {
         "totalPages": currentPageState.totalPages,
     });
 
+
     const SearchAPI = useSearchProductsQuery(queryPayload);
+
+    const [productsLoading, setProductsLoading] = useState(SearchAPI.isLoading);
+
+    useEffect(() => {
+        if (!SearchAPI.isLoading) {
+            setProductsLoading(false)
+        }
+    }, [SearchAPI.isLoading])
 
     const handleCurrentPage = (pageNum) => {
         setQueryPayload(prev => ({ ...prev, "page": pageNum }));
     };
+
     const handleNextPage = () => {
         const nextPage = paginationDataObj.currentPageNum + 1;
         handleCurrentPage(nextPage);
     };
+
     const handlePrevPage = () => {
         const prevPage = paginationDataObj.currentPageNum - 1;
         handleCurrentPage(prevPage);
     };
 
     useEffect(() => {
-        SearchAPI.refetch(queryPayload).then((res) => { if (res.isSuccess) { window.scrollTo(0, 0) } });
+        setProductsLoading(true)
+        SearchAPI.refetch(queryPayload).then((res) => {
+            if (res.isSuccess) {
+                window.scrollTo(0, 0)
+            }
+            setProductsLoading(false)
+        });
     }, [queryPayload]);
 
     useEffect(() => {
@@ -62,13 +79,9 @@ const Search = () => {
                             <button className="unset"
                                 onClick={() => {
                                     setSearchFiltersOpen((prev) => {
-                                        if (prev) {
-                                            return false
-                                        }
-                                        return true
+                                        if (prev) { return false } return true
                                     })
-                                }}
-                            >
+                                }}>
                                 <Filter className="cursor-pointer" />
                             </button>
                         </div>
@@ -105,10 +118,14 @@ const Search = () => {
 
 
                 <section className="search-items">
-                    {SearchAPI.isLoading ? <ProductLoadingGrid /> : <></>}
-                    <div className="products-grid">
-                        {productsData?.map((val, i) => <ProductCard key={i} product={val} />)}
-                    </div>
+                    {productsLoading ? <ProductLoadingGrid />
+                        : !productsLoading && productsData ? <>
+                            <div className="products-grid">
+                                {productsData?.map((val, i) => <ProductCard key={i} product={val} />)}
+                            </div> </>
+                            : <></>
+                    }
+
 
                     <div className="search-pagination__wrapper">
                         <Pagination
