@@ -1,66 +1,55 @@
 import { useSearchParams } from "react-router-dom"
 import { Header } from "../../layouts";
-import { useEffect, useInsertionEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { categories } from "../../assets/data"
 import { Filter } from "lucide-react";
 import { useSelector, useDispatch } from "react-redux";
 import { useSearchProductsQuery } from "../../features/api/api";
 import { ProductLoadingGrid } from "../../components/Loaders/ProductCardLoader";
-import searchProducts, { UpdateCurrentPage } from "../../redux/slices/searchProducts";
 import { ProductCard } from "../../components";
 
 
-
-
 const Search = () => {
-
     let [searchParams] = useSearchParams();
-    let currentPageState = useSelector((state) => state.search)
-
+    let currentPageState = useSelector((state) => state.search);
     const query = searchParams.get("query");
-    const dispatch = useDispatch()
+    const [queryPayload, setQueryPayload] = useState({ "query": query });
     const [searchFiltersOpen, setSearchFiltersOpen] = useState(false);
-    const [prdouctsData, setProductsData] = useState([]);
-
-
+    const [productsData, setProductsData] = useState([]);
     const [paginationDataObj, setPaginationDataObj] = useState({
         "currentPageNum": currentPageState.currentPageNum,
         "totalPages": currentPageState.totalPages,
-    })
-    const queryPayload = { "query": query };
+    });
 
     const SearchAPI = useSearchProductsQuery(queryPayload);
-    // const { refetch } = useSearchProductsQuery();
 
     const handleCurrentPage = (pageNum) => {
-        SearchAPI.refetch({ query: query, page: pageNum }, { forceRefetch: true });
+        setQueryPayload(prev => ({ ...prev, "page": pageNum }));
+    };
+    const handleNextPage = () => {
+        const nextPage = paginationDataObj.currentPageNum + 1;
+        handleCurrentPage(nextPage);
+    };
+    const handlePrevPage = () => {
+        const prevPage = paginationDataObj.currentPageNum - 1;
+        handleCurrentPage(prevPage);
     };
 
-    const handleNextPage = () => { }
-    const handlePrevPage = () => { }
-
-
     useEffect(() => {
-
-
-    }, [])
-
-
+        SearchAPI.refetch(queryPayload).then((res) => { if (res.isSuccess) { window.scrollTo(0, 0) } });
+    }, [queryPayload]);
 
     useEffect(() => {
         if (SearchAPI.data && SearchAPI.isSuccess) {
             const data = SearchAPI.data;
-            console.log(SearchAPI.data)
-            setProductsData(data?.results)
+            setProductsData(data?.results);
             let pagination_obj = {
                 totalPages: data?.total_pages,
                 currentPageNum: data?.current_page,
-            }
-            setPaginationDataObj(pagination_obj)
+            };
+            setPaginationDataObj(pagination_obj);
         }
-
-
-    }, [SearchAPI])
+    }, [SearchAPI, SearchAPI.data]);
 
     return (
         <>
@@ -84,6 +73,7 @@ const Search = () => {
                             </button>
                         </div>
                     </div>
+
                     <div className={`mt-4 search-filter__section-wrapper  ${searchFiltersOpen ? "active" : ""}`}>
                         <div className="search-filters__categories search-filter__section">
                             <div className="font-medium text-lg sf-section__heading">Category</div>
@@ -93,9 +83,10 @@ const Search = () => {
                                 )}</ul>
                             </div>
                         </div>
-
                         <div className="search-filters_prices-wrapper search-filter__section">
+
                             <div className="font-medium text-lg sf-section__heading">Price</div>
+
                             <div className="flex-align-center gap-2">
                                 <div>
                                     <input type="text" placeholder="Min" className="input input-sm" />
@@ -103,7 +94,6 @@ const Search = () => {
                                 <div>
                                     <input type="text" placeholder="Max" className="input input-sm" />
                                 </div>
-
                                 <div>
                                     <button className="btn btn-sm btn-primary">Apply</button>
                                 </div>
@@ -115,17 +105,14 @@ const Search = () => {
 
 
                 <section className="search-items">
-                    {/* {...queryPayload} */}
-                    {/* <div className="search-items-query">Results for {query}.</div> */}
-
                     {SearchAPI.isLoading ? <ProductLoadingGrid /> : <></>}
-
                     <div className="products-grid">
-                        {prdouctsData?.map((val, i) => <ProductCard key={i} product={val} />)}
+                        {productsData?.map((val, i) => <ProductCard key={i} product={val} />)}
                     </div>
 
                     <div className="search-pagination__wrapper">
-                        <Pagination pageCount={paginationDataObj.totalPages}
+                        <Pagination
+                            pageCount={paginationDataObj.totalPages}
                             currentPage={paginationDataObj.currentPageNum}
                             setCurrentPage={handleCurrentPage}
                             handleNext={handleNextPage} handlePrev={handlePrevPage} />
@@ -138,7 +125,7 @@ const Search = () => {
 
 export default Search
 
-const Pagination = ({ handleNext, setCurrentPage, handlePrev, pageCount = 1, currentPage = 1, }) => {
+const Pagination = ({ handleNext, setCurrentPage, handlePrev, pageCount = 10, currentPage = 1, }) => {
     return (
         <>{pageCount > 1 ?
             <div className="pagination-wrapper">
