@@ -5,7 +5,7 @@ const initialState = {
     query: "",
     currentPageNum: 1,
     totalProductsCount: 0,
-    totalPages: 10,
+    totalPages: 0,
     searchProductsResults: [],
 }
 
@@ -24,7 +24,6 @@ const searchProductsSlice = createSlice({
         },
         UpdateCurrentPage: (state, action) => {
             state.currentPageNum = action.payload
-            console.log(state.currentPageNum)
         },
         UpdateSearchProducts: (state, action) => {
             state.searchProductsResults = action.payload.products

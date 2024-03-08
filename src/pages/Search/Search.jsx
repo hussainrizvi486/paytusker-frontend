@@ -1,38 +1,72 @@
 import { useSearchParams } from "react-router-dom"
 import { Header } from "../../layouts";
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { categories } from "../../assets/data"
-import { Filter, TestTube } from "lucide-react";
-import { useSelector, useDispatch } from "react-redux";
-import { useSearchProductsQuery } from "../../features/api/api";
+import { Filter } from "lucide-react";
 import { ProductLoadingGrid } from "../../components/Loaders/ProductCardLoader";
 import { ProductCard } from "../../components";
+import toast from "react-hot-toast"
+import axios from "axios";
 
 
 const Search = () => {
-    let [searchParams] = useSearchParams();
-    let currentPageState = useSelector((state) => state.search);
+    const setSearchParams = useSearchParams()[1]
+    const [searchParams] = useSearchParams();
+
+    const FetchSearchResults = async (queryParams, setLoading, setData, setPagination) => {
+        setLoading(true)
+        try {
+            const req = await axios.get(`${import.meta.env.VITE_API_URL}api/product/search`, { method: "GET", params: queryParams });
+
+            if (req.status === 200 && req.data) {
+                const reqData = req.data;
+                setData(reqData.results)
+                setPagination((prev) => ({
+                    ...prev, currentPageNum
+                        : reqData.current_page, totalPages: reqData.total_pages
+                }))
+
+                window.scrollTo(0, 0)
+            }
+        } catch (error) {
+            toast.error(`${String(error)}`)
+        }
+        await setLoading(false)
+    }
+
     const query = searchParams.get("query");
-    const [queryPayload, setQueryPayload] = useState({ "query": query });
+
+    const [queryPayload, setQueryPayload] = useState({ query: query, page: searchParams.get("page") });
     const [searchFiltersOpen, setSearchFiltersOpen] = useState(false);
     const [productsData, setProductsData] = useState([]);
+    const [productsLoading, setProductsLoading] = useState(true);
+    const maxPriceBtnRef = useRef();
+    const minPriceBtnRef = useRef();
+
     const [paginationDataObj, setPaginationDataObj] = useState({
-        "currentPageNum": currentPageState.currentPageNum,
-        "totalPages": currentPageState.totalPages,
+        currentPageNum: 0,
+        totalPages: 0,
     });
 
 
-    const SearchAPI = useSearchProductsQuery(queryPayload);
+    useEffect(() => {
+        FetchSearchResults(queryPayload, setProductsLoading, setProductsData, setPaginationDataObj)
+    }, [queryPayload])
 
-    const [productsLoading, setProductsLoading] = useState(SearchAPI.isLoading);
 
     useEffect(() => {
-        if (!SearchAPI.isLoading) {
-            setProductsLoading(false)
-        }
-    }, [SearchAPI.isLoading])
+        setQueryPayload(prev => ({
+            ...prev,
+            query: searchParams.get("query")
+        }));
+    }, [searchParams]);
+
 
     const handleCurrentPage = (pageNum) => {
+        setSearchParams((params) => {
+            params.set("page", pageNum)
+            return params
+        })
         setQueryPayload(prev => ({ ...prev, "page": pageNum }));
     };
 
@@ -45,28 +79,26 @@ const Search = () => {
         const prevPage = paginationDataObj.currentPageNum - 1;
         handleCurrentPage(prevPage);
     };
+    const updatePriceFilters = () => {
+        const newFilters = {
+            min_price: parseFloat(minPriceBtnRef.current.value || 0),
+            max_price: parseFloat(maxPriceBtnRef.current.value || 0)
+        };
 
-    useEffect(() => {
-        setProductsLoading(true)
-        SearchAPI.refetch(queryPayload).then((res) => {
-            if (res.isSuccess) {
-                window.scrollTo(0, 0)
+        for (const key of Object.keys(newFilters)) {
+            if (newFilters[key] <= 0) {
+                delete newFilters[key]
             }
-            setProductsLoading(false)
-        });
-    }, [queryPayload]);
 
-    useEffect(() => {
-        if (SearchAPI.data && SearchAPI.isSuccess) {
-            const data = SearchAPI.data;
-            setProductsData(data?.results);
-            let pagination_obj = {
-                totalPages: data?.total_pages,
-                currentPageNum: data?.current_page,
-            };
-            setPaginationDataObj(pagination_obj);
         }
-    }, [SearchAPI, SearchAPI.data]);
+
+        console.log(newFilters)
+
+        setQueryPayload(prev => {
+            const updatedFilters = { ...prev.filters, ...newFilters };
+            return { ...prev, filters: JSON.stringify(updatedFilters) };
+        });
+    };
 
     return (
         <>
@@ -102,13 +134,15 @@ const Search = () => {
 
                             <div className="flex-align-center gap-2">
                                 <div>
-                                    <input type="text" placeholder="Min" className="input input-sm" />
+                                    <input type="text" placeholder="Min" className="input input-sm" ref={minPriceBtnRef} />
                                 </div>
                                 <div>
-                                    <input type="text" placeholder="Max" className="input input-sm" />
+                                    <input type="text" placeholder="Max" className="input input-sm" ref={maxPriceBtnRef} />
                                 </div>
                                 <div>
-                                    <button className="btn btn-sm btn-primary">Apply</button>
+                                    <button className="btn btn-sm btn-primary"
+                                        onClick={() => updatePriceFilters()}
+                                    >Apply</button>
                                 </div>
                             </div>
                         </div>
@@ -119,11 +153,11 @@ const Search = () => {
 
                 <section className="search-items">
                     {productsLoading ? <ProductLoadingGrid />
-                        : !productsLoading && productsData ? <>
+                        : !productsLoading && productsData ?
                             <div className="products-grid">
                                 {productsData?.map((val, i) => <ProductCard key={i} product={val} />)}
-                            </div> </>
-                            : <></>
+                            </div>
+                            : !productsLoading && !productsData ? <NoResultContainer query={searchParams.get("query")} /> : <></>
                     }
 
 
@@ -142,7 +176,7 @@ const Search = () => {
 
 export default Search
 
-const Pagination = ({ handleNext, setCurrentPage, handlePrev, pageCount = 10, currentPage = 1, }) => {
+const Pagination = ({ handleNext, setCurrentPage, handlePrev, pageCount = 0, currentPage = 1, }) => {
     return (
         <>{pageCount > 1 ?
             <div className="pagination-wrapper">
@@ -163,3 +197,13 @@ const Pagination = ({ handleNext, setCurrentPage, handlePrev, pageCount = 10, cu
         </>
     )
 }
+
+
+const NoResultContainer = ({ query }) => {
+    return (
+        <div style={{ paddingLeft: ".5rem" }}>
+            <p >No results found for: {query}</p><br />
+            <p >Please try a different search term.</p>
+        </div>
+    );
+};

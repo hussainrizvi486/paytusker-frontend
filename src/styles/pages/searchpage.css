@@ -27,13 +27,13 @@
 }
 
 .search-categories__el {
-    cursor: pointer;
+    cursor: not-allowed;
     margin-bottom: .25rem;
     margin-left: .25rem;
 }
 
 .search-categories__el:hover {
-    text-decoration: underline;
+    /* text-decoration: underline; */
 }
 
 .search-items-query {
