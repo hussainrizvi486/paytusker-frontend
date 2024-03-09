@@ -17,7 +17,6 @@ const Search = () => {
         setLoading(true)
         try {
             const req = await axios.get(`${import.meta.env.VITE_API_URL}api/product/search`, { method: "GET", params: queryParams });
-
             if (req.status === 200 && req.data) {
                 const reqData = req.data;
                 setData(reqData.results)
@@ -25,7 +24,6 @@ const Search = () => {
                     ...prev, currentPageNum
                         : reqData.current_page, totalPages: reqData.total_pages
                 }))
-
                 window.scrollTo(0, 0)
             }
         } catch (error) {
@@ -57,7 +55,8 @@ const Search = () => {
     useEffect(() => {
         setQueryPayload(prev => ({
             ...prev,
-            query: searchParams.get("query")
+            query: searchParams.get("query"),
+            page: 1
         }));
     }, [searchParams]);
 
@@ -79,6 +78,7 @@ const Search = () => {
         const prevPage = paginationDataObj.currentPageNum - 1;
         handleCurrentPage(prevPage);
     };
+    
     const updatePriceFilters = () => {
         const newFilters = {
             min_price: parseFloat(minPriceBtnRef.current.value || 0),
@@ -91,8 +91,6 @@ const Search = () => {
             }
 
         }
-
-        console.log(newFilters)
 
         setQueryPayload(prev => {
             const updatedFilters = { ...prev.filters, ...newFilters };
