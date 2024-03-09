@@ -35,7 +35,7 @@ const Orders = lazy(() => import("./pages/Orders/Orders"));
 const AddressForm = lazy(() => import("./pages/Profile/AddressForm"));
 const CheckOut = lazy(() => import("./pages/CheckOut/CheckOut"))
 const VourchersPage = lazy(() => import("./pages/Profile/Vourchers"))
-
+const ReviewsPage = lazy(() => import("./pages/Profile/Reviews"))
 
 
 function App() {
@@ -78,6 +78,7 @@ function App() {
               <Route path="/profile/address/form/:action" element={<AddressForm />} />
               <Route path="/profile/orders" element={<Orders />} />
               <Route path="/profile/vourchers" element={<VourchersPage />} />
+              <Route path="/profile/reviews" element={<ReviewsPage />} />
             </Route>
 
           </Routes>
@@ -92,11 +93,18 @@ function App() {
 export default App
 
 
+const SideBarView = () => {
+return <>
+</>
+}
+
 function ScrollToTop() {
-  const { pathname } = useLocation()
+  const { pathname } = useLocation();
+
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [pathname])
+
   return null
 }
 

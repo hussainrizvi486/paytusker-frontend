@@ -53,13 +53,21 @@
 
 .search-pagination__wrapper {
     margin-top: 4rem;
+    display: flex;
+    justify-content: center;
+    /* justify-content: flex-end; */
 }
+
 
 @media (min-width: 768px) {
     .search-page .products-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 1rem .5rem;
+    }
+
+    .search-pagination__wrapper {
+        justify-content: flex-end;
     }
 }
 

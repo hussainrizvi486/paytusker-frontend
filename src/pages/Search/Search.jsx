@@ -10,8 +10,7 @@ import axios from "axios";
 
 
 const Search = () => {
-    const setSearchParams = useSearchParams()[1]
-    const [searchParams] = useSearchParams();
+    const [searchParams, setSearchParams] = useSearchParams()
 
     const FetchSearchResults = async (queryParams, setLoading, setData, setPagination) => {
         setLoading(true)
@@ -20,7 +19,12 @@ const Search = () => {
 
             if (req.status === 200 && req.data) {
                 const reqData = req.data;
-                setData(reqData.results)
+                if (reqData.results?.length > 0) {
+                    setData(reqData.results)
+                } else {
+                    setData(null)
+                }
+
                 setPagination((prev) => ({
                     ...prev, currentPageNum
                         : reqData.current_page, totalPages: reqData.total_pages
@@ -55,11 +59,8 @@ const Search = () => {
 
 
     useEffect(() => {
-        setQueryPayload(prev => ({
-            ...prev,
-            query: searchParams.get("query")
-        }));
-    }, [searchParams]);
+        setQueryPayload({ query: query });
+    }, [query]);
 
 
     const handleCurrentPage = (pageNum) => {
@@ -79,6 +80,7 @@ const Search = () => {
         const prevPage = paginationDataObj.currentPageNum - 1;
         handleCurrentPage(prevPage);
     };
+
     const updatePriceFilters = () => {
         const newFilters = {
             min_price: parseFloat(minPriceBtnRef.current.value || 0),
@@ -89,10 +91,7 @@ const Search = () => {
             if (newFilters[key] <= 0) {
                 delete newFilters[key]
             }
-
         }
-
-        console.log(newFilters)
 
         setQueryPayload(prev => {
             const updatedFilters = { ...prev.filters, ...newFilters };
@@ -120,7 +119,7 @@ const Search = () => {
                     </div>
 
                     <div className={`mt-4 search-filter__section-wrapper  ${searchFiltersOpen ? "active" : ""}`}>
-                        <div className="search-filters__categories search-filter__section">
+                        <div className="search-filters__categories search-filter__section hide">
                             <div className="font-medium text-lg sf-section__heading">Category</div>
                             <div className="search-categories__wrapper">
                                 <ul className="search-categories__list">{categories.map((val, i) =>
