@@ -168,10 +168,12 @@ body {
 
     .user-sidebar {
         display: block;
+        flex-shrink: 0;
     }
 
     .sidebar-page__content {
         flex: auto;
+        padding-top: 1rem;
     }
 }
 

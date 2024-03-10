@@ -102,6 +102,6 @@
     .search-page .products-grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
-        gap: 2rem 0;
+        /* gap: 2rem .5rem; */
     }
 }

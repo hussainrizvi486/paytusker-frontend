@@ -4,7 +4,7 @@ export { Spinner } from "./Loaders/Spinner"
 export { Freeze } from "./Loaders/Freeze"
 export { ProductCardLoader } from "./Loaders/ProductCardLoader"
 export { CategoryCard } from "./CategoryCard/CategoryCard"
-
+export { Rating } from "./Rating/Rating"
 
 export { FormInput } from "./Form/FormInput"
 export { FormSelect } from "./Form/FormSelect"

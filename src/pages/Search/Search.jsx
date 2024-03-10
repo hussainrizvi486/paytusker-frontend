@@ -20,6 +20,7 @@ const Search = () => {
                 const reqData = req.data;
                 if (reqData.results?.length > 0) {
                     setData(reqData.results)
+                    setSearchResCount(reqData.count || 0)
                 } else {
                     setData(null)
                 }
@@ -44,6 +45,7 @@ const Search = () => {
     const [productsLoading, setProductsLoading] = useState(true);
     const maxPriceBtnRef = useRef();
     const minPriceBtnRef = useRef();
+    const [searchResCount, setSearchResCount] = useState(0);
 
     const [paginationDataObj, setPaginationDataObj] = useState({
         currentPageNum: 0,
@@ -56,9 +58,7 @@ const Search = () => {
     }, [queryPayload])
 
 
-    useEffect(() => {
-        setQueryPayload({ query: query });
-    }, [query]);
+    useEffect(() => { setQueryPayload({ query: query }); }, [query]);
 
 
     const handleCurrentPage = (pageNum) => {
@@ -78,6 +78,7 @@ const Search = () => {
         const prevPage = paginationDataObj.currentPageNum - 1;
         handleCurrentPage(prevPage);
     };
+
     const updatePriceFilters = () => {
         const newFilters = {
             min_price: parseFloat(minPriceBtnRef.current.value || 0),
@@ -119,9 +120,9 @@ const Search = () => {
                         <div className="search-filters__categories search-filter__section hide">
                             <div className="font-medium text-lg sf-section__heading">Category</div>
                             <div className="search-categories__wrapper">
-                                <ul className="search-categories__list">{categories.map((val, i) =>
-                                    <li className="search-categories__el text-sm" key={i}>{val.name}</li>
-                                )}</ul>
+                                <ul className="search-categories__list">
+                                    {categories.map((val, i) => <li className="search-categories__el text-sm" key={i}>{val.name}</li>)}
+                                </ul>
                             </div>
                         </div>
                         <div className="search-filters_prices-wrapper search-filter__section">
@@ -148,13 +149,18 @@ const Search = () => {
 
 
                 <section className="search-items">
-                    {productsLoading ? <ProductLoadingGrid />
+                    {productsLoading ?
+                        <ProductLoadingGrid />
                         : !productsLoading && productsData ?
-                            <div className="products-grid">
-                                {productsData?.map((val, i) => <ProductCard key={i} product={val} />)}
+                            <div>
+                                <div className="mb-5">Showing {searchResCount} results for &quot;{query}&quot;</div>
+                                <div className="products-grid">
+                                    {productsData?.map((val, i) => <ProductCard key={i} product={val} />)}
+                                </div>
                             </div>
-                            : !productsLoading && !productsData ? <NoResultContainer query={searchParams.get("query")} /> : <></>
-                    }
+
+                            : !productsLoading && !productsData ? <NoResultContainer query={searchParams.get("query")} />
+                                : <></>}
 
 
                     <div className="search-pagination__wrapper">
@@ -178,15 +184,13 @@ const Pagination = ({ handleNext, setCurrentPage, handlePrev, pageCount = 0, cur
             <div className="pagination-wrapper">
 
                 <button className="btn btn-sm btn-primary" onClick={handlePrev}>Prev</button>
-                {
-                    Array(pageCount).fill(pageCount).map((v, index) => (
-                        <div
-                            className={`pagination-count__btn ${currentPage === index + 1 ? "active" : ""}`}
-                            key={v + index}
-                            onClick={() => setCurrentPage(index + 1)}
-                        >{index + 1}</div>
-                    ))
-                }
+                {Array(pageCount).fill(pageCount).map((v, index) => (
+                    <div
+                        className={`pagination-count__btn ${currentPage === index + 1 ? "active" : ""}`}
+                        key={v + index}
+                        onClick={() => setCurrentPage(index + 1)}
+                    >{index + 1}</div>
+                ))}
                 <button className="btn btn-sm btn-primary" onClick={handleNext}>Next</button>
             </div>
             : <></>}

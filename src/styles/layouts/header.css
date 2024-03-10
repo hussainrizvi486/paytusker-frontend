@@ -61,6 +61,7 @@
     border: none;
     font-family: 'Poppins', sans-serif;
     font-size: var(--text-xs);
+    background-color: transparent;
 
 }
 

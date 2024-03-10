@@ -193,6 +193,11 @@
     gap: .4rem;
 }
 
+.rating-row.sm svg {
+    height: 1.25rem;
+    width: 1.25rem;
+}
+
 .rating-row svg.active {
     fill: #ffeb3b;
     color: #e5c100;
