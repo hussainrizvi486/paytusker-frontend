@@ -78,7 +78,7 @@ function App() {
               <Route path="/profile/address/form/:action" element={<AddressForm />} />
               <Route path="/profile/orders" element={<Orders />} />
               <Route path="/profile/vourchers" element={<VourchersPage />} />
-              <Route path="/profile/reviews" element={<ReviewsPage />} />
+              <Route path="/profile/reviews/:action" element={<ReviewsPage />} />
             </Route>
 
           </Routes>

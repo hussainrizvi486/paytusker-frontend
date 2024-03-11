@@ -23,7 +23,11 @@ export const UserSidebar = () => {
             ]
         },
         {
-            label: "My Reviews", url: "/profile/reviews", icon: <MessageCircle />
+            label: "My Reviews", url: "/profile/reviews", icon: <MessageCircle />,
+            child_elements: [
+                { label: "Add Review", url: "/profile/reviews/add", },
+                { label: "View Reviews", url: "/profile/reviews/list", },
+            ]
         },
     ]
 

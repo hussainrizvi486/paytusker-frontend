@@ -1,27 +1,17 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import { Header, UserSidebar } from "../../layouts"
-import { Rating } from "../../components"
+// import { Rating } from "../../components"
 import { useGetUserReviewsQuery } from "../../features/api/api"
 import { useEffect, useState } from "react"
-
+import Rating from 'react-rating'
+import { Star } from "lucide-react"
 const Reviews = () => {
-    const GetReviewsApi = useGetUserReviewsQuery();
-    const [pageLoading, setPageLoading] = useState(GetReviewsApi.isLoading);
-    const [reviewsData, setReviewsData] = useState(null)
+    const params = useParams()
+    const navigate = useNavigate()
+    const [pageLoading, setPageLoading] = useState();
 
 
-    console.log(GetReviewsApi.data)
-    useEffect(() => {
-        setPageLoading(GetReviewsApi.isLoading)
-    }, [GetReviewsApi.isLoading])
-
-    useEffect(() => {
-        if (GetReviewsApi.data) {
-            setReviewsData(GetReviewsApi.data)
-        }
-    }, [GetReviewsApi.data])
-
-    if (pageLoading) <>Loading ...</>
+    if (pageLoading) return <div>Loading ...</div>
     return (
         <div>
             <div>
@@ -31,17 +21,60 @@ const Reviews = () => {
             <div className="sidebar-page">
                 <UserSidebar />
                 <div className="sidebar-page__content reviews-page">
-                    <section className="to-reviews">
-                        <div className="section-heading">To Review</div>
+                    {params.action == "list" ?
+                        <ReviewsListContainer />
+                        : params.action == "add" ?
+                            <section>
+                                <div className="section-heading">Create Review</div>
 
-                        <div>
-                            {!pageLoading && reviewsData ? <>
-                                {reviewsData.map((val, i) => {
-                                    return <ReviewItemCard key={i} data={val} />
-                                })}
-                            </> : !pageLoading && !reviewsData ? < NoReviewsBox /> : <></>}
-                        </div>
-                    </section>
+                                <div >
+                                    <div className="add-reviewForm__product-card">
+                                        <div className="add-reviewForm__product-card__img">
+                                            <img src="https://crm.paytusker.us/files/IMG_3464.jpeg" alt="" />
+                                        </div>
+                                        <div className="font-medium">
+                                            Cowboy Rider Pet Costume, Funny Dog Costume For Small Medium Dogs & Cats, Pet Clothes
+                                        </div>
+
+                                    </div>
+
+                                    <div>
+                                        <div>Rating</div>
+                                        <div>
+                                            <Rating
+                                                emptySymbol={<Star className="rating-star" />}
+                                                fullSymbol={<Star
+                                                    fill="#ffeb3b"
+                                                    color="#e5c100"
+                                                    className="active rating-star" />
+                                                }
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <div>Add a photo</div>
+                                        <div>
+                                            <input type="file" name="review_images" accept="image/*" multiple />
+                                        </div>
+                                    </div>
+
+
+                                    <div>
+                                        <div>
+                                            Add a writter Review
+                                        </div>
+                                        <div>
+                                            <textarea name="" rows="10"></textarea>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </section>
+                            : <></>
+
+                    }
                 </div>
             </div>
         </div>
@@ -49,6 +82,30 @@ const Reviews = () => {
 }
 
 export default Reviews
+
+
+const ReviewsListContainer = () => {
+    const GetReviewsApi = useGetUserReviewsQuery();
+
+    const [reviewsData, setReviewsData] = useState(null)
+    useEffect(() => {
+        if (GetReviewsApi.data) {
+            setReviewsData(GetReviewsApi.data)
+        }
+    }, [GetReviewsApi.data])
+    return (
+        <section className="to-reviews">
+            <div className="section-heading">Your Reviews</div>
+            <div>
+                {!GetReviewsApi.isLoading && reviewsData ? <>
+                    {reviewsData.map((val, i) => {
+                        return <ReviewItemCard key={i} data={val} />
+                    })}
+                </> : !GetReviewsApi.isLoading && !reviewsData ? < NoReviewsBox /> : <></>}
+            </div>
+        </section>
+    )
+}
 
 const NoReviewsBox = () => {
     return (
@@ -84,7 +141,7 @@ const ReviewItemCard = ({ data }) => {
                 </div>
             </div>
             <div>
-                <Rating rating={data?.rating} varient={"sm"} />
+                {/* <Rating rating={data?.rating} varient={"sm"} /> */}
             </div>
             <div className="text-sm mt-3">{data?.review_content}</div>
         </div>
