@@ -1,9 +1,27 @@
 import { Link } from "react-router-dom"
 import { Header, UserSidebar } from "../../layouts"
 import { Rating } from "../../components"
+import { useGetUserReviewsQuery } from "../../features/api/api"
+import { useEffect, useState } from "react"
 
 const Reviews = () => {
-    const reviewsData = [{}, {}]
+    const GetReviewsApi = useGetUserReviewsQuery();
+    const [pageLoading, setPageLoading] = useState(GetReviewsApi.isLoading);
+    const [reviewsData, setReviewsData] = useState(null)
+
+
+    console.log(GetReviewsApi.data)
+    useEffect(() => {
+        setPageLoading(GetReviewsApi.isLoading)
+    }, [GetReviewsApi.isLoading])
+
+    useEffect(() => {
+        if (GetReviewsApi.data) {
+            setReviewsData(GetReviewsApi.data)
+        }
+    }, [GetReviewsApi.data])
+
+    if (pageLoading) <>Loading ...</>
     return (
         <div>
             <div>
@@ -17,14 +35,11 @@ const Reviews = () => {
                         <div className="section-heading">To Review</div>
 
                         <div>
-                            {reviewsData ? <>
-
-                                {
-                                    reviewsData.map((val, i) => {
-                                        return <ReviewItemCard key={i} />
-                                    })
-                                }
-                            </> : < NoReviewsBox />}
+                            {!pageLoading && reviewsData ? <>
+                                {reviewsData.map((val, i) => {
+                                    return <ReviewItemCard key={i} data={val} />
+                                })}
+                            </> : !pageLoading && !reviewsData ? < NoReviewsBox /> : <></>}
                         </div>
                     </section>
                 </div>
@@ -49,34 +64,29 @@ const NoReviewsBox = () => {
 
         </div>)
 }
-
 const ReviewItemCard = ({ data }) => {
     return (
         <div className="reviewData-card">
-            <div className="reviewData-card__item-cd">
-                <div>
-                    <img src="https://m.media-amazon.com/images/I/71SkJtrgIML._SL1500_.jpg" alt="" />
+            <div className="reviewData-card__item-card">
+                <div className="reviewData-card__item-card-imgWrapper">
+                    <img src={data?.product_image} alt="" />
                 </div>
-                <div className="font-medium">Heat Sink Thermal Paste HY-510 FOR PROCESSORS</div>
+                <div className="font-medium">{data?.product_name}</div>
             </div>
-
             <div className="my-2 text-sm">
                 <div>
                     <span className="font-medium">Order ID: </span>
-                    <span>0432354ACA</span>
+                    <span>{data?.order_id}</span>
                 </div>
                 <div>
                     <span className="font-medium">Order Date: </span>
-                    <span>Monday, 11 March 2024</span>
+                    <span>{data?.order_date}</span>
                 </div>
             </div>
-
             <div>
-                <Rating rating={5} varient={"sm"} />
+                <Rating rating={data?.rating} varient={"sm"} />
             </div>
-
-            <div className="text-sm mt-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium voluptatem dignissimos vel fugit exercitationem? Dicta asperiores odio vero veniam deleniti, consectetur neque maxime molestiae ducimus doloribus. Fugit esse minus voluptatum reiciendis, corrupti facilis dolorem impedit doloribus culpa quo placeat maiores.</div>
-
+            <div className="text-sm mt-3">{data?.review_content}</div>
         </div>
     )
 }

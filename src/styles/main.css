@@ -356,8 +356,27 @@ select:focus-visible {
 }
 
 .reviewData-card {
-    border: 1px solid #a3a3a3;
+    /* border: 1px solid #a3a3a3; */
+    box-shadow: 0 0 5px #d1d1d1;
     border-radius: .25rem;
     padding: .5rem;
     margin-bottom: 1rem;
+}
+
+.reviewData-card__item-card {
+    display: flex;
+    gap: .5rem;
+    margin-bottom: .5rem;
+}
+
+.reviewData-card__item-card-imgWrapper {
+    width: 70px;
+    height: 50px;
+    border: 1px solid #acacac;
+}
+
+.reviewData-card__item-card-imgWrapper img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
 }

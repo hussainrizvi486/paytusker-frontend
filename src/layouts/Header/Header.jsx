@@ -1,16 +1,14 @@
 /* eslint-disable react/prop-types */
 import { useRef } from "react"
-import { AlignJustify, Menu, Search, ShoppingCart, User2 } from "lucide-react"
+import { Menu, Search, ShoppingCart, User2 } from "lucide-react"
 import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom"
 import Logo from "../../assets/logo.png"
 import { getUserDetails } from "../../redux/slices/authSlice"
 import { ToggleMobileSideBar } from "../../redux/slices/appUiSlice"
-// import { ToggleMobileSideBar } from "../../redux/slices/appUiSlice"
 import { useDispatch } from "react-redux"
 import { API_URL } from "../../redux/store"
 import axios from "axios"
 import { UpdateQuery, UpdateSearchProducts } from "../../redux/slices/searchProducts"
-import { useSearchProductsQuery } from "../../features/api/api"
 
 
 export const Header = () => {
