@@ -22,6 +22,11 @@ textarea {
     outline: transparent;
 }
 
+textarea {
+    width: 100%;
+    padding: 0.25rem;
+}
+
 img,
 svg,
 video {
@@ -40,9 +45,10 @@ body {
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
-    margin: 0; 
+    margin: 0;
 }
 
 input[type=number] {
-    -moz-appearance:textfield; /* Firefox */
+    -moz-appearance: textfield;
+    /* Firefox */
 }

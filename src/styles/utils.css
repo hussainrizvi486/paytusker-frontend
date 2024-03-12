@@ -72,6 +72,13 @@
     text-align: right;
 }
 
+.heading-md {
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    color: inherit;
+    margin-bottom: .5rem;
+}
+
 .font-medium {
     font-weight: 500;
 }
@@ -92,18 +99,6 @@
     font-weight: 900;
 }
 
-/* Headings */
-.heading-md {
-    font-size: var(--text-lg);
-    font-weight: 600;
-}
-
-@media (max-width: 500px) {
-    .heading-md {
-        font-size: var(--text-md);
-        font-weight: 600;
-    }
-}
 
 
 

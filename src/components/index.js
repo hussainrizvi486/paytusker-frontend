@@ -8,3 +8,4 @@ export { Rating } from "./Rating/Rating"
 
 export { FormInput } from "./Form/FormInput"
 export { FormSelect } from "./Form/FormSelect"
+export { FormInputFile } from "./Form/FormInputFile"

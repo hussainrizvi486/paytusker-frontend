@@ -1,14 +1,17 @@
-import { Link, useNavigate, useParams } from "react-router-dom"
+import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom"
 import { Header, UserSidebar } from "../../layouts"
 // import { Rating } from "../../components"
 import { useGetUserReviewsQuery } from "../../features/api/api"
 import { useEffect, useState } from "react"
 import Rating from 'react-rating'
-import { Star } from "lucide-react"
+import { Star, TreesIcon } from "lucide-react"
+import { FormInputFile } from "../../components"
 const Reviews = () => {
     const params = useParams()
     const navigate = useNavigate()
     const [pageLoading, setPageLoading] = useState();
+    const urlParams = useSearchParams()[0]
+    urlParams.get("id")
 
 
     if (pageLoading) return <div>Loading ...</div>
@@ -37,9 +40,10 @@ const Reviews = () => {
                                         </div>
 
                                     </div>
+                                    <br />
 
-                                    <div>
-                                        <div>Rating</div>
+                                    <div className="field-wrapper">
+                                        <div className="heading-md">Rating</div>
                                         <div>
                                             <Rating
                                                 emptySymbol={<Star className="rating-star" />}
@@ -52,25 +56,32 @@ const Reviews = () => {
                                         </div>
                                     </div>
 
-                                    <div>
-                                        <div>Add a photo</div>
+                                    <div className="field-wrapper">
+
+                                        <div className="heading-md">Add a photo</div>
                                         <div>
-                                            <input type="file" name="review_images" accept="image/*" multiple />
+                                            <FormInputFile multiple={true} accept="image/*" />
+                                            <div>
+
+                                            </div>
                                         </div>
+
                                     </div>
 
 
-                                    <div>
-                                        <div>
+                                    <div className="field-wrapper">
+                                        <div className="heading-md">
                                             Add a writter Review
                                         </div>
                                         <div>
-                                            <textarea name="" rows="10"></textarea>
+                                            <textarea name="" rows="10"
+                                            ></textarea>
                                         </div>
 
                                     </div>
-
                                 </div>
+
+                                <button className="btn btn-primary btn-sm">Add Review</button>
                             </section>
                             : <></>
 
