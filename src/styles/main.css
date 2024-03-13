@@ -402,3 +402,42 @@ select:focus-visible {
     border-bottom: 1px solid #cacaca;
     padding-bottom: 1rem;
 }
+
+.addReview-image-wrapper {
+    height: 8rem;
+    width: 8rem;
+    border: 1px solid;
+}
+
+.addReview-image-wrapper img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.review-file__preview-wrapper {
+    display: flex;
+    margin-top: .5rem;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.addReview-image-wrapper {
+    position: relative;
+}
+
+.review-file__remove-btn {
+    padding: .15rem;
+    cursor: pointer;
+    position: absolute;
+    top: 1%;
+    right: 1%;
+    border: none;
+    border-radius: 50%;
+    box-shadow: 0 0 5px #a3a3a3;
+    background-color: #cd0000;
+}
+
+.review-file__remove-btn svg {
+    color: #FFF;
+}

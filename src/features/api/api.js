@@ -87,7 +87,6 @@ export const apiSlice = createApi({
             }),
             providesTags: ["refreshAddress"]
         }),
-        
 
         getUserReviews: builder.query({
             query: (params) => ({
@@ -97,7 +96,16 @@ export const apiSlice = createApi({
             }),
             providesTags: ["refreshAddress"]
         }),
-        
+
+        ToReviewItems: builder.query({
+            query: (params) => ({
+                url: "api/customer/to-review-items",
+                method: "GET",
+                params: params
+            }),
+            providesTags: ["refreshAddress"]
+        }),
+
         addUserAddress: builder.mutation({
             query: (data) => ({
                 url: "api/add-user-address",
@@ -115,7 +123,7 @@ export const apiSlice = createApi({
             }),
             invalidatesTags: (res, error) => error ? [] : ["refreshAddress"]
         }),
-        
+
     })
 });
 
@@ -130,5 +138,6 @@ export const { useLoginUserMutation,
     useGetUserAddressQuery,
     useAddUserAddressMutation,
     useEditUserAddressMutation,
-    useGetUserReviewsQuery
+    useGetUserReviewsQuery,
+    useToReviewItemsQuery,
 } = apiSlice;

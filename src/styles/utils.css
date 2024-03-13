@@ -267,4 +267,5 @@
 
 .icon-sm {
     height: var(--icon-size-sm);
+    width: var(--icon-size-sm);
 }

@@ -20,6 +20,8 @@ a {
 input,
 textarea {
     outline: transparent;
+    font-family: 'Roboto';
+
 }
 
 textarea {
@@ -50,5 +52,4 @@ input::-webkit-inner-spin-button {
 
 input[type=number] {
     -moz-appearance: textfield;
-    /* Firefox */
 }
