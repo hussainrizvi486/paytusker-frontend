@@ -7,7 +7,6 @@ import { Star, X } from "lucide-react"
 import { FormInputFile } from "../../components"
 const Reviews = () => {
     const params = useParams();
-    const navigate = useNavigate();
 
     // if (pageLoading) return <div>Loading ...</div>
     return (
@@ -19,13 +18,11 @@ const Reviews = () => {
             <div className="sidebar-page">
                 <UserSidebar />
                 <div className="sidebar-page__content reviews-page">
-                    {params.action == "list" ?
-                        <ReviewsListContainer />
-                        : params.action == "add" ?
-                            <AddReviewForm />
-                            : <></>
-
-                    }
+                    {
+                        params.action == "list" ?
+                            <ReviewsListContainer /> :
+                            params.action == "add" ? <AddReviewForm /> :
+                                <ToReviewOrderContainer />}
                 </div>
             </div>
         </div>
@@ -33,6 +30,22 @@ const Reviews = () => {
 }
 
 export default Reviews
+
+const ToReviewOrderContainer = () => {
+    const { data, isLoading } = useToReviewItemsQuery();
+
+
+    return (
+        <div>
+            To Reviews
+
+            <div>
+                {data?.map((val, i) => (<div key={i}>{JSON.stringify(val)}</div>))}
+            </div>
+        </div>
+
+    )
+}
 
 
 const ReviewsListContainer = () => {
@@ -101,8 +114,7 @@ const ReviewItemCard = ({ data }) => {
 }
 
 const AddReviewForm = () => {
-    const { data } = useToReviewItemsQuery();
-    console.log(data)
+
     const urlParams = useSearchParams()[0];
     urlParams.get("id")
     let currentRating = 0
