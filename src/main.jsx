@@ -9,7 +9,7 @@ import { Toaster } from 'react-hot-toast';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Provider store={store}>
-    <BrowserRouter>
+    <BrowserRouter basename=''>
       <App />
       <Toaster />
     </BrowserRouter>

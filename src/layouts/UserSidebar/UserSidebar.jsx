@@ -25,7 +25,7 @@ export const UserSidebar = () => {
         {
             label: "My Reviews", url: "/profile/reviews", icon: <MessageCircle />,
             child_elements: [
-                { label: "Add Review", url: "/profile/reviews/add", },
+                { label: "To Review", url: "/profile/reviews/history", },
                 { label: "View Reviews", url: "/profile/reviews/list", },
             ]
         },

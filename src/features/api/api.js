@@ -30,7 +30,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 
 export const apiSlice = createApi({
     baseQuery: baseQueryWithReauth,
-    tagTypes: ["updateCart", "refreshAddress"],
+    tagTypes: ["updateCart", "refreshAddress", "refreshReviews"],
     endpoints: (builder) => ({
         LoginUser: builder.mutation({
             query: (body) => ({
@@ -94,7 +94,7 @@ export const apiSlice = createApi({
                 method: "GET",
                 params: params
             }),
-            providesTags: ["refreshAddress"]
+            providesTags: ["refreshReviews"]
         }),
 
         ToReviewItems: builder.query({
@@ -103,7 +103,7 @@ export const apiSlice = createApi({
                 method: "GET",
                 params: params
             }),
-            providesTags: ["refreshAddress"]
+            providesTags: ["refreshReviews"]
         }),
 
         addUserAddress: builder.mutation({
@@ -113,6 +113,14 @@ export const apiSlice = createApi({
                 body: data,
             }),
             invalidatesTags: (res, error) => error ? [] : ["refreshAddress"]
+        }),
+        AddOrderReview: builder.mutation({
+            query: (data) => ({
+                url: "api/customer/add-order-review",
+                method: "POST",
+                body: data,
+            }),
+            invalidatesTags: (res, error) => error ? [] : ["refreshReviews"]
         }),
 
         EditUserAddress: builder.mutation({
@@ -140,4 +148,5 @@ export const { useLoginUserMutation,
     useEditUserAddressMutation,
     useGetUserReviewsQuery,
     useToReviewItemsQuery,
+    useAddOrderReviewMutation
 } = apiSlice;

@@ -1,5 +1,3 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable react/no-children-prop */
 import { useEffect } from "react"
 import { Suspense, lazy } from "react"
 import { Route, Routes, useLocation, Outlet, Navigate } from "react-router-dom"
@@ -45,17 +43,19 @@ function App() {
 
   }
 
-  const childern = <div>
-    <div>
-      <img src={Logo} alt=""
-        style={{ width: "200px" }} />
-    </div>
-  </div>
+  const LoadingChildren = () => {
+    return (<div>
+      <div>
+        <img src={Logo} alt=""
+          style={{ width: "200px" }} />
+      </div>
+    </div>)
+  }
 
   const isAuthenticated = getUserDetails()[1]
 
   return (
-    <Suspense fallback={<Freeze children={childern} />}>
+    <Suspense fallback={<Freeze children={<LoadingChildren />} />}>
       <main id="app-container" onClick={toggleSideBar}>
 
         <MobileSideBar active={mobileSideOpen} />
@@ -93,10 +93,10 @@ function App() {
 export default App
 
 
-const SideBarView = () => {
-return <>
-</>
-}
+// const SideBarView = () => {
+// return <>
+// </>
+// }
 
 function ScrollToTop() {
   const { pathname } = useLocation();

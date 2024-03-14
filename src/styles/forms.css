@@ -48,8 +48,8 @@ input:invalid {
 }
 
 .input-file__wrapper {
-    height: 8rem;
-    width: 8rem;
+    height: 6rem;
+    width: 6rem;
     position: relative;
     cursor: pointer;
 }
@@ -67,4 +67,47 @@ input:invalid {
 .input-file__wrapper img {
     height: 100%;
     width: 100%;
+}
+
+.file-review__wrapper {
+    height: 6rem;
+    width: 6rem;
+    position: relative;
+    border: 1px solid;
+}
+
+.file-review__wrapper img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+
+
+.file-review__wrapper-btn {
+    padding: .15rem;
+    cursor: pointer;
+    position: absolute;
+    top: 1%;
+    right: 1%;
+    border: none;
+    border-radius: 50%;
+    box-shadow: 0 0 5px #a3a3a3;
+    background-color: #cd0000;
+}
+
+.file-review__wrapper-btn svg {
+    color: #FFF;
+}
+
+@media (min-width: 786px) {
+    .input-file__wrapper {
+        height: 8rem;
+        width: 8rem;
+    }
+
+    .file-review__wrapper {
+        height: 8rem;
+        width: 8rem;
+    }
 }

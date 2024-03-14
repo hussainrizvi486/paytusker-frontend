@@ -79,7 +79,33 @@ body {
     font-size: var(--font-md);
     border-radius: .25rem;
     font-family: 'Poppins', sans-serif;
+    position: relative;
+}
 
+.btn .spinner {
+    border-color: currentColor;
+    border-bottom-color: transparent;
+}
+
+.btn-label.hidden {
+    visibility: hidden;
+
+}
+
+.btn-loading__wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+}
+
+.btn-loading__wrapper.loading {
+    display: block;
+}
+
+.btn-icon--sm {
+    padding: .45rem;
 }
 
 .btn-sm {
@@ -89,6 +115,10 @@ body {
 
 .btn-primary {
     background-color: var(--color-primary);
+    color: #fff;
+}
+
+.btn-primary svg {
     color: #fff;
 }
 
@@ -153,6 +183,10 @@ body {
 
 .user-sidebar {
     display: none;
+}
+
+.sidebar-page__content {
+    padding: 1rem 0.5rem;
 
 }
 
