@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { ArrowLeft, ArrowRight, BadgeCheck, Star, UserCheck } from "lucide-react"
+import { ArrowLeft, ArrowRight, BadgeCheck, ChevronLeft, ChevronRight, Star, UserCheck } from "lucide-react"
 import { useEffect, useState } from "react"
 import { Header } from "../../layouts";
 import axios from "axios"
@@ -14,7 +14,6 @@ import toast from "react-hot-toast";
 
 const Product = () => {
     const [productData, setProductData] = useState()
-    const [productImages, setProductImages] = useState()
     const [pageLoading, setPageLoading] = useState(true)
     const navigate = useNavigate();
     const { id } = useParams();
@@ -22,15 +21,21 @@ const Product = () => {
 
     const getProductDetail = async () => {
         try {
-            const req = await axios.get(`${API_URL}api/product/details/${id}`)
+            const req = await axios.get(`${API_URL}api/product/details`, {
+                params: {
+                    id: id
+                }
+            })
             if (req.status === 200) {
                 console.log(req.data)
                 setProductData(req.data)
-                setProductImages(req.data.images)
                 setPageLoading(false)
             }
 
-        } catch (error) { navigate("/") }
+        }
+        catch (error) {
+            // navigate("/") 
+        }
     }
 
     useEffect(() => { getProductDetail() }, [])
@@ -57,7 +62,7 @@ const Product = () => {
             <main className="product-page_main">
                 <section className="product-page__display-section">
                     <section className="product-media__section">
-                        <Carousel slides={productImages} />
+                        <ProductMediaCarousel slides={productData?.images} />
                     </section>
 
                     <section className="product-info__details">
@@ -66,10 +71,11 @@ const Product = () => {
                                 {productData?.product_name}
                             </div>
                             <div className="product-category">
-                                {productData?.category || "Test Category"}
+                                {productData?.category || ""}
                             </div>
                             <div className="product-price" >
-                                {FormatCurreny(productData?.price)}
+                                {productData.formatted_price}
+                                {/* {FormatCurreny(productData?.product_price)} */}
                             </div>
 
 
@@ -121,14 +127,18 @@ const Product = () => {
                     </div>
                 </div>
 
-                <section className="product-reviews">
-                    <div className="section-heading">Top Cusomer reviews</div>
-                    <div>
-                        {productData?.reviews.map((val, i) =>
-                            <ReviewCard key={i} data={val} />
-                        )}
-                    </div>
-                </section>
+
+                {
+                    productData?.reviews ?
+                        <section className="product-reviews">
+                            <div className="section-heading">Top Cusomer reviews</div>
+                            <div>
+                                {productData?.reviews?.map((val, i) =>
+                                    <ReviewCard key={i} data={val} />
+                                )}
+                            </div>
+                        </section> : <></>
+                }
             </main>
         </>
     )
@@ -145,7 +155,7 @@ const ReviewCard = ({ data }) => {
             <div className="review-card__upper">
                 <div className="review-card__upper-sec-1">
                     <div className="review-card__profile-img">
-                        <img src={data?.customer_image ? `:8000${data?.customer_image}` : noImage} />
+                        <img src={data?.customer_image ? `${String(`${import.meta.env.VITE_API_URL}${data.customer_image}`)}` : noImage} />
                     </div>
                     <div className="">
                         {data?.customer_name}
@@ -164,13 +174,43 @@ const ReviewCard = ({ data }) => {
     )
 }
 
-export const Carousel = ({ slides = [] }) => {
+const ProductMediaCarousel = ({ slides = [] }) => {
     const [activeIndex, setActiveIndex] = useState(0);
     const totalSlides = slides.length
     let hide = ""
+    let navHide = ""
     if (totalSlides === 0 || totalSlides === 1) {
-        hide = "hide"
+        navHide = "hide";
+        hide = "hide";
     }
+
+    if (slides.length < 7) {
+        navHide = "hide"
+    }
+
+    const [navigationIndex, setNavigationIndex] = useState(0);
+
+    const moveNavigation = (action) => {
+
+        if (action == "next") {
+            if (navigationIndex < (slides.length * 60) - 340) {
+                setNavigationIndex(prev => prev + 340)
+            }
+            else {
+                setNavigationIndex(0)
+            }
+        }
+        else if (action == "prev") {
+            console.log(navigationIndex)
+            if (navigationIndex >= 340) {
+                setNavigationIndex((prev) => prev - 340)
+            }
+            else {
+                setNavigationIndex(slides.length * 60)
+            }
+        }
+    }
+
     const moveSlide = (action) => {
         if (action === "next") {
             activeIndex < (slides.length - 1) ? setActiveIndex((prev) => prev + 1) : setActiveIndex(0)
@@ -182,27 +222,51 @@ export const Carousel = ({ slides = [] }) => {
 
 
     return (
-        <div className="carousel-container">
-            <button className={`carousel-btn carousel-btn--left ${hide}`} onClick={() => moveSlide("prev")}>
-                <ArrowLeft />
-            </button>
+        <div className="productMedia-carousel__wrapper">
+            <div className="carousel-container">
+                <button className={`carousel-btn carousel-btn--left ${hide}`} onClick={() => moveSlide("prev")}>
+                    <ArrowLeft />
+                </button>
 
-            <div className="carousel-body">
-                <div className="carousel-slides__container" style={{ transform: `translateX(-${100 * activeIndex}%)` }}>
+                <div className="carousel-body">
+                    <div className="carousel-slides__container" style={{ transform: `translateX(-${100 * activeIndex}%)` }}>
 
-                    {slides ? slides.map((slide, index) =>
-                        <div className="carousel-slide" key={index} >
-                            <img src={slide} alt="" />
-                        </div>
-                    ) : <></>}
+                        {slides ? slides.map((slide, index) =>
+                            <div className="carousel-slide" key={index} >
+                                <img src={String(`${import.meta.env.VITE_API_URL}${slide}`)} alt="" />
+                            </div>
+                        ) : <></>}
 
+                    </div>
                 </div>
+                <button className={`carousel-btn carousel-btn--right ${hide}`} onClick={() => moveSlide("next")}>
+                    <ArrowRight />
+                </button>
             </div>
+            <div className="carousel-slides__navgiation-wrapper">
+                <div className="carousel-slides__nav-elements__wrapper">
+                    <div className="carousel-slides__nav-elements__container"
+                        style={{ transform: `translateX(-${navigationIndex}px)` }}
+                    >
+                        {slides ? slides.map((slide, index) =>
+                            <div className={`carousel-slides__nav-element ${activeIndex === index ? "active" : ""}`} key={index}
+                                onClick={() => setActiveIndex(index)}
+                            >
+                                <img src={String(`${import.meta.env.VITE_API_URL}${slide}`)} alt="" />
+                            </div>
+                        ) : <></>}
+                    </div>
+                </div>
 
-            <button className={`carousel-btn carousel-btn--right ${hide}`} onClick={() => moveSlide("next")}>
-                <ArrowRight />
-            </button>
-        </div >
+                <button className={`media-carousel__nav-btn media-carousel__nav-btn--left ${navHide}`} onClick={() => moveNavigation("prev")}>
+                    <ChevronLeft />
+                </button>
+                <button className={`media-carousel__nav-btn media-carousel__nav-btn--right ${navHide}`} onClick={() => moveNavigation("next")}>
+                    <ChevronRight />
+                </button>
+
+            </div>
+        </div>
     )
 }
 

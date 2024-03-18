@@ -36,7 +36,7 @@ export const UserSidebar = () => {
         <div className="user-sidebar">
             <div className="profile-card">
                 <div className="profile-card__img">
-                    <img src="https://cdn-icons-png.flaticon.com/512/7710/7710521.png" alt="" />
+                    <img src={`${String(`${import.meta.env.VITE_API_URL}${authUser?.image}`)}`} alt="" />
                 </div>
                 <div className="profile-card__content">
                     <div className="sidebar-heading">

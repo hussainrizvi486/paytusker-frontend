@@ -7,7 +7,7 @@ export const ProductCard = ({ product }) => {
         <div className="product-card">
             <Link to={`/product/${product.id}`} preventScrollReset={false}>
                 <div className="product-card__image">
-                    <img src={product.cover_image || NoimageUrl} />
+                    <img src={product.cover_image ? String(`${import.meta.env.VITE_API_URL}${product.cover_image}`) : NoimageUrl} />
                 </div>
             </Link>
             <div className="product-card__details">
@@ -18,7 +18,7 @@ export const ProductCard = ({ product }) => {
                 </div>
 
                 <div className="card-details__lower">
-                    <div className="product-card__price font-sm">${parseFloat(product.price)}</div>
+                    <div className="product-card__price font-sm">{product.price}</div>
                 </div>
             </div>
         </div>

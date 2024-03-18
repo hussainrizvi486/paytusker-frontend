@@ -107,6 +107,8 @@
 
     .product-media__section {
         flex-basis: 45%;
+        overflow: hidden;
+        
     }
 
     .product-seller__details {
