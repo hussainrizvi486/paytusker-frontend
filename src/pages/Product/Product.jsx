@@ -155,7 +155,7 @@ const ReviewCard = ({ data }) => {
             <div className="review-card__upper">
                 <div className="review-card__upper-sec-1">
                     <div className="review-card__profile-img">
-                        <img src={data?.customer_image ? `${String(`${import.meta.env.VITE_API_URL}${data.customer_image}`)}` : noImage} />
+                        <img src={data.customer_image || noImage} />
                     </div>
                     <div className="">
                         {data?.customer_name}
@@ -176,7 +176,7 @@ const ReviewCard = ({ data }) => {
 
 const ProductMediaCarousel = ({ slides = [] }) => {
     const [activeIndex, setActiveIndex] = useState(0);
-    const totalSlides = slides.length
+    const totalSlides = slides?.length || 0
     let hide = ""
     let navHide = ""
     if (totalSlides === 0 || totalSlides === 1) {
@@ -184,7 +184,7 @@ const ProductMediaCarousel = ({ slides = [] }) => {
         hide = "hide";
     }
 
-    if (slides.length < 7) {
+    if (totalSlides < 7) {
         navHide = "hide"
     }
 
@@ -233,7 +233,7 @@ const ProductMediaCarousel = ({ slides = [] }) => {
 
                         {slides ? slides.map((slide, index) =>
                             <div className="carousel-slide" key={index} >
-                                <img src={String(`${import.meta.env.VITE_API_URL}${slide}`)} alt="" />
+                                <img src={slide} alt="" />
                             </div>
                         ) : <></>}
 
@@ -252,7 +252,7 @@ const ProductMediaCarousel = ({ slides = [] }) => {
                             <div className={`carousel-slides__nav-element ${activeIndex === index ? "active" : ""}`} key={index}
                                 onClick={() => setActiveIndex(index)}
                             >
-                                <img src={String(`${import.meta.env.VITE_API_URL}${slide}`)} alt="" />
+                                <img src={slide} alt="" />
                             </div>
                         ) : <></>}
                     </div>

@@ -26,7 +26,10 @@
 }
 
 .profile-card__img img {
-    object-fit: cover;
+    object-fit: contain;
+    margin: 0;
+    max-height: 2.8rem;
+    width: 2.8rem;
 }
 
 .sidebar-heading {

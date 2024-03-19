@@ -7,7 +7,7 @@ export const ProductCard = ({ product }) => {
         <div className="product-card">
             <Link to={`/product/${product.id}`} preventScrollReset={false}>
                 <div className="product-card__image">
-                    <img src={product.cover_image ? String(`${import.meta.env.VITE_API_URL}${product.cover_image}`) : NoimageUrl} />
+                    <img src={product.cover_image || NoimageUrl} />
                 </div>
             </Link>
             <div className="product-card__details">
