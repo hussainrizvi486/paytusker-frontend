@@ -23,7 +23,7 @@ import "./styles/pages/profile.css";
 
 const Home = lazy(() => import("./pages/Home/Home"));
 const Product = lazy(() => import("./pages/Product/Product"));
-const Login = lazy(() => import("./pages/Login/Login"));
+const LoginPage = lazy(() => import("./pages/LoginPage/LoginPage"));
 const Cart = lazy(() => import("./pages/Cart/Cart"));
 const Address = lazy(() => import("./pages/Profile/Address"));
 const Profile = lazy(() => import("./pages/Profile/Profile"));
@@ -37,11 +37,13 @@ const ReviewsPage = lazy(() => import("./pages/Profile/Reviews"))
 
 
 function App() {
-  const mobileSideOpen = useSelector((state) => state.appUi.MobileSideOpen)
+  const mobileSideOpen = useSelector((state) => state.appUi.MobileSideOpen);
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
-  const toggleSideBar = () => {
+  useEffect(() => { console.log(isAuthenticated) }, [isAuthenticated])
 
-  }
+
+  const toggleSideBar = () => { };
 
   const LoadingChildren = () => {
     return (<div>
@@ -52,7 +54,7 @@ function App() {
     </div>)
   }
 
-  const isAuthenticated = getUserDetails()[1]
+  // const isAuthenticated = getUserDetails()[1]
 
   return (
     <Suspense fallback={<Freeze children={<LoadingChildren />} />}>
@@ -65,7 +67,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/product/:id" element={<Product />} />
-            <Route path="/login" element={<Login />} />
+            <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<Register />} />
             <Route path="*" element={<p>Path not resolved</p>} />
             <Route path="/search" element={<Search />} />

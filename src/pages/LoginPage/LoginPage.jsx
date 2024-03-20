@@ -1,20 +1,21 @@
-import { useEffect, useRef, useState } from "react"
-import { Freeze, } from "../../components"
-import { useDispatch } from "react-redux"
-import { useNavigate } from "react-router-dom"
-import { Link } from "react-router-dom"
-import { useLoginUserMutation } from "../../features/api/api"
-import toast from "react-hot-toast"
-import { jwtDecode } from "jwt-decode"
-import { Header } from "../../layouts"
+import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
-const Login = () => {
-    const userNameRef = useRef()
-    const passwordRef = useRef()
-    const navigate = useNavigate()
-    const [FormMsg, setFormMsg] = useState({ message: "", type: "" })
-    const [pageLoading, setPageLoading] = useState(false)
-    const [UseLoginUser, { isError, isSuccess, isLoading, error }] = useLoginUserMutation()
+import { Button } from "../../components";
+import { useLoginUserMutation } from "../../features/api/api";
+import { Header } from "../../layouts";
+import { LogIn } from "../../redux/slices/authSlice";
+
+const LoginPage = () => {
+    const userNameRef = useRef();
+    const passwordRef = useRef();
+    const navigate = useNavigate();
+    const [FormMsg, setFormMsg] = useState({ message: "", type: "" });
+    const [pageLoading, setPageLoading] = useState(false);
+    const [UseLoginUser, { isError, isSuccess, isLoading, error }] = useLoginUserMutation();
     const dispatch = useDispatch();
 
 
@@ -27,42 +28,36 @@ const Login = () => {
 
         if (isError) {
             setFormMsg({ "message": error.data?.detail, "type": "error" })
+            toast.error(error.data?.detail)
         }
 
     }, [isLoading, isSuccess, isError, error])
 
-    const submitForm = async (e) => {
-        e.preventDefault()
-        const password = passwordRef.current.value
-        const email = userNameRef.current.value
+    const submitForm = async () => {
+        const password = passwordRef.current.value;
+        const email = userNameRef.current.value;
 
-        const credentials = {
-            "email": email,
-            "password": password
+        const reqBody = {
+            "email": email, "password": password
         }
 
-        const req = await UseLoginUser(credentials)
+        const req = await UseLoginUser(reqBody)
+
         if (req.data) {
             const data = await req.data
-            const accessToken = data.access
-            const user = jwtDecode(data.access)
-            localStorage.setItem("authTokens", JSON.stringify(data))
-            localStorage.setItem("user", JSON.stringify(user))
-            dispatch({
-                type: "LogIn",
-                payload: {
-                    accessToken: accessToken,
-                    user: user
-                }
-            })
-            window.location.href = "/"
-            // navigate("/")
+            dispatch(
+                LogIn(data)
+                // {type: "LogIn",
+                // payload: data,}
+            )
+            navigate("/")
+            // window.location.href = "/"
         }
 
     }
 
 
-    if (pageLoading) return <Freeze />
+    // if (pageLoading) return <Freeze />
     return (
         <>
             <Header />
@@ -97,12 +92,18 @@ const Login = () => {
                     </div>
                     <div>
                         <div className="btn-container">
-                            <button type="submit" className="auth-form__submit-btn 
-                            btn btn-full btn-primary btn-sm">Login </button>
+                            <Button
+                                className="auth-form__submit-btn  btn btn-full btn-primary btn-sm"
+                                label="Login"
+                                btnLoading={pageLoading}
+                                onClick={submitForm}
+                            />
+                            {/* <button type="submit"
+                                className="auth-form__submit-btn  btn btn-full btn-primary btn-sm">
+                                Login </button> */}
                         </div>
                         <div className="auth-form__optional-text" >
                             <Link to="/register">
-
                                 Don&apos;t have an account ? Register Here
                             </Link>
                         </div>
@@ -114,4 +115,4 @@ const Login = () => {
     )
 }
 
-export default Login
+export default LoginPage

@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { ScrollText, User, MessageCircle } from "lucide-react";
 import { getUserDetails } from "../../redux/slices/authSlice";
+import userProfile from "../../assets/userProfile.png"
 
 
 export const UserSidebar = () => {
@@ -36,7 +37,7 @@ export const UserSidebar = () => {
         <div className="user-sidebar">
             <div className="profile-card">
                 <div className="profile-card__img">
-                    <img src={`${String(`${import.meta.env.VITE_API_URL}${authUser?.image}`)}`} alt="" />
+                    <img src={`${authUser?.image || userProfile}`} alt="" />
                 </div>
                 <div className="profile-card__content">
                     <div className="sidebar-heading">

@@ -1,10 +1,10 @@
-/* eslint-disable react/prop-types */
-import { ArrowLeft, ArrowRight, BadgeCheck, ChevronLeft, ChevronRight, Star, UserCheck } from "lucide-react"
 import { useEffect, useState } from "react"
-import { Header } from "../../layouts";
+import { useParams, Link } from "react-router-dom"
 import axios from "axios"
+
+import { ArrowLeft, ArrowRight, BadgeCheck, ChevronLeft, ChevronRight, } from "lucide-react"
+import { Header } from "../../layouts";
 import { API_URL } from "../../redux/store"
-import { useParams } from "react-router-dom"
 import { Freeze } from "../../components/Loaders/Freeze"
 import { useNavigate } from "react-router-dom"
 import { FormatCurreny } from "../../utils"
@@ -15,11 +15,11 @@ import toast from "react-hot-toast";
 const Product = () => {
     const [productData, setProductData] = useState()
     const [pageLoading, setPageLoading] = useState(true)
-    const navigate = useNavigate();
     const { id } = useParams();
     const [addItemToCart, cartApiResponse] = useAddToCartMutation();
 
     const getProductDetail = async () => {
+        setPageLoading(true)
         try {
             const req = await axios.get(`${API_URL}api/product/details`, {
                 params: {
@@ -31,14 +31,11 @@ const Product = () => {
                 setProductData(req.data)
                 setPageLoading(false)
             }
-
         }
-        catch (error) {
-            // navigate("/") 
-        }
+        catch (error) { console.error(Error) }
     }
+    useEffect(() => { getProductDetail() }, [id])
 
-    useEffect(() => { getProductDetail() }, [])
 
     const addToCart = (product_id) => {
         addItemToCart({ product_id: product_id })
@@ -47,8 +44,8 @@ const Product = () => {
     useEffect(() => {
         if (cartApiResponse.isLoading) {
             setPageLoading(cartApiResponse.isLoading)
-
         }
+
         if (cartApiResponse.isSuccess) {
             toast.success("Item successfully added to your cart.")
             setPageLoading(cartApiResponse.isLoading)
@@ -75,28 +72,34 @@ const Product = () => {
                             </div>
                             <div className="product-price" >
                                 {productData.formatted_price}
-                                {/* {FormatCurreny(productData?.product_price)} */}
                             </div>
-
-
                             <div className="product-rating-wrapper">
                                 <Rating rating={productData?.rating || 0} />
                                 <div className="font-bold">{parseInt(productData?.rating || 0).toFixed(1)}</div>
                             </div>
-
-
+                            {
+                                productData.product_varients ?
+                                    <div className="product-variants__wrapper">
+                                        {
+                                            productData.product_varients.map((val, index) => (
+                                                <ProductVariantBox data={val} key={index} />
+                                            ))
+                                        }
+                                    </div>
+                                    : <></>
+                            }
                         </div>
 
                         <div className="product-page__actions">
                             <button className="btn btn-primary btn-sm" onClick={() => addToCart(productData?.id)}>Add to Cart</button>
                         </div>
-
                     </section>
 
                     <section className="product-seller__details">
                         <div className="flex-end">
                             <div className="verified-seller-tag">
-                                <BadgeCheck /> <span>Verified</span></div>
+                                <BadgeCheck /> <span>Verified</span>
+                            </div>
                         </div>
 
                         <div className="seller-details__wrapper">
@@ -105,10 +108,7 @@ const Product = () => {
                         </div>
 
                         <div className="product-seller-rating__wrapper">
-                            <div>
-                                Seller rating
-                            </div>
-
+                            <div>Seller rating</div>
                             <div className="">
                                 <div className="font-bold text-lg">
                                     5/5
@@ -145,6 +145,17 @@ const Product = () => {
 }
 
 export default Product
+
+const ProductVariantBox = ({ data }) => {
+    const { id } = useParams();
+    return (
+        <div className={`product-variant-box ${id === data.id ? "active" : ""}`}>
+            <Link to={`/product/${data.id}`}>
+                <img src={data?.cover_image} alt="" />
+            </Link>
+        </div>
+    )
+}
 
 
 const ReviewCard = ({ data }) => {

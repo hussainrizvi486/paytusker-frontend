@@ -1,33 +1,37 @@
-import { Link } from "react-router-dom"
-import { Header } from "../../layouts";
-import axios from "axios"
-import { API_URL } from "../../redux/store"
-import toast from "react-hot-toast"
 import { useRef, useState } from "react";
-import { Button, Freeze } from "../../components"
-import { useNavigate } from "react-router-dom";
-import PhoneInput from 'react-phone-input-2'
+import { useNavigate, Link } from "react-router-dom";
+import axios from "axios";
+import toast from "react-hot-toast";
+import PhoneInput from 'react-phone-input-2';
+
+import { Header } from "../../layouts";
+import { Button } from "../../components";
+import { API_URL } from "../../redux/store";
+
 import 'react-phone-input-2/lib/style.css'
 
 
 const Register = () => {
     const navigate = useNavigate();
     const registerFormRef = useRef();
-    const registerFormData = {};
-
     const [pageLoading, setPageLoading] = useState(false);
     const [FormMsg, setFormMsg] = useState({ message: "", status: "" })
 
+    const registerFormData = {};
 
     const submitForm = () => {
         const formData = new FormData(registerFormRef.current)
-        // document.querySelector("form").
-        // if ()
-        // document.querySelector("form").reportValidity()
-        for (const [entry, value] of formData.entries()) {
-            registerFormData[entry] = value;
+        registerFormRef.current.checkValidity()
+        if (registerFormRef.current?.checkValidity()) {
+            for (const [entry, value] of formData.entries()) {
+                registerFormData[entry] = value;
+            }
+            registerUser(registerFormData)
         }
-        registerUser(registerFormData)
+        else {
+            registerFormRef.current?.reportValidity()
+        }
+
     }
 
     const registerUser = async (payload) => {
@@ -36,29 +40,29 @@ const Register = () => {
             setPageLoading(false)
 
         }, 1000);
-        // try {
-        //     setFormMsg({ "message": "tes t", "status": "danger" })
-        //     const req = await axios.post(`${API_URL}/api/register/`, payload)
-        //     if (req.status === 200) {
-        //         toast.success("User Created")
-        //         setFormMsg(() => {
-        //             return { type: "success", message: "User Created" };
-        //         });
-        //         navigate("/login")
-        //     }
-        //     setPageLoading(false)
-        // } catch (error) {
-        //     let errorMsg = ""
-        //     if (error.message == "Network Error") { errorMsg = "Server is unresponsive." }
-        //     if (error?.response?.data) { errorMsg = error?.response?.data }
-        //     setPageLoading(false)
-        //     toast.error(errorMsg)
-        // }
-        console.log(registerFormData)
+        try {
+            const req = await axios.post(`${API_URL}/api/user/register/`, payload)
+            if (req.status === 200) {
+                toast.success("User Created")
+                setFormMsg(() => {
+                    return { type: "success", message: "User Created" };
+                });
+                navigate("/login")
+            }
+            setPageLoading(false)
+        } catch (error) {
+            let errorMsg = ""
+            if (error.message == "Network Error") { errorMsg = "Server is unresponsive." }
+            if (error?.response?.data) { errorMsg = error?.response?.data }
+            setPageLoading(false)
+            toast.error(errorMsg)
+            setFormMsg(() => {
+                return { type: "error", message: errorMsg };
+            });
+        }
     }
 
 
-    // if (pageLoading) return <Freeze />
     return (
         <div>
             <Header />
@@ -103,7 +107,7 @@ const Register = () => {
 
                         <div className="input-box">
                             <div className="input-box__input">
-                                <input type="text" placeholder="Email" className="auth-input" required name="email"
+                                <input type="email" placeholder="Email" className="auth-input" required name="email"
                                     onChange={(e) => registerFormData[e.target.name] = e.target.value}
                                     defaultValue={registerFormData["email"] || ""}
                                 />
@@ -116,8 +120,9 @@ const Register = () => {
                                     country={"us"}
                                     inputProps={{
                                         autoFocus: false, required: "required",
-                                        name: "phone_number"
+                                        name: "phone"
                                     }}
+                                    disableDropdown={true}
                                 />
                             </div>
                         </div>
@@ -132,6 +137,11 @@ const Register = () => {
                         </div>
                     </div>
 
+
+
+                    <div className={`auth-form__msg-container auth-msg ${FormMsg.type}`}>
+                        {FormMsg.message}
+                    </div>
 
                     <div>
                         <div className="btn-container">
@@ -148,10 +158,6 @@ const Register = () => {
                         </div>
                     </div>
                 </form>
-
-                <div className={`auth-form__msg-container auth-msg ${FormMsg.type}`}>
-                    {FormMsg.message}
-                </div>
 
             </div>
         </div>
