@@ -1,16 +1,16 @@
-import { Link } from "react-router-dom"
-import { Pencil, Trash2 } from "lucide-react"
-import Skeleton from 'react-loading-skeleton'
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { Pencil, Trash2 } from "lucide-react";
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
-import { useGetUserAddressQuery, useEditUserAddressMutation } from "../../features/api/api"
-import 'react-loading-skeleton/dist/skeleton.css'
-import { Header, UserSidebar } from "../../layouts"
-import { useEffect, useState } from "react"
+import { useGetUserAddressQuery, useUpdateUserAddressMutation } from "../../api";
+import { Header, UserSidebar } from "../../layouts";
 
 
 const Address = () => {
     const { data, isLoading: isFetchingAddress } = useGetUserAddressQuery();
-    const [editAddressApi, editAddressApiRes] = useEditUserAddressMutation();
+    const [editAddressApi, editAddressApiRes] = useUpdateUserAddressMutation();
     const [pageLoading, setPageLoading] = useState(false);
 
     const removeAddress = (id) => {
@@ -53,12 +53,12 @@ const Address = () => {
                                 ))}
                     </div>
                 </div>
-
             </div>
         </div>
     )
 }
 
+export default Address;
 
 export const AddressCardLoadingSkeleton = () => {
     return <div className="address-card__wrapper">
@@ -66,15 +66,11 @@ export const AddressCardLoadingSkeleton = () => {
     </div>
 }
 
-export default Address
-
-
 const AddressCard = ({ data, removeAddress }) => {
     return (
         <div className="address-card__wrapper">
             <div className="flex-align-between">
                 <div className="address-card__title">{data?.address_title}</div>
-
                 <div className="flex-align-center">
                     <Link to={`/profile/address/form/edit?id=${data?.id}`}>
                         <Pencil className="icon-sm cursor-pointer" />

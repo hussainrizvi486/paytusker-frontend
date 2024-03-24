@@ -1,7 +1,7 @@
 import { FormInput } from "../../components/Form/FormInput";
 import { FormSelect } from "../../components/Form/FormSelect";
 import { Header, UserSidebar } from "../../layouts";
-import { useAddUserAddressMutation, useEditUserAddressMutation, useGetUserAddressQuery } from "../../features/api/api";
+import { useAddUserAddressMutation, useUpdateUserAddressMutation, useGetUserAddressQuery } from "../../api";
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
@@ -86,21 +86,17 @@ const AddAddress = () => {
                         <div className="heading-md">{pageHeading}</div>
                     </div>
                     <div className="address-page__content">
-                        {
-                            pageLoading ?
-                                <AddressFormSkeleton /> : <></>
-                        }
-                        {
-                            urlParams.action === "edit" ?
-                                <EditAddressForm
-                                    searchParams={searchParams}
-                                    useGetUserAddressQuery={useGetUserAddressQuery}
-                                    addressFormFields={AddressFormFields}
-                                    generateForm={generateForm}
-                                    HandleEditApi={useEditUserAddressMutation}
-                                />
-                                : <>{generateForm(AddressFormFields, addAddress, "Save")}</>
-                        }
+                        {pageLoading ? <AddressFormSkeleton /> : <></>}
+
+                        {urlParams.action === "edit" ?
+                            <EditAddressForm
+                                searchParams={searchParams}
+                                useGetUserAddressQuery={useGetUserAddressQuery}
+                                addressFormFields={AddressFormFields}
+                                generateForm={generateForm}
+                                HandleEditApi={useUpdateUserAddressMutation}
+                            />
+                            : <>{generateForm(AddressFormFields, addAddress, "Save")}</>}
                     </div>
                 </div>
             </div>

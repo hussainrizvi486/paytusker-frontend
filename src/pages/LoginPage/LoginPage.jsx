@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
 import { Button } from "../../components";
-import { useLoginUserMutation } from "../../features/api/api";
+import { useLoginUserMutation } from "../../api";
 import { Header } from "../../layouts";
 import { LogIn } from "../../redux/slices/authSlice";
 
@@ -40,18 +40,11 @@ const LoginPage = () => {
         const reqBody = {
             "email": email, "password": password
         }
-
-        const req = await UseLoginUser(reqBody)
-
+        const req = await UseLoginUser(reqBody);
         if (req.data) {
             const data = await req.data
-            dispatch(
-                LogIn(data)
-                // {type: "LogIn",
-                // payload: data,}
-            )
+            dispatch(LogIn(data))
             navigate("/")
-            // window.location.href = "/"
         }
 
     }

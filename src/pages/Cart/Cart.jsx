@@ -1,18 +1,17 @@
-/* eslint-disable react/prop-types */
-import { Minus, Plus, Trash2 } from "lucide-react"
-import { useGetCartDetailsQuery, useUpdateQtyMutation } from "../../features/api/api"
-import { useEffect, useState } from "react"
-import { useDispatch } from "react-redux"
-import { updateCart } from "../../redux/slices/cartSlice"
-import { useSelector } from 'react-redux'
-import { Freeze } from "../../components/Loaders/Freeze"
-import { FormatCurreny } from "../../utils"
-import { CreateOrder } from "../../redux/actions/User"
-import { Navbar } from "../../layouts"
-import toast from "react-hot-toast"
-import { useNavigate } from "react-router-dom"
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Minus, Plus, Trash2 } from "lucide-react";
+import toast from "react-hot-toast";
 
-const paymentMethods = [
+import { useGetCartDetailsQuery, useUpdateCartMutation } from "../../api";
+import { FormatCurreny } from "../../utils";
+import { CreateOrder } from "../../redux/actions/User";
+import { Navbar } from "../../layouts";
+import { Button, Freeze } from "../../components";
+
+
+const _paymentMethods = [
     {
         image: "https://4a7efb2d53317100f611-1d7064c4f7b6de25658a4199efb34975.ssl.cf1.rackcdn.com/visa-mastercard-agree-to-give-gas-pumps-break-on-emv-shift-showcase_image-9-p-2335.jpg",
         id: "002",
@@ -36,49 +35,62 @@ const Cart = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const { data, isLoading: getItemsLoading, isSuccess, isError } = useGetCartDetailsQuery({});
-    const [editQty, qtyResults] = useUpdateQtyMutation();
-    const [cartData, setCartData] = useState(
-    )
-    const [pageLoading, setPageLoading] = useState(getItemsLoading)
-    const [paymentMethod, setPaymentMethod] = useState(null)
+    const { data: cartApiData, isLoading: getItemsLoading, isSuccess, isError } = useGetCartDetailsQuery();
+    const [updateCartApi, qtyResults] = useUpdateCartMutation();
+    const [cartDataObject, setCartDataObject] = useState();
+    const [pageLoading, setPageLoading] = useState(getItemsLoading);
+    const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
+    const [currentSelectedAddress, setCurrentSelectedAddress] = useState(null);
 
-    let cart_state = useSelector((state) => state.cart);
-
-    const CheckoutCart = () => {
-        let data = {
-            "payment_method": paymentMethod
+    const [availablePaymentMethods, setAvailablePaymentMethods] = useState([])
+    const userAddress = [
+        {
+            "id": 1,
+            "address_line": "North Karachi, Karachi, Sector 5I, Karachi, Sindh, 07507, Pakistan ",
+        },
+        {
+            "id": 2,
+            "address_line": "North Karachi, Sector 5L, House no L556, Karachi, Sindi, 07507, Pakistan",
         }
-        window.location.href
-        CreateOrder(data)
+    ]
+
+
+
+    const checkoutCart = () => { }
+    const setSelectedAddress = (id) => {
+        setCurrentSelectedAddress(id)
+    }
+
+    const getPaymentMethods = () => {
+        setAvailablePaymentMethods(_paymentMethods)
     }
 
 
-    useEffect(() => {
-        if (data && isSuccess) {
-            setPageLoading(getItemsLoading)
-            const payload = {
-                items: data.items, total_qty: data.total_qty, total_amount: data.total_amount,
-            }
-            setCartData(payload)
-            dispatch(updateCart(payload));
-        }
-
-    }, [data, dispatch, cart_state, getItemsLoading, isSuccess]);
-
+    // 
 
     useEffect(() => {
-        if (qtyResults.isLoading) {
-            setPageLoading(qtyResults.isLoading)
+        if (isSuccess) {
+            getPaymentMethods()
+            setCartDataObject(cartApiData);
+            setPageLoading(false);
         }
-    }, [qtyResults])
+
+    }, [cartApiData, isSuccess])
+
+
+    useEffect(() => {
+        setPageLoading(getItemsLoading)
+    }, [getItemsLoading])
+
+    useEffect(() => {
+        if (qtyResults.isLoading) { setPageLoading(qtyResults.isLoading) }
+    }, [qtyResults.isLoading])
 
 
     if (isError) {
         toast.error("Something went wrong.")
-        navigate("/")
     }
-    useEffect(() => { }, [isError])
+
 
     if (pageLoading) return <Freeze />
 
@@ -89,24 +101,33 @@ const Cart = () => {
                 <div className="cart-items__wrapper">
                     <div className="ci-w2">
                         <div className="cart-items__container">
-                            {cartData?.items?.map((item, index) =>
+                            {cartDataObject?.items?.map((item, index) =>
                                 <CartItemCard key={index}
                                     price={item.rate}
                                     qty={item.qty}
                                     name={item.product_name}
                                     image={item.cover_image}
-                                    editQty={editQty}
+                                    editQty={updateCartApi}
                                     id={item.id}
                                     setPageLoading={setPageLoading}
                                 />
-
                             )}
                         </div>
                     </div>
                 </div>
 
                 <div className="cart-summary__wrapper">
-                    <OrderSummary sub_total={cartData?.total_qty} total={cartData?.total_amount} setPaymentMethod={setPaymentMethod} paymentMethod={paymentMethod} CheckoutCart={CheckoutCart} />
+                    <OrderSummary
+                        sub_total={cartDataObject?.total_qty}
+                        total={cartDataObject?.total_amount}
+                        setPaymentMethod={setSelectedPaymentMethod}
+                        currentPaymentMethod={selectedPaymentMethod}
+                        paymentMethods={availablePaymentMethods}
+                        checkoutCart={checkoutCart}
+                        userAddressList={userAddress}
+                        currentSelectedAddress={currentSelectedAddress}
+                        setSelectedAddress={setSelectedAddress}
+                    />
                 </div>
             </div>
         </>
@@ -116,7 +137,18 @@ const Cart = () => {
 
 export default Cart
 
-const OrderSummary = ({ total, sub_total, setPaymentMethod, paymentMethod, CheckoutCart }) => {
+const OrderSummary = ({
+    total,
+    sub_total,
+    checkoutCart,
+    paymentMethods,
+    setPaymentMethod,
+    currentPaymentMethod,
+    userAddressList,
+    currentSelectedAddress,
+    setSelectedAddress
+}) => {
+
     return (
         <div className="cart-order-summary-container">
             <div className="order-summary__title">Order Summary</div>
@@ -128,22 +160,54 @@ const OrderSummary = ({ total, sub_total, setPaymentMethod, paymentMethod, Check
                     <div>Total</div><div>{FormatCurreny(total)}</div>
                 </div>
             </div>
+
+            <br />
             <div>
-                {paymentMethods.map((val, i) =>
-                    <div key={i} onClick={() => setPaymentMethod(val.id)} >
-                        <PaymentMethodCard
-                            img={val.image}
-                            name={val.name}
-                            active={paymentMethod === val.id ? true : false}
-                        />
-                    </div>
-                )}
+                <div className="font-medium mb-2">Payment method</div>
+                <div>
+                    {paymentMethods?.map((val, i) =>
+                        <div key={i} onClick={() => setPaymentMethod(val.id)} >
+                            <PaymentMethodCard
+                                img={val.image}
+                                name={val.name}
+                                active={currentPaymentMethod === val.id ? true : false}
+                            />
+                        </div>
+                    )}
+                </div>
+            </div>
+
+            <br />
+            <br />
+            <div>
+                <div className="font-medium mb-4">Shipping address</div>
+                <div>
+                    {
+                        userAddressList?.map((val, i) => (
+                            <div key={i} className="flex-align-start gap-1 mb-2">
+                                <input
+                                    checked={currentSelectedAddress == val.id}
+                                    type="radio" name={i} id={i}
+                                    onChange={() => setSelectedAddress(val.id)}
+                                />
+                                <label htmlFor={i}>
+                                    {val.address_line}
+                                </label>
+                            </div>
+                        ))
+                    }
+                </div>
             </div>
             <div>
-                <button className="btn btn-full btn-primary or-sum-btn-checkt"
-                    onClick={CheckoutCart}>
+                <Button
+                    className="btn btn-full btn-primary or-sum-btn-checkt"
+                    label="Checkout"
+                    onClick={checkoutCart}
+                />
+                {/* <button className="btn btn-full btn-primary or-sum-btn-checkt"
+                    onClick={() => checkoutCart()}>
                     Checkout
-                </button>
+                </button> */}
             </div>
         </div>
     )
@@ -155,7 +219,6 @@ export const PaymentMethodCard = ({ name, img, active }) => {
             <div className="pm-card__img-wrapper">
                 <img src={img} alt="" />
             </div>
-
             <div className="text-sm font-bold">{name}</div>
         </div>
     )

@@ -40,14 +40,17 @@
     padding: .25rem;
 }
 
-.product-variant-box.ro {
-    border-color: #3180ff;
-}
 
 .product-variant-box:hover {
-    border-color: #3180ff;
+    /* border-color: #ff0b0b; */
     cursor: pointer;
 }
+
+.product-variant-box.active {
+    border-color: #ff0b0b;
+    border: 1.4px solid #ff0b0b;
+}
+
 
 .product-rating-wrapper {
     display: flex;

@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux"
 import { Freeze } from "../../components"
-import { useGetUserDetailsQuery } from "../../features/api/api"
+import { useGetUserDetailsQuery } from "../../api"
 import { UserSidebar, Header } from "../../layouts"
 import { LogOut } from "../../redux/slices/authSlice"
 

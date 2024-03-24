@@ -9,6 +9,8 @@
 .order-page-main {
     margin-top: 1rem;
     padding-inline: .5rem;
+    height: 80vh;
+    overflow-y: auto;
 }
 
 .order-item__card {
@@ -28,9 +30,13 @@
 }
 
 .order-item__card-img img {
-    height: 100%;
+    /* height: 100%;
     width: 100%;
-    object-fit: cover;
+    object-fit: cover; */
+    height: 4.5rem;
+    width: 4.5rem;
+    object-fit: contain;
+    margin: auto;
 }
 
 .order-item__card-details {

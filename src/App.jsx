@@ -27,13 +27,13 @@ const LoginPage = lazy(() => import("./pages/LoginPage/LoginPage"));
 const Cart = lazy(() => import("./pages/Cart/Cart"));
 const Address = lazy(() => import("./pages/Profile/Address"));
 const Profile = lazy(() => import("./pages/Profile/Profile"));
-const Register = lazy(() => import("./pages/Register/Register"));
-const Search = lazy(() => import("./pages/Search/Search"));
-const Orders = lazy(() => import("./pages/Orders/Orders"));
 const AddressForm = lazy(() => import("./pages/Profile/AddressForm"));
+// const Register = lazy(() => import("./pages/Register/Register"));
+// const Search = lazy(() => import("./pages/Search/Search"));
+// const Orders = lazy(() => import("./pages/Orders/Orders"));
 const CheckOut = lazy(() => import("./pages/CheckOut/CheckOut"))
-const VourchersPage = lazy(() => import("./pages/Profile/Vourchers"))
-const ReviewsPage = lazy(() => import("./pages/Profile/Reviews"))
+// const VourchersPage = lazy(() => import("./pages/Profile/Vourchers"))
+// const ReviewsPage = lazy(() => import("./pages/Profile/Reviews"))
 
 
 function App() {
@@ -68,19 +68,22 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/product/:id" element={<Product />} />
             <Route path="/login" element={<LoginPage />} />
+            {/* 
             <Route path="/register" element={<Register />} />
             <Route path="*" element={<p>Path not resolved</p>} />
             <Route path="/search" element={<Search />} />
-            <Route path="/checkout" element={<CheckOut />} />
+          */}
 
             <Route element={<ProtectedRoute isAuthenticated={isAuthenticated} />}>
               <Route path="/cart" element={<Cart />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/profile/address" element={<Address />} />
               <Route path="/profile/address/form/:action" element={<AddressForm />} />
+            <Route path="/checkout" element={<CheckOut />} />
+              {/*
               <Route path="/profile/orders" element={<Orders />} />
               <Route path="/profile/vourchers" element={<VourchersPage />} />
-              <Route path="/profile/reviews/:action" element={<ReviewsPage />} />
+              <Route path="/profile/reviews/:action" element={<ReviewsPage />} /> */}
             </Route>
 
           </Routes>

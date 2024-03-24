@@ -29,6 +29,12 @@
     align-items: center;
 }
 
+.flex-align-start {
+    display: flex;
+    align-items: baseline;
+
+}
+
 
 .flex-col {
     display: flex;
@@ -274,4 +280,3 @@
     height: var(--icon-size-sm);
     width: var(--icon-size-sm);
 }
-

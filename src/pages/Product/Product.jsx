@@ -1,22 +1,18 @@
 import { useEffect, useState } from "react"
 import { useParams, Link } from "react-router-dom"
+import { ArrowLeft, ArrowRight, BadgeCheck, ChevronLeft, ChevronRight, } from "lucide-react";
 import axios from "axios"
-
-import { ArrowLeft, ArrowRight, BadgeCheck, ChevronLeft, ChevronRight, } from "lucide-react"
-import { Header } from "../../layouts";
-import { API_URL } from "../../redux/store"
-import { Freeze } from "../../components/Loaders/Freeze"
-import { useNavigate } from "react-router-dom"
-import { FormatCurreny } from "../../utils"
-import { useAddToCartMutation } from "../../features/api/api"
-import { Rating } from "../../components/Rating/Rating"
 import toast from "react-hot-toast";
+import { API_URL } from "../../redux/store";
+import { Header } from "../../layouts";
+import { Freeze, Rating } from "../../components";
+import { useAddItemToCartMutation } from "../../api";
 
 const Product = () => {
-    const [productData, setProductData] = useState()
-    const [pageLoading, setPageLoading] = useState(true)
+    const [productData, setProductData] = useState(null);
+    const [pageLoading, setPageLoading] = useState(true);
     const { id } = useParams();
-    const [addItemToCart, cartApiResponse] = useAddToCartMutation();
+    const [addItemToCart, cartApiResponse] = useAddItemToCartMutation();
 
     const getProductDetail = async () => {
         setPageLoading(true)
@@ -27,13 +23,13 @@ const Product = () => {
                 }
             })
             if (req.status === 200) {
-                console.log(req.data)
-                setProductData(req.data)
-                setPageLoading(false)
+                setProductData(req.data);
+                setPageLoading(false);
             }
         }
-        catch (error) { console.error(Error) }
+        catch (error) { console.error(error) }
     }
+
     useEffect(() => { getProductDetail() }, [id])
 
 
@@ -52,7 +48,12 @@ const Product = () => {
         }
     }, [cartApiResponse.isLoading, cartApiResponse.isSuccess])
 
-    if (pageLoading) return <Freeze />
+    if (pageLoading) return <Freeze
+        backdropStyle={{
+            "backgroundColor": "#ffffff7a"
+        }}
+    />
+
     return (
         <>
             <Header />

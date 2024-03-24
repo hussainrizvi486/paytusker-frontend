@@ -1,17 +1,17 @@
 /* eslint-disable react/prop-types */
 import { Spinner } from "./Spinner"
 
-export const Freeze = ({ message = "Loading..", children }) => {
-    return (
-        <div className="freeze-backdrop">
-            {
-                children ? children :
+export const Freeze = ({ message = "Loading..", children, backdropStyle = {} }) => {
 
-                    <div className="freeze-spinner-wrapper">
-                        <Spinner />
-                        <div className="text-center font-bold">{message}</div>
-                    </div>
-            }
+    return (
+        <div className="freeze-backdrop"
+            style={backdropStyle}
+        >
+            {children ? children :
+                <div className="freeze-spinner-wrapper">
+                    <Spinner />
+                    <div className="text-center font-bold">{message}</div>
+                </div>}
         </div>
     )
 }

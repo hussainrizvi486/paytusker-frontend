@@ -3,6 +3,6 @@ export const FormatCurreny = (v) => {
         style: 'currency',
         currency: 'USD',
     });
-    return formatter.format(v)
+    return formatter.format(v || 0)
 }
 
