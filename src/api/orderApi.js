@@ -4,10 +4,12 @@ export const orderApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         createCustomerOrder: builder.mutation({
             query: (body) => ({
-                url: "api/order/create",
+                url: "api/customer/order/create",
                 method: "POST",
                 body: body
             }),
+            invalidatesTags: (res, error) => error ? [] : ["refetchOrders"]
+
         }),
 
         addOrderReview: builder.mutation({
@@ -21,10 +23,11 @@ export const orderApiSlice = apiSlice.injectEndpoints({
 
         getCustomerOrders: builder.query({
             query: (params) => ({
-                url: "api/order/get",
+                url: "api/customer/order/get",
                 method: "GET",
                 params: params
             }),
+            providesTags:["refetchOrders"]
         }),
 
         getOrderReviews: builder.query({

@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react"
-import { useGetCustomerOrdersQuery, useGetUserDetailsQuery } from "../../features/api/api"
+import { useGetCustomerOrdersQuery } from "../../api"
 import { Header } from "../../layouts"
 import { FormatCurreny } from "../../utils"
 import { UserSidebar } from "../../layouts"
@@ -9,8 +9,8 @@ import Skeleton from "react-loading-skeleton"
 
 
 const Orders = () => {
-  const OrderQuery = useGetCustomerOrdersQuery()
-  const [orders, setOrdersData] = useState()
+  const OrderQuery = useGetCustomerOrdersQuery();
+  const [orders, setOrdersData] = useState();
 
   useEffect(() => {
     setOrdersData(OrderQuery.data)
@@ -69,7 +69,7 @@ const OrdersCard = ({ data }) => {
         <div>
           <span className="font-semibold">ORDER ID:</span> {data?.order_id}</div>
         <div className="order-status mt-1">
-          Delivered
+          Pending
         </div>
 
         <div className="my-2">

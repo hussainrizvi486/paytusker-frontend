@@ -71,7 +71,7 @@ const AddressCard = ({ data, removeAddress }) => {
         <div className="address-card__wrapper">
             <div className="flex-align-between">
                 <div className="address-card__title">{data?.address_title}</div>
-                <div className="flex-align-center">
+                <div className="flex-align-center gap-1">
                     <Link to={`/profile/address/form/edit?id=${data?.id}`}>
                         <Pencil className="icon-sm cursor-pointer" />
                     </Link>

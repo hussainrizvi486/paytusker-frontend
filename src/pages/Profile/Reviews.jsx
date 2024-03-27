@@ -1,6 +1,6 @@
 import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom"
 import { Header, UserSidebar } from "../../layouts"
-import { useAddOrderReviewMutation, useGetUserReviewsQuery, useToReviewItemsQuery } from "../../features/api/api"
+import { useAddOrderReviewMutation, useGetOrderReviewsQuery, useGetPendingOrderReviewsQuery } from "../../api"
 import { useEffect, useRef, useState } from "react"
 import Rating from 'react-rating'
 import { Pencil, Star, X } from "lucide-react"
@@ -21,12 +21,11 @@ const Reviews = () => {
             <div className="sidebar-page">
                 <UserSidebar />
                 <div className="sidebar-page__content reviews-page">
-                    {
-                        params.action == "list" ?
-                            <ReviewsListContainer /> :
-                            params.action == "add" ? <AddReviewForm /> :
-                                params.action == "history" ? <ToReviewOrderContainer /> :
-                                    <></>}
+                    {params.action == "list" ?
+                        <ReviewsListContainer /> :
+                        params.action == "add" ? <AddReviewForm /> :
+                            params.action == "history" ? <ToReviewOrderContainer /> :
+                                <></>}
                 </div>
             </div>
         </div>
@@ -36,7 +35,7 @@ const Reviews = () => {
 export default Reviews
 
 const ToReviewOrderContainer = () => {
-    const { data, isLoading, isSuccess } = useToReviewItemsQuery();
+    const { data, isLoading, isSuccess } = useGetPendingOrderReviewsQuery();
 
     const ToReviewCardLoading = () => {
         return (
@@ -136,7 +135,7 @@ const ToReviewOrderContainer = () => {
 
 
 const ReviewsListContainer = () => {
-    const GetReviewsApi = useGetUserReviewsQuery();
+    const GetReviewsApi = useGetOrderReviewsQuery();
     const [reviewsData, setReviewsData] = useState(null);
 
 

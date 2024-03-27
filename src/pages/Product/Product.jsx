@@ -130,11 +130,11 @@ const Product = () => {
 
 
                 {
-                    productData?.reviews ?
+                    productData?.product_reviews ?
                         <section className="product-reviews">
                             <div className="section-heading">Top Cusomer reviews</div>
                             <div>
-                                {productData?.reviews?.map((val, i) =>
+                                {productData?.product_reviews?.map((val, i) =>
                                     <ReviewCard key={i} data={val} />
                                 )}
                             </div>

@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Minus, Plus, Trash2 } from "lucide-react";
 import toast from "react-hot-toast";
 
-import { useGetCartDetailsQuery, useUpdateCartMutation } from "../../api";
+import { useGetCartDetailsQuery, useUpdateCartMutation, useGetUserAddressQuery, useCreateCustomerOrderMutation } from "../../api";
 import { FormatCurreny } from "../../utils";
-import { CreateOrder } from "../../redux/actions/User";
 import { Navbar } from "../../layouts";
 import { Button, Freeze } from "../../components";
 
@@ -36,27 +35,33 @@ const Cart = () => {
     const navigate = useNavigate();
 
     const { data: cartApiData, isLoading: getItemsLoading, isSuccess, isError } = useGetCartDetailsQuery();
+    const [createOrderApi, createOrderApiRes] = useCreateCustomerOrderMutation();
+
     const [updateCartApi, qtyResults] = useUpdateCartMutation();
-    const [cartDataObject, setCartDataObject] = useState();
+    const [cartDataObject, setCartDataObject] = useState(null);
     const [pageLoading, setPageLoading] = useState(getItemsLoading);
     const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
     const [currentSelectedAddress, setCurrentSelectedAddress] = useState(null);
-
     const [availablePaymentMethods, setAvailablePaymentMethods] = useState([])
-    const userAddress = [
-        {
-            "id": 1,
-            "address_line": "North Karachi, Karachi, Sector 5I, Karachi, Sindh, 07507, Pakistan ",
-        },
-        {
-            "id": 2,
-            "address_line": "North Karachi, Sector 5L, House no L556, Karachi, Sindi, 07507, Pakistan",
+    const [userAddress, setUserAddress] = useState([])
+    const { data: addressApiData } = useGetUserAddressQuery()
+
+
+
+    const checkoutCart = () => {
+        if (currentSelectedAddress && selectedPaymentMethod) {
+            const reqBody = {
+                "delivery_address": currentSelectedAddress,
+                "payment_method": selectedPaymentMethod,
+            }
+            createOrderApi(reqBody)
         }
-    ]
+        else {
+            toast("Please choose an address and payment method.", { icon: "ℹ" })
+        }
 
+    }
 
-
-    const checkoutCart = () => { }
     const setSelectedAddress = (id) => {
         setCurrentSelectedAddress(id)
     }
@@ -65,12 +70,21 @@ const Cart = () => {
         setAvailablePaymentMethods(_paymentMethods)
     }
 
+    useEffect(() => {
+        if (createOrderApiRes.isLoading) {
+            setPageLoading(createOrderApiRes.isLoading);
+        }
+        if (createOrderApiRes.isSuccess) {
+            toast.success("Order successfully created!")
+            setPageLoading(false);
 
-    // 
+        }
+    }, [createOrderApiRes.isLoading, createOrderApiRes.isSuccess]);
 
     useEffect(() => {
         if (isSuccess) {
             getPaymentMethods()
+            console.log(cartApiData)
             setCartDataObject(cartApiData);
             setPageLoading(false);
         }
@@ -86,49 +100,60 @@ const Cart = () => {
         if (qtyResults.isLoading) { setPageLoading(qtyResults.isLoading) }
     }, [qtyResults.isLoading])
 
-
-    if (isError) {
-        toast.error("Something went wrong.")
-    }
+    useEffect(() => { setUserAddress(addressApiData) }, [addressApiData])
 
 
-    if (pageLoading) return <Freeze />
+    if (isError) { toast.error("Something went wrong.") }
+    if (createOrderApiRes.isSuccess) { navigate("/profile/orders") }
+    if (pageLoading && !createOrderApiRes.isLoading) return <Freeze />
 
     return (
         <>
-            <div className='cart-page'>
+            <div >
                 <Navbar title={"Your Cart"} />
-                <div className="cart-items__wrapper">
-                    <div className="ci-w2">
-                        <div className="cart-items__container">
-                            {cartDataObject?.items?.map((item, index) =>
-                                <CartItemCard key={index}
-                                    price={item.rate}
-                                    qty={item.qty}
-                                    name={item.product_name}
-                                    image={item.cover_image}
-                                    editQty={updateCartApi}
-                                    id={item.id}
-                                    setPageLoading={setPageLoading}
-                                />
-                            )}
+
+                <div className='cart-page'>
+                    <div className="cart-items__wrapper">
+                        <div className="ci-w2">
+                            <div className="cart-items__container">
+                                {cartDataObject && cartDataObject.items?.length > 0 ? (
+                                    cartDataObject.items.map((item, index) => (
+                                        <CartItemCard
+                                            key={index}
+                                            price={item.rate}
+                                            qty={item.qty}
+                                            name={item.product_name}
+                                            image={item.cover_image}
+                                            editQty={updateCartApi}
+                                            id={item.id}
+                                            setPageLoading={setPageLoading}
+                                        />
+                                    ))
+                                ) : !getItemsLoading && (!cartDataObject || !cartDataObject.items) ? (
+                                    <EmptyCart />
+                                ) : (
+                                    <></>
+                                )}
+                            </div>
                         </div>
+                    </div>
+
+                    <div className="cart-summary__wrapper">
+                        <OrderSummary
+                            sub_total={cartDataObject?.total_qty}
+                            total={cartDataObject?.total_amount}
+                            setPaymentMethod={setSelectedPaymentMethod}
+                            currentPaymentMethod={selectedPaymentMethod}
+                            paymentMethods={availablePaymentMethods}
+                            checkoutCart={checkoutCart}
+                            userAddressList={userAddress}
+                            currentSelectedAddress={currentSelectedAddress}
+                            setSelectedAddress={setSelectedAddress}
+                            pageLoading={pageLoading}
+                        />
                     </div>
                 </div>
 
-                <div className="cart-summary__wrapper">
-                    <OrderSummary
-                        sub_total={cartDataObject?.total_qty}
-                        total={cartDataObject?.total_amount}
-                        setPaymentMethod={setSelectedPaymentMethod}
-                        currentPaymentMethod={selectedPaymentMethod}
-                        paymentMethods={availablePaymentMethods}
-                        checkoutCart={checkoutCart}
-                        userAddressList={userAddress}
-                        currentSelectedAddress={currentSelectedAddress}
-                        setSelectedAddress={setSelectedAddress}
-                    />
-                </div>
             </div>
         </>
 
@@ -146,6 +171,7 @@ const OrderSummary = ({
     currentPaymentMethod,
     userAddressList,
     currentSelectedAddress,
+    pageLoading,
     setSelectedAddress
 }) => {
 
@@ -191,7 +217,7 @@ const OrderSummary = ({
                                     onChange={() => setSelectedAddress(val.id)}
                                 />
                                 <label htmlFor={i}>
-                                    {val.address_line}
+                                    {val.address_display}
                                 </label>
                             </div>
                         ))
@@ -203,6 +229,7 @@ const OrderSummary = ({
                     className="btn btn-full btn-primary or-sum-btn-checkt"
                     label="Checkout"
                     onClick={checkoutCart}
+                    btnLoading={pageLoading}
                 />
                 {/* <button className="btn btn-full btn-primary or-sum-btn-checkt"
                     onClick={() => checkoutCart()}>
@@ -238,7 +265,13 @@ const CartItemCard = ({ price, name, qty, image, id, editQty }) => {
             </div>
             <div className="cart-item-card__details-container">
                 <div>
-                    <div className="text-sm">{name || ""}</div>
+                    <div className="text-sm"
+                        style={{
+                            height: "2rem",
+                            overflow: "hidden",
+                            maxWidth: "90%"
+                        }}
+                    >{name || ""}</div>
                 </div>
 
                 <div className="flex-align-between">
@@ -263,6 +296,24 @@ const CartItemCard = ({ price, name, qty, image, id, editQty }) => {
                     </div>
                 </div>
             </div>
+        </div >
+    )
+}
+
+const EmptyCart = () => {
+    return (
+        <div className="mt-10 flex-center">
+            <div>
+                <div>
+                    There are no items in this cart
+                </div>
+                <div className="mt-2 flex-center">
+                    <Link to={"/"}>
+                        <button className="btn btn-primary">Continue Shopping</button>
+                    </Link>
+                </div>
+            </div>
+
         </div>
     )
 }

@@ -379,6 +379,10 @@ select:focus-visible {
 } */
 
 
+.address-card__title {
+    font-weight: 500;
+}
+
 @media (min-width: 600px) {
     .address-form__fields {
         grid-template-columns: repeat(2, 1fr);

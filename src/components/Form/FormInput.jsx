@@ -7,7 +7,7 @@ export const FormInput = ({ data }) => {
         <div className="input-box" >
             <div className="input-box__label">{data?.label || ""} {mandatoryFlag}</div>
             <div className="input-box__input">
-                <input placeholder={data?.label || ""} name={data?.fieldname || ""}
+                <input placeholder={data?.placeholder || data?.label} name={data?.fieldname || ""}
                     type={data?.fieldtype}
                     required={data?.mandatory}
                     defaultValue={data?.value || ""}

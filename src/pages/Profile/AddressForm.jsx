@@ -17,6 +17,13 @@ const AddressFormFields = [
         "value": ""
     },
     {
+        "fieldname": "address_type",
+        "label": "Address Type",
+        "fieldtype": "text",
+        "mandatory": true,
+        "value": ""
+    },
+    {
         "fieldname": "country",
         "label": "Country",
         "fieldtype": "text",
@@ -31,22 +38,17 @@ const AddressFormFields = [
         "value": ""
     },
     {
-        "fieldname": "address_type",
-        "label": "Address Type",
-        "fieldtype": "text",
-        "mandatory": true,
-        "value": ""
-    },
-    {
         "fieldname": "city",
         "label": "City",
         "fieldtype": "text",
         "mandatory": true,
         "value": ""
     },
+  
     {
         "fieldname": "address_line_1",
-        "label": "House No /Street /Area",
+        "label": "Street address",
+        "placeholder": "Apartment, suite, unit, building, floor, etc.",
         "fieldtype": "text",
         "mandatory": true,
         "value": ""
@@ -55,8 +57,20 @@ const AddressFormFields = [
 
 
 const AddAddress = () => {
-    const [addAddress, apiResponse] = useAddUserAddressMutation();
+    const [addAddressApi, apiResponse] = useAddUserAddressMutation();
 
+    const handleAddressSubmit = (e) => {
+        const formDataObj = new FormData(e.target)
+
+        const addressObject = {}
+        for (const [key, value] of formDataObj.entries()) {
+            addressObject[key] = value
+        }
+
+        addAddressApi(addressObject)
+        console.log(addressObject)
+
+    }
 
     const [searchParams] = useSearchParams();
     const urlParams = useParams();
@@ -86,17 +100,17 @@ const AddAddress = () => {
                         <div className="heading-md">{pageHeading}</div>
                     </div>
                     <div className="address-page__content">
-                        {pageLoading ? <AddressFormSkeleton /> : <></>}
-
-                        {urlParams.action === "edit" ?
-                            <EditAddressForm
-                                searchParams={searchParams}
-                                useGetUserAddressQuery={useGetUserAddressQuery}
-                                addressFormFields={AddressFormFields}
-                                generateForm={generateForm}
-                                HandleEditApi={useUpdateUserAddressMutation}
-                            />
-                            : <>{generateForm(AddressFormFields, addAddress, "Save")}</>}
+                        {pageLoading ? <AddressFormSkeleton /> : <>
+                            {urlParams.action === "edit" ?
+                                <EditAddressForm
+                                    searchParams={searchParams}
+                                    useGetUserAddressQuery={useGetUserAddressQuery}
+                                    addressFormFields={AddressFormFields}
+                                    generateForm={generateForm}
+                                    HandleEditApi={useUpdateUserAddressMutation}
+                                />
+                                : <>{generateForm(AddressFormFields, handleAddressSubmit, "Save")}</>}
+                        </>}
                     </div>
                 </div>
             </div>

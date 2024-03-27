@@ -72,11 +72,11 @@ body {
 
 /* Button */
 .btn {
-    padding: .6rem 1.5rem;
+    padding: .4rem 1rem;
     border: none;
     outline: transparent;
     cursor: pointer;
-    font-size: var(--font-md);
+    font-size: var(--text-sm);
     border-radius: .25rem;
     font-family: 'Poppins', sans-serif;
     position: relative;

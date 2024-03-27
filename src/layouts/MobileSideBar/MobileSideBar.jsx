@@ -16,7 +16,7 @@ export const MobileSideBar = ({ active }) => {
                 { label: "Manage Account", url: "/profile", },
                 { label: "Address Book", url: "/profile/address", },
                 { label: "Add Address", url: "/profile/address/add", },
-                { label: "Vouchers", url: "/profile", },
+                // { label: "Vouchers", url: "/profile", },
             ]
         },
         {

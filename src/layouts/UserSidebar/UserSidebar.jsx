@@ -13,7 +13,7 @@ export const UserSidebar = () => {
                 { label: "Manage Account", url: "/profile", },
                 { label: "Address Book", url: "/profile/address", },
                 { label: "Add Address", url: "/profile/address/form/add", },
-                { label: "Vouchers", url: "/profile/vourchers", },
+                // { label: "Vouchers", url: "/profile/vourchers", },
             ]
         },
         {
@@ -37,7 +37,7 @@ export const UserSidebar = () => {
         <div className="user-sidebar">
             <div className="profile-card">
                 <div className="profile-card__img">
-                    <img src={`${authUser?.image || userProfile}`} alt="" />
+                    <img src={`${userProfile}`} alt="" />
                 </div>
                 <div className="profile-card__content">
                     <div className="sidebar-heading">
