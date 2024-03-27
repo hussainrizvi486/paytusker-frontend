@@ -41,7 +41,7 @@ const Register = () => {
 
         }, 1000);
         try {
-            const req = await axios.post(`${API_URL}/api/user/register/`, payload)
+            const req = await axios.post(`${API_URL}api/user/register`, payload)
             if (req.status === 200) {
                 toast.success("User Created")
                 setFormMsg(() => {
