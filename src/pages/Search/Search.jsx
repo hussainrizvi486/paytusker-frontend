@@ -38,7 +38,6 @@ const Search = () => {
     }
 
     const query = searchParams.get("query");
-
     const [queryPayload, setQueryPayload] = useState({ query: query, page: searchParams.get("page") });
     const [searchFiltersOpen, setSearchFiltersOpen] = useState(false);
     const [productsData, setProductsData] = useState([]);
@@ -117,14 +116,22 @@ const Search = () => {
                     </div>
 
                     <div className={`mt-4 search-filter__section-wrapper  ${searchFiltersOpen ? "active" : ""}`}>
-                        <div className="search-filters__categories search-filter__section hide">
+                        
+                        {/* <div className="search-filters__categories search-filter__section">
                             <div className="font-medium text-lg sf-section__heading">Category</div>
                             <div className="search-categories__wrapper">
                                 <ul className="search-categories__list">
                                     {categories.map((val, i) => <li className="search-categories__el text-sm" key={i}>{val.name}</li>)}
                                 </ul>
                             </div>
+                        </div> */}
+
+                        <div className="search-filter__option-wrapper">
+                            <div className="search-filter__option-label"></div>
+                            <div className="search-filter__option-values"></div>
                         </div>
+
+
                         <div className="search-filters_prices-wrapper search-filter__section">
 
                             <div className="font-medium text-lg sf-section__heading">Price</div>

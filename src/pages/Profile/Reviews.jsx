@@ -172,10 +172,19 @@ const ReviewsListContainer = () => {
                         <span>{data?.order_date}</span>
                     </div>
                 </div>
-                <div>
-                    {/* <Rating rating={data?.rating} varient={"sm"} /> */}
+                <div className="mt-3">
+                    <div className="text-sm font-bold">Review Content</div>
+                    <div className="text-sm ">{data?.review_content}</div>
                 </div>
-                <div className="text-sm mt-3">{data?.review_content}</div>
+
+
+                <div className="reviewData-card__item-card-mediaWrapper">
+                    {data?.review_media?.map((val, i) => (
+                        <div key={i}
+                            className="review-card__image-box"
+                        ><img src={val} alt="" /></div>
+                    ))}
+                </div>
             </div>
         )
     }
@@ -218,13 +227,12 @@ const ReviewsListContainer = () => {
 
 const AddReviewForm = () => {
     const urlParams = useSearchParams()[0];
-    const [reviewsImages, setReviewsImages] = useState([]);
+    const [reviewsMedia, setReviewsMedia] = useState([]);
     const [ratingValue, setRatingValue] = useState(1);
     const reviewTextAreaRef = useRef();
     const [pageLoading, setPageLoading] = useState(false)
     const navigate = useNavigate();
-    const [AddAddressApi, AddAddressApiRes] = useAddOrderReviewMutation()
-    urlParams.get("id")
+    const [AddAddressApi, AddAddressApiRes] = useAddOrderReviewMutation();
 
     useEffect(() => {
         setPageLoading(AddAddressApiRes.isLoading)
@@ -238,15 +246,19 @@ const AddReviewForm = () => {
     }, [AddAddressApiRes.isSuccess, navigate])
 
     const handleFilesUpload = (e) => {
-        const fileArray = Array.from(e.target.files)
+        const fileArray = Array.from(e.target.files);
         if (fileArray.length > 0) {
-            setReviewsImages(fileArray);
+            if (fileArray.length <= 5) {
+                setReviewsMedia(fileArray);
+            } else {
+                toast("Please select up to 5 files.", { icon: "⚠️" });
+            }
         }
     }
 
     const removeFile = (file) => {
-        const updatesFiles = reviewsImages.filter((val) => { if (val != file) return val })
-        setReviewsImages(updatesFiles)
+        const updatesFiles = reviewsMedia.filter((val) => { if (val != file) return val })
+        setReviewsMedia(updatesFiles)
     }
 
     const AddReviewApi = () => {
@@ -259,11 +271,20 @@ const AddReviewForm = () => {
             rating: ratingValue,
             review_content: reviewTextAreaRef.current?.value,
             product_id: urlParams.get("product_id"),
-            files: reviewsImages
         }
-        AddAddressApi(payload)
-    }
 
+        const reqBody = new FormData();
+
+        for (let key in payload) {
+            reqBody.append(key, payload[key])
+        }
+
+        reviewsMedia.forEach((file, i) => {
+            reqBody.append(`review_media_${i}`, file)
+        })
+        // console.log(reqBody.entries())
+        AddAddressApi(reqBody)
+    }
 
     return (
         <>
@@ -306,8 +327,7 @@ const AddReviewForm = () => {
                                 onChange={(e) => handleFilesUpload(e)}
                             />
                             <div className="review-file__preview-wrapper">
-                                {reviewsImages ? reviewsImages.map((file, i) => (
-
+                                {reviewsMedia ? reviewsMedia.map((file, i) => (
                                     <div key={i} className="file-review__wrapper">
                                         <button className="file-review__wrapper-btn "
                                             onClick={() => removeFile(file)}>

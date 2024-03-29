@@ -507,6 +507,26 @@ select:focus-visible {
     border: 1px solid #a3a3a3;
 }
 
+.reviewData-card__item-card-mediaWrapper {
+    display: flex;
+    gap: .5rem;
+    margin-top: .5rem;
+}
+
+.review-card__image-box {
+    height: 4rem;
+    width: 4rem;
+}
+
+.review-card__image-box img {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+    margin: auto;
+    border: 1px solid #a3a3a3;
+    border-radius: .25rem;
+}
+
 @media (min-width: 768px) {
 
     .review-file__preview-wrapper {

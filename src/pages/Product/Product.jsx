@@ -78,17 +78,24 @@ const Product = () => {
                                 <Rating rating={productData?.rating || 0} />
                                 <div className="font-bold">{parseInt(productData?.rating || 0).toFixed(1)}</div>
                             </div>
-                            {
-                                productData.product_varients ?
-                                    <div className="product-variants__wrapper">
-                                        {
-                                            productData.product_varients.map((val, index) => (
-                                                <ProductVariantBox data={val} key={index} />
-                                            ))
-                                        }
-                                    </div>
-                                    : <></>
-                            }
+                            {productData.product_varients ?
+                                <div className="product-variants__wrapper">
+                                    {productData.product_varients.map((val, index) => (
+                                        <ProductVariantBox data={val} key={index} />
+                                    ))}
+                                </div>
+                                : <></>}
+                            {productData?.variants_attributes && productData?.variants_attributes?.length > 0 ? <div>
+                                <div className="mt-5 mb-2 font-bold">Product Details</div>
+                                <div>
+                                    {productData?.variants_attributes?.map((val, i) => (
+                                        <div key={i} className="text-sm">
+                                            <span className="font-medium">{val.attribute}: </span> <span>{val.attribute_value}</span>
+                                        </div>
+                                    ))}
+                                </div>
+
+                            </div> : <></>}
                         </div>
 
                         <div className="product-page__actions">
@@ -124,13 +131,15 @@ const Product = () => {
                     <div style={{ fontSize: "1.25rem", fontWeight: "600" }}>Description</div>
                     <br />
 
-                    <div dangerouslySetInnerHTML={{ __html: productData?.description || "" }}>
+                    <div
+                        dangerouslySetInnerHTML={{ __html: productData?.description || "" }}
+                    >
                     </div>
                 </div>
 
 
                 {
-                    productData?.product_reviews ?
+                    productData?.product_reviews.length > 0 ?
                         <section className="product-reviews">
                             <div className="section-heading">Top Cusomer reviews</div>
                             <div>
@@ -281,6 +290,4 @@ const ProductMediaCarousel = ({ slides = [] }) => {
         </div>
     )
 }
-
-
 

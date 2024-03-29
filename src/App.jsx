@@ -116,6 +116,6 @@ function ScrollToTop() {
 
 
 function ProtectedRoute({ isAuthenticated }) {
-  if (!isAuthenticated) return <Navigate to={"/"} />
+  if (!isAuthenticated) return <Navigate to={"/login"} />
   return <Outlet />
 }
