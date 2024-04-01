@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Minus, Plus, Trash2 } from "lucide-react";
 import toast from "react-hot-toast";
 
@@ -31,7 +31,6 @@ const _paymentMethods = [
 
 
 const Cart = () => {
-    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const { data: cartApiData, isLoading: getItemsLoading, isSuccess, isError } = useGetCartDetailsQuery();
@@ -175,6 +174,7 @@ const OrderSummary = ({
     setSelectedAddress
 }) => {
 
+    console.log(userAddressList)
     return (
         <div className="cart-order-summary-container">
             <div className="order-summary__title">Order Summary</div>
@@ -208,7 +208,7 @@ const OrderSummary = ({
             <div>
                 <div className="font-medium mb-4">Shipping address</div>
                 <div>
-                    {
+                    {userAddressList ?
                         userAddressList?.map((val, i) => (
                             <div key={i} className="flex-align-start gap-1 mb-2">
                                 <input
@@ -216,13 +216,19 @@ const OrderSummary = ({
                                     type="radio" name={i} id={i}
                                     onChange={() => setSelectedAddress(val.id)}
                                 />
-                                <label htmlFor={i}>
-                                    {val.address_display}
-                                </label>
+                                <address>
+                                    <label htmlFor={i} >
+                                        {val.address_display}
+                                    </label>
+                                </address>
                             </div>
-                        ))
+                        )) :
+                        <div className="text-sm mb-4">Please add a address for delivery</div>
                     }
                 </div>
+                <Link to={"/profile/address/form/add"}>
+                    <div className="link text-sm flex-align-center gap-1"><Plus className="icon-sm" /> Add new address</div>
+                </Link>
             </div>
             <div>
                 <Button
@@ -287,12 +293,14 @@ const CartItemCard = ({ price, name, qty, image, id, editQty }) => {
                 <div className="cart-qty-wrapper">
                     <div className="cart-qty-container">
                         <button className="cart-qty-btn"
-                            onClick={() => updateQty(id, "decrease")}
-                        ><Minus /></button>
+                            onClick={() => updateQty(id, "decrease")}>
+                            <Minus />
+                        </button>
                         <input type="number" readOnly className="cart-qty-input" defaultValue={qty} />
                         <button className="cart-qty-btn"
-                            onClick={() => updateQty(id, "increase")}
-                        ><Plus /></button>
+                            onClick={() => updateQty(id, "increase")}>
+                            <Plus />
+                        </button>
                     </div>
                 </div>
             </div>

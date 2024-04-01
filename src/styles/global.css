@@ -164,6 +164,16 @@ body {
     width: 5rem;
 }
 
+.link {
+    cursor: pointer;
+    color: #007185;
+}
+
+.link:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
 /*  */
 
 .page-container {

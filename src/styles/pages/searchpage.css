@@ -36,6 +36,36 @@
     /* text-decoration: underline; */
 }
 
+.search-filter__option-label {
+    font-weight: 600;
+
+}
+
+.search-filter__option-values {
+    margin-block: .25rem 1rem;
+    display: flex;
+    gap: .5rem;
+    flex-wrap: wrap;
+}
+
+.search-filter__option-values .filter-option {
+    color: #333333;
+    padding: .25rem .5rem;
+    border: 1px solid #3333;
+    border-radius: .75rem;
+    font-size: var(--text-sm);
+    border-width: 2px;
+}
+
+.search-filter__option-values .filter-option:hover,
+.search-filter__option-values .filter-option.active {
+    border-width: 2px;
+    cursor: pointer;
+    color: #007185;
+    border-color: #007185;
+}
+
+
 .search-items-query {
     margin-block: .5rem 1rem;
     font-size: var(--text-sm);

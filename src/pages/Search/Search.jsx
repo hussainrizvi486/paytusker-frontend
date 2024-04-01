@@ -1,7 +1,6 @@
 import { useSearchParams } from "react-router-dom"
 import { Header } from "../../layouts";
 import { useEffect, useRef, useState } from "react"
-import { categories } from "../../assets/data"
 import { Filter } from "lucide-react";
 import { ProductLoadingGrid } from "../../components/Loaders/ProductCardLoader";
 import { ProductCard } from "../../components";
@@ -13,22 +12,33 @@ const Search = () => {
     const [searchParams, setSearchParams] = useSearchParams()
 
     const FetchSearchResults = async (queryParams, setLoading, setData, setPagination) => {
+        console.log(queryParams)
         setLoading(true)
         try {
-            const req = await axios.get(`${import.meta.env.VITE_API_URL}api/product/search`, { method: "GET", params: queryParams });
+            const req = await axios.get(`${import.meta.env.VITE_API_URL}api/product/search`, {
+                method: "GET",
+                params: {
+                    ...queryParams,
+                    filters: JSON.stringify(queryParams.filters)
+
+                }
+            });
             if (req.status === 200 && req.data) {
                 const reqData = req.data;
                 if (reqData.results?.length > 0) {
-                    setData(reqData.results)
-                    setSearchResCount(reqData.count || 0)
+                    setData(reqData.results);
+                    setSearchResCount(reqData.count || 0);
+                    setSearchFiltersDict(reqData.filters_attributes);
+
                 } else {
                     setData(null)
+                    setSearchFiltersDict(null);
                 }
-
                 setPagination((prev) => ({
                     ...prev, currentPageNum
                         : reqData.current_page, totalPages: reqData.total_pages
                 }))
+
                 window.scrollTo(0, 0)
             }
         } catch (error) {
@@ -45,6 +55,7 @@ const Search = () => {
     const maxPriceBtnRef = useRef();
     const minPriceBtnRef = useRef();
     const [searchResCount, setSearchResCount] = useState(0);
+    const [searchFiltersDict, setSearchFiltersDict] = useState();
 
     const [paginationDataObj, setPaginationDataObj] = useState({
         currentPageNum: 0,
@@ -92,8 +103,32 @@ const Search = () => {
 
         setQueryPayload(prev => {
             const updatedFilters = { ...prev.filters, ...newFilters };
-            return { ...prev, filters: JSON.stringify(updatedFilters) };
+            return { ...prev, filters: updatedFilters };
         });
+        console.log(queryPayload.filters)
+    };
+
+    const updateAttributeFilters = (key, val) => {
+        setQueryPayload((prev) => {
+            const oldFilters = prev.filters || {};
+            const oldAttributes = oldFilters.attributes || {};
+
+            if (oldAttributes[key]) {
+                // If key already exists in oldAttributes
+                const updatedValue = Array.isArray(oldAttributes[key])
+                    ? oldAttributes[key].filter(item => item !== val)  // Remove val if it exists in the array
+                    : oldAttributes[key] === val ? undefined : oldAttributes[key];  // If single value matches val, set to undefined
+                const newAttributes = { ...oldAttributes, [key]: updatedValue };
+                const newFilters = { ...oldFilters, attributes: newAttributes };
+                return { ...prev, filters: newFilters };
+            } else {
+                // If key doesn't exist in oldAttributes
+                const newAttributes = { ...oldAttributes, [key]: val };
+                const newFilters = { ...oldFilters, attributes: newAttributes };
+                return { ...prev, filters: newFilters };
+            }
+        });
+
     };
 
     return (
@@ -116,7 +151,7 @@ const Search = () => {
                     </div>
 
                     <div className={`mt-4 search-filter__section-wrapper  ${searchFiltersOpen ? "active" : ""}`}>
-                        
+
                         {/* <div className="search-filters__categories search-filter__section">
                             <div className="font-medium text-lg sf-section__heading">Category</div>
                             <div className="search-categories__wrapper">
@@ -126,10 +161,24 @@ const Search = () => {
                             </div>
                         </div> */}
 
-                        <div className="search-filter__option-wrapper">
-                            <div className="search-filter__option-label"></div>
-                            <div className="search-filter__option-values"></div>
-                        </div>
+                        {searchFiltersDict ?
+                            Object.keys(searchFiltersDict).map((key, i) => (
+                                <div key={i} className="search-filter__option-wrapper">
+                                    <div className="search-filter__option-label">{key}</div>
+                                    <div className="search-filter__option-values">{
+                                        searchFiltersDict[key].map((val, j) => (
+                                            <div key={j} className="filter-option"
+                                                onClick={() => updateAttributeFilters(key, val)}
+                                            >
+                                                {val}
+                                            </div>
+                                        ))
+
+                                    }</div>
+                                </div>
+                            )
+                            ) : <></>
+                        }
 
 
                         <div className="search-filters_prices-wrapper search-filter__section">
