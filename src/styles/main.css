@@ -51,6 +51,12 @@
     border: 1.4px solid #ff0b0b;
 }
 
+.product-variant-box img {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+    margin: auto;
+}
 
 .product-rating-wrapper {
     display: flex;

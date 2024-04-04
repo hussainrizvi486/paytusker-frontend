@@ -24,7 +24,10 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
             api.dispatch(UpdateCredentials(refreshResult.data));
             result = await baseQuery(args, api, extraOptions)
         }
-        else { api.dispatch(LogOut()) }
+        else {
+            api.dispatch(LogOut())
+            window.location.href = "/login"
+        }
     }
     return result
 }

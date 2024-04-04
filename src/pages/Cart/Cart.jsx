@@ -16,16 +16,16 @@ const _paymentMethods = [
         id: "002",
         name: "Credit Card / Debit Card"
     },
-    {
-        image: "https://logohistory.net/wp-content/uploads/2023/08/PayPal-Logo.jpg",
-        id: "003",
-        name: "PayPal"
-    },
-    {
-        name: "Binance",
-        id: "004",
-        image: "https://www.investopedia.com/thmb/F5w0M48xTFtv-VQE9GFpYDMA2-k=/fit-in/1500x750/filters:format(png):fill(white):max_bytes(150000):strip_icc()/Binance-0e4c4bfb014e4d9ca8f0b6e11c9db562.jpg"
-    }
+    // {
+    //     image: "https://logohistory.net/wp-content/uploads/2023/08/PayPal-Logo.jpg",
+    //     id: "003",
+    //     name: "PayPal"
+    // },
+    // {
+    //     name: "Binance",
+    //     id: "004",
+    //     image: "https://www.investopedia.com/thmb/F5w0M48xTFtv-VQE9GFpYDMA2-k=/fit-in/1500x750/filters:format(png):fill(white):max_bytes(150000):strip_icc()/Binance-0e4c4bfb014e4d9ca8f0b6e11c9db562.jpg"
+    // }
 ]
 
 
@@ -76,14 +76,16 @@ const Cart = () => {
         if (createOrderApiRes.isSuccess) {
             toast.success("Order successfully created!")
             setPageLoading(false);
-
         }
-    }, [createOrderApiRes.isLoading, createOrderApiRes.isSuccess]);
+        if (createOrderApiRes.isError) {
+            toast.error("Internal server error!")
+            setPageLoading(false);
+        }
+    }, [createOrderApiRes.isLoading, createOrderApiRes.isSuccess, createOrderApiRes.isError]);
 
     useEffect(() => {
         if (isSuccess) {
             getPaymentMethods()
-            console.log(cartApiData)
             setCartDataObject(cartApiData);
             setPageLoading(false);
         }
@@ -103,7 +105,13 @@ const Cart = () => {
 
 
     if (isError) { toast.error("Something went wrong.") }
-    if (createOrderApiRes.isSuccess) { navigate("/profile/orders") }
+    if (createOrderApiRes.isSuccess) {
+        console.log(createOrderApiRes.data)
+        if (createOrderApiRes.data.checkout_url) {
+            window.open(createOrderApiRes.data.checkout_url, "_blank")
+        }
+
+    }
     if (pageLoading && !createOrderApiRes.isLoading) return <Freeze />
 
     return (
@@ -234,13 +242,10 @@ const OrderSummary = ({
                 <Button
                     className="btn btn-full btn-primary or-sum-btn-checkt"
                     label="Checkout"
-                    onClick={checkoutCart}
+                    onClick={() => checkoutCart()}
                     btnLoading={pageLoading}
                 />
-                {/* <button className="btn btn-full btn-primary or-sum-btn-checkt"
-                    onClick={() => checkoutCart()}>
-                    Checkout
-                </button> */}
+
             </div>
         </div>
     )

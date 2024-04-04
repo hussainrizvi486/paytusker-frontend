@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useParams, Link } from "react-router-dom"
+import { useParams, Link, useNavigate } from "react-router-dom"
 import { ArrowLeft, ArrowRight, BadgeCheck, ChevronLeft, ChevronRight, } from "lucide-react";
 import axios from "axios"
 import toast from "react-hot-toast";
@@ -7,8 +7,10 @@ import { API_URL } from "../../redux/store";
 import { Header } from "../../layouts";
 import { Freeze, Rating } from "../../components";
 import { useAddItemToCartMutation } from "../../api";
+import { getUserDetails } from "../../redux/slices/authSlice";
 
 const Product = () => {
+    const navigate = useNavigate();
     const [productData, setProductData] = useState(null);
     const [pageLoading, setPageLoading] = useState(true);
     const { id } = useParams();
@@ -34,6 +36,9 @@ const Product = () => {
 
 
     const addToCart = (product_id) => {
+        if (!getUserDetails()[1]) {
+            navigate(`/login?redirect_to=/product/${product_id}`)
+        }
         addItemToCart({ product_id: product_id })
     }
 
@@ -79,11 +84,16 @@ const Product = () => {
                                 <div className="font-bold">{parseInt(productData?.rating || 0).toFixed(1)}</div>
                             </div>
                             {productData.product_varients ?
-                                <div className="product-variants__wrapper">
-                                    {productData.product_varients.map((val, index) => (
-                                        <ProductVariantBox data={val} key={index} />
-                                    ))}
-                                </div>
+                                <>
+                                    <br />
+                                    <br />
+                                    <div className="text-sm font-medium">Select Options</div>
+                                    <div className="product-variants__wrapper">
+                                        {productData.product_varients.map((val, index) => (
+                                            <ProductVariantBox data={val} key={index} />
+                                        ))}
+                                    </div>
+                                </>
                                 : <></>}
                             {productData?.variants_attributes && productData?.variants_attributes?.length > 0 ? <div>
                                 <div className="mt-5 mb-2 font-bold">Product Details</div>

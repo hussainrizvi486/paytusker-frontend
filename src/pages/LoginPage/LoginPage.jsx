@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -10,6 +10,7 @@ import { Header } from "../../layouts";
 import { LogIn } from "../../redux/slices/authSlice";
 
 const LoginPage = () => {
+    const URLParams = useSearchParams()[0]
     const userNameRef = useRef();
     const passwordRef = useRef();
     const navigate = useNavigate();
@@ -44,7 +45,12 @@ const LoginPage = () => {
         if (req.data) {
             const data = await req.data
             dispatch(LogIn(data))
-            navigate("/")
+            if (URLParams.get("redirect_to")) {
+                navigate(URLParams.get("redirect_to"))
+            }
+            else {
+                navigate("/")
+            }
         }
 
     }
