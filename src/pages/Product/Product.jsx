@@ -5,7 +5,7 @@ import axios from "axios"
 import toast from "react-hot-toast";
 import { API_URL } from "../../redux/store";
 import { Header } from "../../layouts";
-import { Freeze, Rating } from "../../components";
+import { Button, Freeze, Rating } from "../../components";
 import { useAddItemToCartMutation } from "../../api";
 import { getUserDetails } from "../../redux/slices/authSlice";
 
@@ -13,6 +13,8 @@ const Product = () => {
     const navigate = useNavigate();
     const [productData, setProductData] = useState(null);
     const [pageLoading, setPageLoading] = useState(true);
+
+    let LoadingMessage = "Loading..."
     const { id } = useParams();
     const [addItemToCart, cartApiResponse] = useAddItemToCartMutation();
 
@@ -43,10 +45,6 @@ const Product = () => {
     }
 
     useEffect(() => {
-        if (cartApiResponse.isLoading) {
-            setPageLoading(cartApiResponse.isLoading)
-        }
-
         if (cartApiResponse.isSuccess) {
             toast.success("Item successfully added to your cart.")
             setPageLoading(cartApiResponse.isLoading)
@@ -54,9 +52,13 @@ const Product = () => {
     }, [cartApiResponse.isLoading, cartApiResponse.isSuccess])
 
     if (pageLoading) return <Freeze
+
+        message={LoadingMessage}
         backdropStyle={{
             "backgroundColor": "#ffffff7a"
-        }}
+        }
+
+        }
     />
 
     return (
@@ -109,7 +111,15 @@ const Product = () => {
                         </div>
 
                         <div className="product-page__actions">
-                            <button className="btn btn-primary btn-sm" onClick={() => addToCart(productData?.id)}>Add to Cart</button>
+                            <Button
+                                btnLoading={cartApiResponse.isLoading}
+                                onClick={() => addToCart(productData?.id)}
+                                className="btn btn-primary btn-sm"
+                                label="Add to cart"
+                            />
+                            {/* <button
+
+                            >Add to Cart</button> */}
                         </div>
                     </section>
 

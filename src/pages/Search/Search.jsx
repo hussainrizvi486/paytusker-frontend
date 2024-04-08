@@ -12,7 +12,6 @@ const Search = () => {
     const [searchParams, setSearchParams] = useSearchParams()
 
     const FetchSearchResults = async (queryParams, setLoading, setData, setPagination) => {
-        console.log(queryParams)
         setLoading(true)
         try {
             const req = await axios.get(`${import.meta.env.VITE_API_URL}api/product/search`, {
@@ -33,6 +32,12 @@ const Search = () => {
                 } else {
                     setData(null)
                     setSearchFiltersDict(null);
+                    setQueryPayload((prev) => {
+                        if (prev?.filters?.attributes) {
+                            prev["filters"]["attributes"] = {}
+                        }
+                        return prev
+                    })
                 }
                 setPagination((prev) => ({
                     ...prev, currentPageNum
@@ -100,36 +105,47 @@ const Search = () => {
                 delete newFilters[key]
             }
         }
-
+        console.log(newFilters)
         setQueryPayload(prev => {
             const updatedFilters = { ...prev.filters, ...newFilters };
             return { ...prev, filters: updatedFilters };
         });
-        console.log(queryPayload.filters)
     };
 
     const updateAttributeFilters = (key, val) => {
         setQueryPayload((prev) => {
-            const oldFilters = prev.filters || {};
-            const oldAttributes = oldFilters.attributes || {};
+            let filters_attributes = prev?.filters?.attributes || {};
+            console.log(filters_attributes)
+            let other_filters = { ...prev.filters };
 
-            if (oldAttributes[key]) {
-                // If key already exists in oldAttributes
-                const updatedValue = Array.isArray(oldAttributes[key])
-                    ? oldAttributes[key].filter(item => item !== val)  // Remove val if it exists in the array
-                    : oldAttributes[key] === val ? undefined : oldAttributes[key];  // If single value matches val, set to undefined
-                const newAttributes = { ...oldAttributes, [key]: updatedValue };
-                const newFilters = { ...oldFilters, attributes: newAttributes };
-                return { ...prev, filters: newFilters };
+            if (Object.keys(filters_attributes).includes(key)) {
+                if (filters_attributes[key].includes(val)) {
+                    filters_attributes[key].splice(filters_attributes[key].indexOf(val), 1);
+                }
+                else {
+                    filters_attributes[key].push(val);
+
+                }
             } else {
-                // If key doesn't exist in oldAttributes
-                const newAttributes = { ...oldAttributes, [key]: val };
-                const newFilters = { ...oldFilters, attributes: newAttributes };
-                return { ...prev, filters: newFilters };
+                filters_attributes[key] = [val];
             }
-        });
 
+            other_filters["attributes"] = filters_attributes
+            return { ...prev, filters: other_filters };
+        });
     };
+
+    const checkFilterAttributesExist = (key, val) => {
+        let current_attributes = queryPayload?.filters?.attributes || null
+        if (!current_attributes) return false
+        if (Object.keys(current_attributes).includes(key)) {
+            if (current_attributes[key].includes(val)) {
+                return true
+            }
+            return false
+        }
+        return false
+    }
 
     return (
         <>
@@ -167,7 +183,7 @@ const Search = () => {
                                     <div className="search-filter__option-label">{key}</div>
                                     <div className="search-filter__option-values">{
                                         searchFiltersDict[key].map((val, j) => (
-                                            <div key={j} className="filter-option"
+                                            <div key={j} className={`filter-option ${checkFilterAttributesExist(key, val) ? "active" : ""}`}
                                                 onClick={() => updateAttributeFilters(key, val)}
                                             >
                                                 {val}
