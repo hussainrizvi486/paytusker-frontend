@@ -118,7 +118,7 @@ const Search = () => {
             console.log(filters_attributes)
             let other_filters = { ...prev.filters };
 
-            if (Object.keys(filters_attributes).includes(key)) {
+            if (Object.keys(filters_attributes).includes(key)) { 
                 if (filters_attributes[key].includes(val)) {
                     filters_attributes[key].splice(filters_attributes[key].indexOf(val), 1);
                 }
