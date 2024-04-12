@@ -11,49 +11,14 @@ import axios from "axios";
 const Search = () => {
     const [searchParams, setSearchParams] = useSearchParams()
 
-    const FetchSearchResults = async (queryParams, setLoading, setData, setPagination) => {
-        setLoading(true)
-        try {
-            const req = await axios.get(`${import.meta.env.VITE_API_URL}api/product/search`, {
-                method: "GET",
-                params: {
-                    ...queryParams,
-                    filters: JSON.stringify(queryParams.filters)
-
-                }
-            });
-            if (req.status === 200 && req.data) {
-                const reqData = req.data;
-                if (reqData.results?.length > 0) {
-                    setData(reqData.results);
-                    setSearchResCount(reqData.count || 0);
-                    setSearchFiltersDict(reqData.filters_attributes);
-
-                } else {
-                    setData(null)
-                    setSearchFiltersDict(null);
-                    setQueryPayload((prev) => {
-                        if (prev?.filters?.attributes) {
-                            prev["filters"]["attributes"] = {}
-                        }
-                        return prev
-                    })
-                }
-                setPagination((prev) => ({
-                    ...prev, currentPageNum
-                        : reqData.current_page, totalPages: reqData.total_pages
-                }))
-
-                window.scrollTo(0, 0)
-            }
-        } catch (error) {
-            toast.error(`${String(error)}`)
-        }
-        await setLoading(false)
-    }
 
     const query = searchParams.get("query");
-    const [queryPayload, setQueryPayload] = useState({ query: query, page: searchParams.get("page") });
+    const [queryPayload, setQueryPayload] = useState({
+        query: query || null,
+        category: searchParams.get("category") || null,
+        page: searchParams.get("page"),
+    });
+
     const [searchFiltersOpen, setSearchFiltersOpen] = useState(false);
     const [productsData, setProductsData] = useState([]);
     const [productsLoading, setProductsLoading] = useState(true);
@@ -69,11 +34,55 @@ const Search = () => {
 
 
     useEffect(() => {
-        FetchSearchResults(queryPayload, setProductsLoading, setProductsData, setPaginationDataObj)
+        setQueryPayload((prev) => ({ ...prev, query: query }))
+        console.log("CAll 1")
+    }, [query]);
+
+    useEffect(() => {
+        let payload_data = queryPayload;
+        const FetchSearchResults = async (queryParams, setLoading, setData, setPagination) => {
+            setLoading(true)
+            try {
+                const req = await axios.get(`${import.meta.env.VITE_API_URL}api/product/search`, {
+                    method: "GET",
+                    params: { ...queryParams, filters: JSON.stringify(queryParams.filters) }
+                });
+                if (req.status === 200 && req.data) {
+                    const reqData = req.data;
+                    if (reqData.results?.length > 0) {
+                        setData(reqData.results);
+                        setSearchResCount(reqData.count || 0);
+                        setSearchFiltersDict(reqData.filters_attributes);
+
+                    } else {
+                        setData(null)
+                        setSearchFiltersDict(null);
+                        setQueryPayload((prev) => {
+                            if (prev?.filters?.attributes) {
+                                prev["filters"]["attributes"] = {}
+                            }
+                            return prev
+                        })
+                    }
+                    setPagination((prev) => ({
+                        ...prev, currentPageNum
+                            : reqData.current_page, totalPages: reqData.total_pages
+                    }))
+
+                    window.scrollTo(0, 0)
+                }
+                await setLoading(false)
+            } catch (error) {
+                toast.error(`${String(error)}`)
+                await setLoading(false)
+            }
+        }
+
+        FetchSearchResults(payload_data, setProductsLoading, setProductsData, setPaginationDataObj)
     }, [queryPayload])
 
 
-    useEffect(() => { setQueryPayload({ query: query }); }, [query]);
+
 
 
     const handleCurrentPage = (pageNum) => {
@@ -105,7 +114,7 @@ const Search = () => {
                 delete newFilters[key]
             }
         }
-        console.log(newFilters)
+
         setQueryPayload(prev => {
             const updatedFilters = { ...prev.filters, ...newFilters };
             return { ...prev, filters: updatedFilters };
@@ -115,16 +124,14 @@ const Search = () => {
     const updateAttributeFilters = (key, val) => {
         setQueryPayload((prev) => {
             let filters_attributes = prev?.filters?.attributes || {};
-            console.log(filters_attributes)
             let other_filters = { ...prev.filters };
 
-            if (Object.keys(filters_attributes).includes(key)) { 
+            if (Object.keys(filters_attributes).includes(key)) {
                 if (filters_attributes[key].includes(val)) {
                     filters_attributes[key].splice(filters_attributes[key].indexOf(val), 1);
                 }
                 else {
                     filters_attributes[key].push(val);
-
                 }
             } else {
                 filters_attributes[key] = [val];

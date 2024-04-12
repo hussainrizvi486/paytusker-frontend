@@ -18,15 +18,18 @@ const baseQuery = fetchBaseQuery({
 const baseQueryWithReauth = async (args, api, extraOptions) => {
     let result = await baseQuery(args, api, extraOptions)
     const refreshToken = getUserDetails()[3]
-    if (result.error && refreshToken) {
-        let refreshResult = await axios.post(`${baseUrl}api/auth-token/refresh/`, { "refresh": getUserDetails()[3] })
-        if (refreshResult.data) {
-            api.dispatch(UpdateCredentials(refreshResult.data));
-            result = await baseQuery(args, api, extraOptions)
-        }
-        else {
+    if (refreshToken && result?.error?.status === 401) {
+        try {
+            let refreshResult = await axios.post(`${baseUrl}api/auth-token/refresh/`, { "refresh": getUserDetails()[3] })
+            if (refreshResult.data) {
+                api.dispatch(UpdateCredentials(refreshResult.data));
+                result = await baseQuery(args, api, extraOptions)
+            }
+
+        } catch (error) {
             api.dispatch(LogOut())
             window.location.href = "/login"
+
         }
     }
     return result
@@ -35,5 +38,15 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 export const apiSlice = createApi({
     baseQuery: baseQueryWithReauth,
     tagTypes: ["refetchCart", "refetchAddress", "refetchReviews", "refetchOrders"],
-    endpoints: () => ({}),
+    endpoints: (builder) => ({
+        getHomeCategories: builder.query({
+            query: () => ({
+                url: "api/category/get",
+                method: "GET"
+            }),
+        })
+    })
 });
+
+
+export const { useGetHomeCategoriesQuery } = apiSlice; 

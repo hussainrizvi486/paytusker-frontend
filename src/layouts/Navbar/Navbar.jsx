@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { ArrowLeft } from "lucide-react"
+import { ArrowLeft, User2 } from "lucide-react"
 import { Link } from "react-router-dom"
 
 export const Navbar = ({ title }) => {
@@ -13,7 +13,11 @@ export const Navbar = ({ title }) => {
             <section>
                 <div className="plain-header__heading">{title}</div>
             </section>
-            <section></section>
+            <section className="flex-end">
+                <Link className="header-nav__link" to={"/profile"}>
+                    <User2 />
+                </Link>
+            </section>
         </header>
     )
 }

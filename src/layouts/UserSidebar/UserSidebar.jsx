@@ -10,17 +10,16 @@ export const UserSidebar = () => {
 
         {
             label: "My Account", url: "/profile", icon: <User />, child_elements: [
-                { label: "Manage Account", url: "/profile", },
-                { label: "Address Book", url: "/profile/address", },
-                { label: "Add Address", url: "/profile/address/form/add", },
-                // { label: "Vouchers", url: "/profile/vourchers", },
+                { label: "Manage Account", url: "/profile" },
+                { label: "Address Book", url: "/profile/address" },
+                { label: "Add Address", url: "/profile/address/form/add" },
             ]
         },
         {
             label: "My Orders", url: "/profile/orders", icon: <ScrollText />,
             child_elements: [
-                { label: "Pending Orders", url: "/profile/orders", },
-                { label: "Orders History", url: "/profile/orders", },
+                { label: "Pending Orders", url: "/profile/orders" },
+                { label: "Orders History", url: "/profile/orders" },
             ]
         },
         {
@@ -71,7 +70,6 @@ export const SidebarNavElement = ({ url, label, child_elements, icon }) => {
                 <div className="sidebar-nav__label-main">
                     {label}
                 </div>
-
             </Link>
             {
                 child_elements ? <div className="sidebar-child__elements-wrapper">
@@ -80,7 +78,7 @@ export const SidebarNavElement = ({ url, label, child_elements, icon }) => {
                             <div key={i} className="sidebar-child__element">
                                 <Link
                                     className=""
-                                    to={val.url}
+                                    to={val?.url}
                                 >{val.label}</Link>
                             </div>
                         ))

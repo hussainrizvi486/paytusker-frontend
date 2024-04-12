@@ -127,6 +127,32 @@
 }
 
 
+.nav-cart__link {
+    position: relative;
+    margin-right: .25rem;
+}
+
+.nav-cart__link .count {
+    position: absolute;
+    top: -40%;
+    right: -50%;
+    background-color: #F61581;
+    color: #fff;
+    padding: .2rem;
+    height: 1.2rem;
+    width: 1.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: .75rem;
+    border-radius: 50%;
+    font-weight: 500;
+    font-family: 'Poppins', "Roboto";
+}
+
+
+
 
 @media (min-width: 768px) {
     .search-box__input {

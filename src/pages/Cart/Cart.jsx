@@ -33,11 +33,11 @@ const _paymentMethods = [
 const Cart = () => {
     const navigate = useNavigate();
 
+    const [cartDataObject, setCartDataObject] = useState(null);
     const { data: cartApiData, isLoading: getItemsLoading, isSuccess, isError } = useGetCartDetailsQuery();
     const [createOrderApi, createOrderApiRes] = useCreateCustomerOrderMutation();
 
     const [updateCartApi, qtyResults] = useUpdateCartMutation();
-    const [cartDataObject, setCartDataObject] = useState(null);
     const [pageLoading, setPageLoading] = useState(getItemsLoading);
     const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
     const [currentSelectedAddress, setCurrentSelectedAddress] = useState(null);
@@ -49,25 +49,16 @@ const Cart = () => {
 
     const checkoutCart = () => {
         if (currentSelectedAddress && selectedPaymentMethod) {
-            const reqBody = {
-                "delivery_address": currentSelectedAddress,
-                "payment_method": selectedPaymentMethod,
-            }
+            const reqBody = { "delivery_address": currentSelectedAddress, "payment_method": selectedPaymentMethod }
             createOrderApi(reqBody)
         }
         else {
             toast("Please choose an address and payment method.", { icon: "ℹ" })
         }
-
     }
 
-    const setSelectedAddress = (id) => {
-        setCurrentSelectedAddress(id)
-    }
-
-    const getPaymentMethods = () => {
-        setAvailablePaymentMethods(_paymentMethods)
-    }
+    const setSelectedAddress = (id) => { setCurrentSelectedAddress(id) }
+    const getPaymentMethods = () => { setAvailablePaymentMethods(_paymentMethods) }
 
     useEffect(() => {
         if (createOrderApiRes.isLoading) {
@@ -182,7 +173,6 @@ const OrderSummary = ({
     setSelectedAddress
 }) => {
 
-    console.log(userAddressList)
     return (
         <div className="cart-order-summary-container">
             <div className="order-summary__title">Order Summary</div>

@@ -1,8 +1,6 @@
 import { apiSlice } from "./baseApi";
 
 export const cartApiSlice = apiSlice.injectEndpoints({
-    tagTypes: ["refetchCart"],
-
     endpoints: (builder) => ({
         getCartDetails: builder.query({
             query: () => ({

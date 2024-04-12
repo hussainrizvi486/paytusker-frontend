@@ -49,7 +49,13 @@ const Product = () => {
             toast.success("Item successfully added to your cart.")
             setPageLoading(cartApiResponse.isLoading)
         }
-    }, [cartApiResponse.isLoading, cartApiResponse.isSuccess])
+
+    }, [cartApiResponse.isLoading, cartApiResponse.isSuccess, cartApiResponse.isError])
+
+
+    if (cartApiResponse.isError) {
+        toast.error(String(cartApiResponse.error.data?.message || ""))
+    }
 
     if (pageLoading) return <Freeze
 
@@ -82,6 +88,7 @@ const Product = () => {
                                 {productData.formatted_price}
                             </div>
                             <div className="product-rating-wrapper">
+
                                 <Rating rating={productData?.rating || 0} />
                                 <div className="font-bold">{parseInt(productData?.rating || 0).toFixed(1)}</div>
                             </div>

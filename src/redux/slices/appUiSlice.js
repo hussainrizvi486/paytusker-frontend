@@ -15,10 +15,13 @@ const appUiSlice = createSlice({
             else {
                 state.MobileSideOpen = true
             }
+        },
+        closeMobileSideBar: (state) => {
+            state.MobileSideOpen = false
         }
     }
 })
 
 
 export default appUiSlice.reducer
-export const { ToggleMobileSideBar } = appUiSlice.actions
+export const { ToggleMobileSideBar, closeMobileSideBar } = appUiSlice.actions

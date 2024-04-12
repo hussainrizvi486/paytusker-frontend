@@ -7,7 +7,7 @@ import Logo from "./assets/logo.png"
 import { Freeze } from "./components";
 import { Footer, MobileSideBar } from "./layouts"
 import { getUserDetails } from "./redux/slices/authSlice";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import "react-loading-skeleton/dist/skeleton.css";
 import "./styles/global.css";
@@ -21,6 +21,9 @@ import "./styles/pages/home.css";
 import "./styles/pages/cart.css";
 import "./styles/pages/orders.css";
 import "./styles/pages/profile.css";
+import { useGetCartDetailsQuery } from "./api";
+import { closeMobileSideBar } from "./redux/slices/appUiSlice";
+import { updateCart } from "./redux/slices/cartSlice";
 
 const Home = lazy(() => import("./pages/Home/Home"));
 const Product = lazy(() => import("./pages/Product/Product"));
@@ -35,14 +38,21 @@ const Orders = lazy(() => import("./pages/Orders/Orders"));
 const CheckOut = lazy(() => import("./pages/CheckOut/CheckOut"))
 const VourchersPage = lazy(() => import("./pages/Profile/Vourchers"))
 const ReviewsPage = lazy(() => import("./pages/Profile/Reviews"))
+const PrivacyPolicyPage = lazy(() => import("./pages/CustomerSupport/PrivacyPolicy"))
+const FAQsPage = lazy(() => import("./pages/CustomerSupport/FAQsPage"))
 
 
 function App() {
   const mobileSideOpen = useSelector((state) => state.appUi.MobileSideOpen);
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-
+  const dispatch = useDispatch();
   useEffect(() => { console.log(isAuthenticated) }, [isAuthenticated])
 
+  const cartData = useGetCartDetailsQuery();
+
+
+
+  useEffect(() => { if (cartData.data) { dispatch(updateCart(cartData.data)) } }, [cartData.data])
 
   const toggleSideBar = () => { };
 
@@ -71,6 +81,8 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
 
             <Route path="/register" element={<Register />} />
+            <Route path="/privacy" element={<PrivacyPolicyPage />} />
+            <Route path="/faqs" element={<FAQsPage />} />
             <Route path="*" element={<p>Path not resolved</p>} />
             <Route path="/search" element={<Search />} />
 
@@ -105,8 +117,9 @@ export default App
 
 function ScrollToTop() {
   const { pathname } = useLocation();
-
+  const dispatch = useDispatch();
   useEffect(() => {
+    dispatch(closeMobileSideBar())
     window.scrollTo(0, 0)
   }, [pathname])
 

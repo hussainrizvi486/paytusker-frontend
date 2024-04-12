@@ -1,15 +1,18 @@
 import { useEffect, useState } from "react";
 import { CategoryCard, ProductCard, ProductCardLoader } from "../../components";
 import axios from 'axios';
-import { Header, MobileSideBar } from "../../layouts";
+import { Header } from "../../layouts";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { API_URL } from "../../redux/store";
 import toast from "react-hot-toast";
 import { categories } from "../../assets/data";
 import Skeleton from "react-loading-skeleton";
-import { products as DummyProducts } from "../../webData";
+import { useGetHomeCategoriesQuery } from "../../api";
+
+
 const Home = () => {
-    const [products, setProducts] = useState()
+    const [products, setProducts] = useState();
+    const homePageCategories = useGetHomeCategoriesQuery();
     const [loading, setLoading] = useState(true)
     const ProductsData = [
         {
@@ -131,9 +134,10 @@ const Home = () => {
                         Categories
                     </div>
                     <div className="home-categories-row">
-                        {categories.map((val, i) => <CategoryCard key={i}
+                        {homePageCategories.data?.data?.map((val, i) => <CategoryCard key={i}
                             category={val.name}
                             image={val.image}
+                            id={val.id}
                         />)}
                     </div>
                 </section>

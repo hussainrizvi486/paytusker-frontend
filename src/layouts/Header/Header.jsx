@@ -1,6 +1,5 @@
-/* eslint-disable react/prop-types */
-import { useRef } from "react"
-import { Menu, Search, ShoppingCart, User2 } from "lucide-react"
+import { useEffect, useRef, useState } from "react"
+import { LogIn, Menu, Search, ShoppingCart, User2 } from "lucide-react"
 import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom"
 import Logo from "../../assets/logo.png"
 import { getUserDetails } from "../../redux/slices/authSlice"
@@ -8,20 +7,23 @@ import { ToggleMobileSideBar } from "../../redux/slices/appUiSlice"
 import { useDispatch } from "react-redux"
 import { API_URL } from "../../redux/store"
 import axios from "axios"
+import { useSelector } from "react-redux"
 import { UpdateQuery, UpdateSearchProducts } from "../../redux/slices/searchProducts"
+import toast from "react-hot-toast"
 
 
 export const Header = () => {
-    const isAuthenticated = getUserDetails()[1]
-    const dispatch = useDispatch()
+    const isAuthenticated = getUserDetails()[1];
+    const dispatch = useDispatch();
+    const cartReduxState = useSelector((state) => state.cart.total_qty);
+    const [cartCount, setCartCount] = useState(cartReduxState || 466);
+
+    useEffect(() => { setCartCount(cartReduxState) }, [cartReduxState])
 
     function ToggleSideBar() { dispatch(ToggleMobileSideBar()) }
 
-
     const searchProduct = async (query) => {
-
         dispatch(UpdateQuery(query));
-
         try {
             const req = await axios.get(`${API_URL}api/product/search`, {
                 params: {
@@ -36,6 +38,7 @@ export const Header = () => {
                 }
             }
         } catch (error) {
+            toast.error("Error occurred while searching products.")
             console.error("Error occurred while searching products:", error);
         }
     };
@@ -45,13 +48,8 @@ export const Header = () => {
     return (
         <header className="page-header header-main__nav">
             <div className="header-left__section">
-                <div className="header-left__mobile-menu"
-                    onClick={() => ToggleSideBar()}
-                >
-                    {/* <AlignJustify
-                    /> */}
+                <div className="header-left__mobile-menu" onClick={() => ToggleSideBar()}>
                     <Menu strokeWidth={2.5} />
-
                 </div>
                 <div className="header-logo">
                     <Link to={"/"}>
@@ -68,25 +66,22 @@ export const Header = () => {
 
             <div className="header-right__section">
                 <nav className="header-nav">
-
-                    <Link className="header-nav__link" to={"/cart"}>
+                    <Link className="header-nav__link nav-cart__link" to={"/cart"}>
+                        {cartCount > 0 ? <span className="count">{cartCount}</span> : <></>}
                         <ShoppingCart />
                     </Link>
-
-
                     {isAuthenticated ?
                         <Link className="header-nav__link" to={"/profile"}>
                             <User2 />
                         </Link> :
                         <Link className="header-nav__link" to={"/login"}>
+                            {/* <LogIn /> */}
                             <User2 />
                         </Link>
                     }
-
-
                 </nav>
             </div>
-        </header>
+        </header >
     )
 }
 
