@@ -104,7 +104,7 @@ const Cart = () => {
     if (isError) { toast.error("Something went wrong.") }
     if (createOrderApiRes.isSuccess) {
         if (createOrderApiRes.data.checkout_url) {
-            window.open(createOrderApiRes.data.checkout_url, "_blank")
+            window.location.href = createOrderApiRes.data.checkout_url
         }
     }
 
