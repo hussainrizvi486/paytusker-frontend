@@ -7,6 +7,8 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import { useParams } from "react-router-dom";
 import toast from 'react-hot-toast';
+import { countries } from "../../webData";
+
 
 const AddressFormFields = [
     {
@@ -26,13 +28,14 @@ const AddressFormFields = [
     {
         "fieldname": "country",
         "label": "Country",
-        "fieldtype": "text",
+        "fieldtype": "select",
+        "options": countries,
         "mandatory": true,
         "value": ""
     },
     {
         "fieldname": "state",
-        "label": "State",
+        "label": "State / Province / Region",
         "fieldtype": "text",
         "mandatory": true,
         "value": ""
@@ -44,7 +47,7 @@ const AddressFormFields = [
         "mandatory": true,
         "value": ""
     },
-  
+
     {
         "fieldname": "address_line_1",
         "label": "Street address",
@@ -66,29 +69,30 @@ const AddAddress = () => {
         for (const [key, value] of formDataObj.entries()) {
             addressObject[key] = value
         }
-
         addAddressApi(addressObject)
-        console.log(addressObject)
-
     }
 
     const [searchParams] = useSearchParams();
     const urlParams = useParams();
     let navigate = useNavigate();
 
-    useEffect(() => {
-        if (apiResponse.isSuccess) {
+
+
+    useEffect(() => { }, [apiResponse.isSuccess]);
+
+
+    if (apiResponse.isSuccess) {
+        if (searchParams.get("redirect-to")) {
+            navigate(searchParams.get("redirect-to"));
+        }
+        else {
             navigate("/profile/address");
         }
-    }, [apiResponse.isSuccess, navigate]);
-
-
+    }
     let pageHeading = urlParams.action === "add" ? "Add New Address" : "Edit";
     const [pageLoading, setPageLoading] = useState(false);
 
-    useEffect(() => {
-        setPageLoading(apiResponse.isLoading);
-    }, [apiResponse.isLoading]);
+    useEffect(() => { setPageLoading(apiResponse.isLoading) }, [apiResponse.isLoading]);
 
     return (
         <div>
@@ -154,7 +158,7 @@ const EditAddressForm = ({ searchParams, useGetUserAddressQuery, addressFormFiel
     const { data, isLoading } = useGetUserAddressQuery({ id: addressId });
     const [FormFields, setFormFields] = useState(addressFormFields.map(field => ({ ...field })))
     const [editAddressApi, apiResponse] = HandleEditApi()
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const [formLoading, setFormLoading] = useState(isLoading)
 
     const HandleEdit = (e) => {
@@ -177,14 +181,12 @@ const EditAddressForm = ({ searchParams, useGetUserAddressQuery, addressFormFiel
     useEffect(() => { setFormLoading(isLoading) }, [isLoading])
 
     useEffect(() => {
-
         if (apiResponse.isLoading) {
             setFormLoading(apiResponse.isLoading)
         }
         if (apiResponse.isSuccess) {
             navigate("/profile/address")
             toast.success("Address updated")
-
         }
 
 
@@ -217,8 +219,7 @@ const AddressFormSkeleton = () => {
                 {AddressFormFields.map((val, i) => (<div key={i}>
                     <Skeleton />
                     <Skeleton height={36} />
-                </div>))
-                }
+                </div>))}
             </div>
             <br />
             <Skeleton height={32} />

@@ -173,6 +173,8 @@
 
     .header-center__section {
         all: unset;
+        flex: auto;
+        padding-inline: 4rem;
     }
 
     .header-main__nav {
@@ -182,13 +184,14 @@
     }
 
     .header-search-box {
-        width: 400px;
+        /* width: 400px; */
+        width: 100%;
     }
 }
 
 
 @media (min-width: 1000px) {
     .header-search-box {
-        width: 500px;
+        /* width: 500px; */
     }
 }

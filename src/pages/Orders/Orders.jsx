@@ -30,7 +30,6 @@ const Orders = () => {
             {OrderQuery.isLoading ? <OrderCardLoading skeleton_count={1} /> :
               orders?.length == 0 && !OrderQuery.isLoading ?
                 <><NoOrders /></> :
-
                 orders?.map((val, index) => (
                   <OrdersCard key={index}
                     data={val} />

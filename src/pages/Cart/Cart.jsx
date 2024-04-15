@@ -69,7 +69,8 @@ const Cart = () => {
             setPageLoading(false);
         }
         if (createOrderApiRes.isError) {
-            toast.error("Internal server error!")
+            let errorMsg = createOrderApiRes.error?.data?.message || "Internal server error!"
+            toast.error(errorMsg)
             setPageLoading(false);
         }
     }, [createOrderApiRes.isLoading, createOrderApiRes.isSuccess, createOrderApiRes.isError]);
@@ -97,12 +98,11 @@ const Cart = () => {
 
     if (isError) { toast.error("Something went wrong.") }
     if (createOrderApiRes.isSuccess) {
-        console.log(createOrderApiRes.data)
         if (createOrderApiRes.data.checkout_url) {
             window.open(createOrderApiRes.data.checkout_url, "_blank")
         }
-
     }
+
     if (pageLoading && !createOrderApiRes.isLoading) return <Freeze />
 
     return (
@@ -224,7 +224,7 @@ const OrderSummary = ({
                         <div className="text-sm mb-4">Please add a address for delivery</div>
                     }
                 </div>
-                <Link to={"/profile/address/form/add"}>
+                <Link to={`/profile/address/form/add?redirect-to=${window.location.pathname}`}>
                     <div className="link text-sm flex-align-center gap-1"><Plus className="icon-sm" /> Add new address</div>
                 </Link>
             </div>

@@ -58,13 +58,8 @@ const Product = () => {
     }
 
     if (pageLoading) return <Freeze
-
         message={LoadingMessage}
-        backdropStyle={{
-            "backgroundColor": "#ffffff7a"
-        }
-
-        }
+        backdropStyle={{ "backgroundColor": "#ffffff7a" }}
     />
 
     return (
@@ -218,6 +213,15 @@ const ReviewCard = ({ data }) => {
             <div className="review-card__lower">
                 {data?.review_content}
             </div>
+            {
+                data?.images ?
+                    <div className="review-card__images">
+                        {data?.images.map((val, i) => (
+                            <img key={i} src={val} alt="" />
+                        ))}
+                    </div>
+                    : <></>
+            }
         </div>
     )
 }

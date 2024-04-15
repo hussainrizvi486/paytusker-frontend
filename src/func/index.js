@@ -1,0 +1,1 @@
+export { generateForm } from "./form";

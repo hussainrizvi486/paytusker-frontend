@@ -6,7 +6,6 @@ import { Route, Routes, useLocation, Outlet, Navigate } from "react-router-dom"
 import Logo from "./assets/logo.png"
 import { Freeze } from "./components";
 import { Footer, MobileSideBar } from "./layouts"
-import { getUserDetails } from "./redux/slices/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 import "react-loading-skeleton/dist/skeleton.css";
@@ -21,6 +20,7 @@ import "./styles/pages/home.css";
 import "./styles/pages/cart.css";
 import "./styles/pages/orders.css";
 import "./styles/pages/profile.css";
+
 import { useGetCartDetailsQuery } from "./api";
 import { closeMobileSideBar } from "./redux/slices/appUiSlice";
 import { updateCart } from "./redux/slices/cartSlice";
@@ -43,18 +43,14 @@ const FAQsPage = lazy(() => import("./pages/CustomerSupport/FAQsPage"))
 
 
 function App() {
+  const dispatch = useDispatch();
   const mobileSideOpen = useSelector((state) => state.appUi.MobileSideOpen);
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-  const dispatch = useDispatch();
-  useEffect(() => { console.log(isAuthenticated) }, [isAuthenticated])
-
   const cartData = useGetCartDetailsQuery();
 
 
-
-  useEffect(() => { if (cartData.data) { dispatch(updateCart(cartData.data)) } }, [cartData.data])
-
-  const toggleSideBar = () => { };
+  useEffect(() => { }, [isAuthenticated])
+  useEffect(() => { if (cartData.data) { dispatch(updateCart(cartData.data)) } }, [cartData.data, dispatch])
 
   const LoadingChildren = () => {
     return (<div>
@@ -65,27 +61,21 @@ function App() {
     </div>)
   }
 
-  // const isAuthenticated = getUserDetails()[1]
-
   return (
     <Suspense fallback={<Freeze children={<LoadingChildren />} />}>
-      <main id="app-container" onClick={toggleSideBar}>
-
+      <main id="app-container" >
         <MobileSideBar active={mobileSideOpen} />
-
         <ScrollToTop />
         <div className="page-container">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/product/:id" element={<Product />} />
+            <Route path="/search" element={<Search />} />
             <Route path="/login" element={<LoginPage />} />
-
             <Route path="/register" element={<Register />} />
             <Route path="/privacy" element={<PrivacyPolicyPage />} />
             <Route path="/faqs" element={<FAQsPage />} />
             <Route path="*" element={<p>Path not resolved</p>} />
-            <Route path="/search" element={<Search />} />
-
 
             <Route element={<ProtectedRoute isAuthenticated={isAuthenticated} />}>
               <Route path="/cart" element={<Cart />} />
@@ -110,19 +100,10 @@ function App() {
 export default App
 
 
-// const SideBarView = () => {
-// return <>
-// </>
-// }
-
 function ScrollToTop() {
-  const { pathname } = useLocation();
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(closeMobileSideBar())
-    window.scrollTo(0, 0)
-  }, [pathname])
-
+  const { pathname } = useLocation();
+  useEffect(() => { dispatch(closeMobileSideBar()); window.scrollTo(0, 0) }, [pathname, dispatch])
   return null
 }
 
