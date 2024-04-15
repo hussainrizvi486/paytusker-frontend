@@ -13,8 +13,13 @@ import { Button, Freeze } from "../../components";
 const _paymentMethods = [
     {
         image: "https://4a7efb2d53317100f611-1d7064c4f7b6de25658a4199efb34975.ssl.cf1.rackcdn.com/visa-mastercard-agree-to-give-gas-pumps-break-on-emv-shift-showcase_image-9-p-2335.jpg",
-        id: "002",
+        id: "card",
         name: "Credit Card / Debit Card"
+    },
+    {
+        image: "https://hjk.ie/wp-content/uploads/2022/09/webimage-351D92AA-58D9-411D-A32716893D7AFC96.jpg",
+        id: "klarna",
+        name: "Klarna"
     },
     // {
     //     image: "https://logohistory.net/wp-content/uploads/2023/08/PayPal-Logo.jpg",
@@ -215,8 +220,9 @@ const OrderSummary = ({
                                     onChange={() => setSelectedAddress(val.id)}
                                 />
                                 <address>
-                                    <label htmlFor={i} >
-                                        {val.address_display}
+                                    <label htmlFor={i}
+                                        dangerouslySetInnerHTML={{ __html: val?.address_display || "" }}
+                                    >
                                     </label>
                                 </address>
                             </div>
@@ -237,7 +243,7 @@ const OrderSummary = ({
                 />
 
             </div>
-        </div>
+        </div >
     )
 }
 
