@@ -34,7 +34,7 @@ const Profile = lazy(() => import("./pages/Profile/Profile"));
 const AddressForm = lazy(() => import("./pages/Profile/AddressForm"));
 const Register = lazy(() => import("./pages/Register/Register"));
 const Search = lazy(() => import("./pages/Search/Search"));
-const Orders = lazy(() => import("./pages/Orders/Orders"));
+const OrdersListPage = lazy(() => import("./pages/Orders/Orders"));
 const CheckOut = lazy(() => import("./pages/CheckOut/CheckOut"))
 const VourchersPage = lazy(() => import("./pages/Profile/Vourchers"))
 const ReviewsPage = lazy(() => import("./pages/Profile/Reviews"))
@@ -83,7 +83,7 @@ function App() {
               <Route path="/profile/address" element={<Address />} />
               <Route path="/profile/address/form/:action" element={<AddressForm />} />
               <Route path="/checkout" element={<CheckOut />} />
-              <Route path="/profile/orders" element={<Orders />} />
+              <Route path="/profile/orders/:status" element={<OrdersListPage />} />
               <Route path="/profile/vourchers" element={<VourchersPage />} />
               <Route path="/profile/reviews/:action" element={<ReviewsPage />} />
             </Route>
@@ -103,7 +103,7 @@ export default App
 function ScrollToTop() {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
-  useEffect(() => { dispatch(closeMobileSideBar()); window.scrollTo(0, 0) }, [pathname, dispatch])
+  // useEffect(() => { dispatch(closeMobileSideBar()); window.scrollTo(0, 0) }, [pathname, dispatch])
   return null
 }
 

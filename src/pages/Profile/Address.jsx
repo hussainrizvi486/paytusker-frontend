@@ -52,6 +52,11 @@ const Address = () => {
                                         removeAddress={removeAddress} />
                                 ))}
                     </div>
+                    <div className="mt-4">
+                        <Link to={"/profile/address/form/add"}>
+                            <button className="btn btn-sm btn-primary">Add new address</button>
+                        </Link>
+                    </div>
                 </div>
             </div>
         </div>

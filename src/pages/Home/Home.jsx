@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-import { CategoryCard, ProductCard, ProductCardLoader } from "../../components";
+import { CategoryCard, Pagination, ProductCard, ProductCardLoader } from "../../components";
 import axios from 'axios';
 import { Header } from "../../layouts";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { API_URL } from "../../redux/store";
 import toast from "react-hot-toast";
-import { categories } from "../../assets/data";
 import Skeleton from "react-loading-skeleton";
 import { useGetHomeCategoriesQuery } from "../../api";
 
@@ -14,38 +13,13 @@ const Home = () => {
     const [products, setProducts] = useState();
     const homePageCategories = useGetHomeCategoriesQuery();
     const [loading, setLoading] = useState(true)
-    const ProductsData = [
-        {
-            "section_heading": "On Sale",
-            "products": []
-        },
-        {
-            "section_heading": "Recommended for you",
-            "products": []
-        },
-        {
-            "section_heading": "Top Rated",
-            "products": []
-        },
-    ]
+   
     const getData = async () => {
         setLoading(true);
         try {
-            const response = await axios.get(`${API_URL}api/get-products`);
+            const response = await axios.get(`${API_URL}api/product/home`);
             if (response.status === 200) {
-                const resData = response.data;
-                let itemsCount = 0;
-                let limitStart = 0;
-                let updatedProductsData = [...ProductsData];
-
-                updatedProductsData = updatedProductsData.map((row) => {
-                    itemsCount += 12;
-                    row.products = resData.slice(limitStart, itemsCount);
-                    limitStart += 12;
-                    return row;
-                });
-
-                setProducts(updatedProductsData);
+                setProducts(response.data);
             }
         } catch (error) {
             toast.error("Server Error");
@@ -57,7 +31,7 @@ const Home = () => {
 
 
     useEffect(() => {
-        getData()
+        // getData()
     }, [])
 
     const slides = [
@@ -134,10 +108,10 @@ const Home = () => {
                         Categories
                     </div>
                     <div className="home-categories-row">
-                        {homePageCategories.data?.data?.map((val, i) => <CategoryCard key={i}
-                            category={val.name}
-                            image={val.image}
-                            id={val.id}
+                        {homePageCategories.data?.categories?.phyical?.map((val, i) => <CategoryCard key={i}
+                            category={val?.name}
+                            image={val?.image}
+                            id={val?.id}
                         />)}
                     </div>
                 </section>
@@ -145,12 +119,12 @@ const Home = () => {
                 {loading ? (
                     <ProductLoadingGrid />
                 ) : (
-                    products?.map((row, i) => (
-                        row.products && row.products.length > 0 && (
+                    Object.keys(products)?.map((key, i) => (
+                        products[key].length > 0 && (
                             <section className="home-section" key={i}>
-                                <div className="section-heading">{row.section_heading}</div>
+                                <div className="section-heading">{key}</div>
                                 <div className="home-section-products products-grid">
-                                    {row.products.map((val, u) => (
+                                    {products[key].map((val, u) => (
                                         <ProductCard product={val} key={u} />
                                     ))}
                                 </div>
@@ -160,11 +134,45 @@ const Home = () => {
                 )}
 
             </main >
+            <>
+                <TestPagitaion />
+            </>
         </>
 
     )
 }
 
+const TestPagitaion = () => {
+    const [currentPage, setCurrentPage] = useState(10);
+
+    const handleCurrentPage = (page) => {
+        setCurrentPage(page)
+    }
+    const handleNextPage = () => {
+        setCurrentPage((prev) => prev + 1)
+    }
+    const handlePrevPage = () => {
+        setCurrentPage((prev) => prev - 1)
+    }
+    // const currentPage = useState(0);
+    return (
+        <>
+
+            <br />
+            <br />
+            <br />
+            <h1>Test Section</h1>
+            <div>
+                <Pagination
+                    pageCount={20}
+                    currentPage={currentPage}
+                    setCurrentPage={handleCurrentPage}
+                    handleNext={handleNextPage}
+                    handlePrev={handlePrevPage}
+                />
+            </div></>
+    )
+}
 export default Home
 
 

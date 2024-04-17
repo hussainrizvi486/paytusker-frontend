@@ -200,28 +200,19 @@ const ReviewCard = ({ data }) => {
                     <div className="review-card__profile-img">
                         <img src={data.customer_image || noImage} />
                     </div>
-                    <div className="">
-                        {data?.customer_name}
-                    </div>
+                    <div className="">{data?.customer_name}</div>
                 </div>
-
                 <Rating rating={data?.rating || 0} />
+                <div className="text-sm font-medium mt-2">Reviewed on {data?.created_on}</div>
                 <br />
-
             </div>
 
-            <div className="review-card__lower">
-                {data?.review_content}
-            </div>
-            {
-                data?.images ?
-                    <div className="review-card__images">
-                        {data?.images.map((val, i) => (
-                            <img key={i} src={val} alt="" />
-                        ))}
-                    </div>
-                    : <></>
-            }
+            <div className="review-card__lower">{data?.review_content}</div>
+            {data?.images ?
+                <div className="review-card__images">
+                    {data?.images.map((val, i) => (<img key={i} src={val} alt="" />))}
+                </div>
+                : <></>}
         </div>
     )
 }
@@ -236,14 +227,10 @@ const ProductMediaCarousel = ({ slides = [] }) => {
         hide = "hide";
     }
 
-    if (totalSlides < 7) {
-        navHide = "hide"
-    }
-
+    if (totalSlides < 7) { navHide = "hide" }
     const [navigationIndex, setNavigationIndex] = useState(0);
 
     const moveNavigation = (action) => {
-
         if (action == "next") {
             if (navigationIndex < (slides.length * 60) - 340) {
                 setNavigationIndex(prev => prev + 340)
@@ -253,7 +240,6 @@ const ProductMediaCarousel = ({ slides = [] }) => {
             }
         }
         else if (action == "prev") {
-            console.log(navigationIndex)
             if (navigationIndex >= 340) {
                 setNavigationIndex((prev) => prev - 340)
             }

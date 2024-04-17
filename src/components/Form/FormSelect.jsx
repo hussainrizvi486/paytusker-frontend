@@ -9,7 +9,7 @@ export const FormSelect = ({ data }) => {
         <div className="input-box" >
             <div className="input-box__label">{data?.label} {mandatoryFlag}</div>
             <div className="input-box__input input-box__select">
-                <select name={data?.fieldname} >
+                <select name={data?.fieldname} value={data?.value}>
                     {data?.options?.map((val, i) => (
                         <option key={i} value={val}>{val}</option>
                     ))}

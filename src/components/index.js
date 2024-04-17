@@ -9,3 +9,5 @@ export { Button } from "./Common/Button";
 export { FormInput } from "./Form/FormInput";
 export { FormSelect } from "./Form/FormSelect";
 export { FormInputFile } from "./Form/FormInputFile";
+export { Pagination } from "./Pagination";
+

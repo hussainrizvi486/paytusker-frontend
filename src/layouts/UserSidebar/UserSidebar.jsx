@@ -18,8 +18,8 @@ export const UserSidebar = () => {
         {
             label: "My Orders", url: "/profile/orders", icon: <ScrollText />,
             child_elements: [
-                { label: "Pending Orders", url: "/profile/orders" },
-                { label: "Orders History", url: "/profile/orders" },
+                { label: "Pending Orders", url: "/profile/orders/pending" },
+                { label: "Orders History", url: "/profile/orders/all" },
             ]
         },
         {

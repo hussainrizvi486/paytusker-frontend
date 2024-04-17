@@ -12,25 +12,15 @@ import { Button, Freeze } from "../../components";
 
 const _paymentMethods = [
     {
-        image: "https://4a7efb2d53317100f611-1d7064c4f7b6de25658a4199efb34975.ssl.cf1.rackcdn.com/visa-mastercard-agree-to-give-gas-pumps-break-on-emv-shift-showcase_image-9-p-2335.jpg",
+        image: "https://cdn-icons-png.flaticon.com/512/657/657076.png",
         id: "card",
-        name: "Credit Card / Debit Card"
+        name: "Credit or Debit Card"
     },
     {
         image: "https://hjk.ie/wp-content/uploads/2022/09/webimage-351D92AA-58D9-411D-A32716893D7AFC96.jpg",
         id: "klarna",
         name: "Klarna"
     },
-    // {
-    //     image: "https://logohistory.net/wp-content/uploads/2023/08/PayPal-Logo.jpg",
-    //     id: "003",
-    //     name: "PayPal"
-    // },
-    // {
-    //     name: "Binance",
-    //     id: "004",
-    //     image: "https://www.investopedia.com/thmb/F5w0M48xTFtv-VQE9GFpYDMA2-k=/fit-in/1500x750/filters:format(png):fill(white):max_bytes(150000):strip_icc()/Binance-0e4c4bfb014e4d9ca8f0b6e11c9db562.jpg"
-    // }
 ]
 
 

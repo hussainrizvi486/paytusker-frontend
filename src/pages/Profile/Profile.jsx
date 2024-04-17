@@ -6,7 +6,6 @@ import { LogOut } from "../../redux/slices/authSlice"
 
 const Profile = () => {
   const dispatch = useDispatch();
-
   const userProfileFields = [
     {
       "fieldname": "first_name",
@@ -40,17 +39,10 @@ const Profile = () => {
     }
   ]
 
-  const { data, isLoading } = useGetUserDetailsQuery()
+  const { data, isLoading } = useGetUserDetailsQuery();
 
-  if (data) {
-    userProfileFields.map((val) => {
-      val.value = data[val.fieldname]
-    })
-  }
-
-
+  if (data) { userProfileFields.map((val) => { val.value = data[val.fieldname || ""] }) }
   if (isLoading) return <Freeze />
-
 
   return (
     <div>
@@ -66,18 +58,16 @@ const Profile = () => {
             <div className="heading-md">My Profile</div>
             <form className="user-details-grid" >
               {userProfileFields?.map((val, idx) =>
-
                 <div className="input-box" key={idx}>
                   <div className="input-box__label">{val.label}</div>
                   <div className="input-box__input">
                     <input type="text" placeholder={val.label} name={val.fieldname}
                       readOnly={val.read_only}
-                      value={val.value}
+                      defaultValue={val.value}
                     />
                   </div>
                 </div>
               )}
-
             </form>
             <br />
             <br />

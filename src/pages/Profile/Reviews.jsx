@@ -233,10 +233,7 @@ const AddReviewForm = () => {
     const [pageLoading, setPageLoading] = useState(false)
     const navigate = useNavigate();
     const [AddAddressApi, AddAddressApiRes] = useAddOrderReviewMutation();
-
-    useEffect(() => {
-        setPageLoading(AddAddressApiRes.isLoading)
-    }, [AddAddressApiRes.isLoading])
+    useEffect(() => { setPageLoading(AddAddressApiRes.isLoading) }, [AddAddressApiRes.isLoading])
 
 
     useEffect(() => {
@@ -248,11 +245,8 @@ const AddReviewForm = () => {
     const handleFilesUpload = (e) => {
         const fileArray = Array.from(e.target.files);
         if (fileArray.length > 0) {
-            if (fileArray.length <= 5) {
-                setReviewsMedia(fileArray);
-            } else {
-                toast("Please select up to 5 files.", { icon: "⚠️" });
-            }
+            if (fileArray.length <= 5) { setReviewsMedia(fileArray); }
+            else { toast("Please select up to 5 files.", { icon: "⚠️" }); }
         }
     }
 
@@ -262,10 +256,18 @@ const AddReviewForm = () => {
     }
 
     const AddReviewApi = () => {
+        let contentReviews = String(reviewTextAreaRef.current?.value).split(" ")
+
         if (!reviewTextAreaRef.current?.value) {
             toast.error("Please fill are required fields")
             return
         }
+
+        if (contentReviews.length < 10) {
+            toast.error("Please write minimum 10 words")
+            return
+        }
+
         const payload = {
             id: urlParams.get("id"),
             rating: ratingValue,
@@ -275,14 +277,9 @@ const AddReviewForm = () => {
 
         const reqBody = new FormData();
 
-        for (let key in payload) {
-            reqBody.append(key, payload[key])
-        }
+        for (let key in payload) { reqBody.append(key, payload[key]) }
 
-        reviewsMedia.forEach((file, i) => {
-            reqBody.append(`review_media_${i}`, file)
-        })
-        // console.log(reqBody.entries())
+        reviewsMedia.forEach((file, i) => { reqBody.append(`review_media_${i}`, file) })
         AddAddressApi(reqBody)
     }
 
@@ -290,7 +287,7 @@ const AddReviewForm = () => {
         <>
             <section>
                 <div className="section-heading">Create Review</div>
-                <div >
+                <div>
                     <div className="add-reviewForm__product-card">
                         <div className="add-reviewForm__product-card__img">
                             <img src={urlParams.get("product_image")} />
@@ -298,7 +295,6 @@ const AddReviewForm = () => {
                         <div className="font-medium">
                             {urlParams.get("product_name")}
                         </div>
-
                     </div>
                     <br />
 
@@ -307,13 +303,8 @@ const AddReviewForm = () => {
                         <div>
                             <Rating
                                 emptySymbol={<Star className="rating-star" />}
-                                fullSymbol={<Star
-                                    fill="#ffeb3b"
-                                    color="#e5c100"
-                                    className="active rating-star" />
-                                }
+                                fullSymbol={<Star fill="#ffeb3b" color="#e5c100" className="active rating-star" />}
                                 initialRating={ratingValue}
-
                                 onChange={(v) => setRatingValue(v)}
                             />
                         </div>
@@ -344,12 +335,11 @@ const AddReviewForm = () => {
 
                     <div className="field-wrapper">
                         <div className="heading-md">
-                            Add a writter Review <span className="mandatory-flag">*</span>
+                            Your review <span className="mandatory-flag">*</span>
                         </div>
                         <div>
                             <textarea ref={reviewTextAreaRef} rows="10" placeholder="Write something about product or seller"></textarea>
                         </div>
-
                     </div>
                 </div>
 

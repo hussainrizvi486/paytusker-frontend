@@ -23,9 +23,7 @@ const Orders = () => {
       <div className="sidebar-page">
         <UserSidebar />
         <div className="sidebar-page__content">
-          <div className="heading-md">
-            Your Orders
-          </div>
+          <div className="heading-md">Your Orders</div>
           <main className="order-page-main">
             {OrderQuery.isLoading ? <OrderCardLoading skeleton_count={1} /> :
               orders?.length == 0 && !OrderQuery.isLoading ?

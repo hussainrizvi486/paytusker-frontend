@@ -3,7 +3,7 @@ import { Header } from "../../layouts";
 import { useEffect, useRef, useState } from "react"
 import { Filter } from "lucide-react";
 import { ProductLoadingGrid } from "../../components/Loaders/ProductCardLoader";
-import { ProductCard } from "../../components";
+import { Pagination, ProductCard } from "../../components";
 import toast from "react-hot-toast"
 import axios from "axios";
 
@@ -257,25 +257,7 @@ const Search = () => {
 
 export default Search
 
-const Pagination = ({ handleNext, setCurrentPage, handlePrev, pageCount = 0, currentPage = 1, }) => {
-    return (
-        <>{pageCount > 1 ?
-            <div className="pagination-wrapper">
 
-                <button className="btn btn-sm btn-primary" onClick={handlePrev}>Prev</button>
-                {Array(pageCount).fill(pageCount).map((v, index) => (
-                    <div
-                        className={`pagination-count__btn ${currentPage === index + 1 ? "active" : ""}`}
-                        key={v + index}
-                        onClick={() => setCurrentPage(index + 1)}
-                    >{index + 1}</div>
-                ))}
-                <button className="btn btn-sm btn-primary" onClick={handleNext}>Next</button>
-            </div>
-            : <></>}
-        </>
-    )
-}
 
 
 const NoResultContainer = ({ query }) => {
