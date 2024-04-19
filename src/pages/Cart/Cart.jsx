@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import { Minus, Plus, Trash2 } from "lucide-react";
 import toast from "react-hot-toast";
 
-import { useGetCartDetailsQuery, useUpdateCartMutation, useGetUserAddressQuery, useCreateCustomerOrderMutation } from "../../api";
+import {
+    useGetCartDetailsQuery,
+    useUpdateCartMutation,
+    useGetUserAddressQuery,
+    useCreateCustomerOrderMutation
+} from "../../api";
 import { FormatCurreny } from "../../utils";
 import { Navbar } from "../../layouts";
 import { Button, Freeze } from "../../components";
@@ -36,9 +40,9 @@ const Cart = () => {
     const [pageLoading, setPageLoading] = useState(getItemsLoading);
     const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
     const [currentSelectedAddress, setCurrentSelectedAddress] = useState(null);
-    const [availablePaymentMethods, setAvailablePaymentMethods] = useState([])
-    const [userAddress, setUserAddress] = useState([])
-    const { data: addressApiData } = useGetUserAddressQuery()
+    const [availablePaymentMethods, setAvailablePaymentMethods] = useState([]);
+    const [userAddress, setUserAddress] = useState([]);
+    const { data: addressApiData } = useGetUserAddressQuery();
 
 
 
@@ -124,9 +128,7 @@ const Cart = () => {
                                     ))
                                 ) : !getItemsLoading && (!cartDataObject || !cartDataObject.items) ? (
                                     <EmptyCart />
-                                ) : (
-                                    <></>
-                                )}
+                                ) : (<></>)}
                             </div>
                         </div>
                     </div>
@@ -168,6 +170,13 @@ const OrderSummary = ({
     setSelectedAddress
 }) => {
 
+    useEffect(() => {
+        userAddressList?.forEach((val) => {
+            setSelectedAddress(val.id)
+        })
+    }, [userAddressList])
+
+
     return (
         <div className="cart-order-summary-container">
             <div className="order-summary__title">Order Summary</div>
@@ -202,21 +211,25 @@ const OrderSummary = ({
                 <div className="font-medium mb-4">Shipping address</div>
                 <div>
                     {userAddressList ?
-                        userAddressList?.map((val, i) => (
-                            <div key={i} className="flex-align-start gap-1 mb-2">
-                                <input
-                                    checked={currentSelectedAddress == val.id}
-                                    type="radio" name={i} id={i}
-                                    onChange={() => setSelectedAddress(val.id)}
-                                />
-                                <address>
-                                    <label htmlFor={i}
-                                        dangerouslySetInnerHTML={{ __html: val?.address_display || "" }}
-                                    >
-                                    </label>
-                                </address>
-                            </div>
-                        )) :
+                        userAddressList?.map((val, i) => {
+                            return (
+                                <div key={i} className="flex-align-start gap-1 mb-2">
+
+                                    <input
+                                        checked={currentSelectedAddress == val.id}
+                                        type="radio" name={i} id={i}
+
+                                        onChange={() => setSelectedAddress(val.id)}
+                                    />
+                                    <address>
+                                        <label htmlFor={i}
+                                            dangerouslySetInnerHTML={{ __html: val?.address_display || "" }}
+                                        >
+                                        </label>
+                                    </address>
+                                </div>
+                            )
+                        }) :
                         <div className="text-sm mb-4">Please add a address for delivery</div>
                     }
                 </div>

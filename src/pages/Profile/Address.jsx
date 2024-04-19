@@ -46,17 +46,20 @@ const Address = () => {
                                 <AddressCardLoadingSkeleton />
                             </>
                             : data?.length === 0 ? <NoAddressComponent />
-                                : data?.map((val, idx) => (
+                                : <>{data?.map((val, idx) => (
                                     <AddressCard key={idx}
                                         data={val}
                                         removeAddress={removeAddress} />
                                 ))}
+                                    <div className="mt-4">
+                                        <Link to={"/profile/address/form/add"}>
+                                            <button className="btn btn-sm btn-primary">Add new address</button>
+                                        </Link>
+                                    </div>
+                                </>
+                        }
                     </div>
-                    <div className="mt-4">
-                        <Link to={"/profile/address/form/add"}>
-                            <button className="btn btn-sm btn-primary">Add new address</button>
-                        </Link>
-                    </div>
+
                 </div>
             </div>
         </div>
@@ -86,7 +89,9 @@ const AddressCard = ({ data, removeAddress }) => {
                     </button>
                 </div>
             </div>
-
+            {
+                data?.default ? <div className="tag-sm">Default Address</div> : <></>
+            }
             <div className="text-sm">
                 {data?.address_type}
             </div>
@@ -98,6 +103,7 @@ const AddressCard = ({ data, removeAddress }) => {
             <div className="address-card__info text-sm" >
                 {data?.address_line_1}
             </div>
+
         </div>
     )
 }

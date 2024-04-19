@@ -1,14 +1,15 @@
 .order-card {
     margin-bottom: 1rem;
-    /* border: 1px solid #dbdbdb; */
     border: 1px solid #c7c7c7;
+    box-shadow: 0 0 6px #c7c7c7;
     padding: .5rem;
     border-radius: 9px;
 }
 
 .order-page-main {
     margin-top: 1rem;
-    padding-inline: .5rem;
+    padding-inline: .25rem;
+    padding-block: .5rem;
     height: 80vh;
     overflow-y: auto;
 }
@@ -30,9 +31,6 @@
 }
 
 .order-item__card-img img {
-    /* height: 100%;
-    width: 100%;
-    object-fit: cover; */
     height: 4.5rem;
     width: 4.5rem;
     object-fit: contain;
@@ -73,13 +71,67 @@
     border-radius: .25rem;
     padding: .2rem .5rem;
     width: max-content;
-    /* font-weight: 500; */
     font-size: var(--text-xs);
-    font-family: Poppins, 'roboto';
+    font-family: 'Roboto', sans-serif;
     color: #fff;
+    font-weight: 500;
 }
 
-.order-status.delivered {
-    background: #0eca05;
-    color: #fff;
+/* ORDER DETAIL PAGE */
+.order-detail__header {
+    padding: .5rem;
+    background-color: #f4f4f4;
+    border-radius: .2rem;
+    color: #000;
+}
+
+.order-detail__header .timeline-status__wrapper {
+    padding-top: 1rem;
+
+}
+
+.order-status__box {
+    margin-bottom: 1.75rem;
+    position: relative;
+    font-family: "Poppins", sans-serif;
+    color: #000;
+}
+
+.order-status__box-brd::before {
+    content: "";
+    position: absolute;
+    height: 1.25rem;
+    width: 5px;
+    top: -97%;
+    left: 2%;
+    border-radius: .25rem;
+    background-color: #909090;
+}
+
+
+.order-detail__items-wrapper {
+    margin-top: 1rem;
+}
+
+.order-detail__items-row {
+    display: flex;
+    border-bottom: 2px solid #cccc;
+    padding-block: .25rem;
+}
+
+.order-detail__items-col {
+    flex-basis: 100%;
+
+}
+
+.order-detail__item-info {
+    display: flex;
+    gap: .5rem;
+    font-weight: 500;
+    font-size: var(--text-sm);
+}
+
+.order-detail__item-info img {
+    height: 60px;
+    width: 70px;
 }

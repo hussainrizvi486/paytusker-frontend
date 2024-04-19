@@ -8,6 +8,7 @@ export { Rating } from "./Rating/Rating";
 export { Button } from "./Common/Button";
 export { FormInput } from "./Form/FormInput";
 export { FormSelect } from "./Form/FormSelect";
+export { Checkbox } from "./Form/Checkbox.jsx";
 export { FormInputFile } from "./Form/FormInputFile";
 export { Pagination } from "./Pagination";
 

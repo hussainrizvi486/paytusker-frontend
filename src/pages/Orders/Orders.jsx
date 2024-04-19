@@ -12,10 +12,7 @@ const Orders = () => {
   const OrderQuery = useGetCustomerOrdersQuery();
   const [orders, setOrdersData] = useState();
 
-  useEffect(() => {
-    setOrdersData(OrderQuery.data)
-  }, [OrderQuery])
-
+  useEffect(() => { setOrdersData(OrderQuery.data) }, [OrderQuery])
 
   return (
     <div>
@@ -32,8 +29,6 @@ const Orders = () => {
                   <OrdersCard key={index}
                     data={val} />
                 ))}
-
-
           </main>
         </div>
       </div>
@@ -65,8 +60,10 @@ const OrdersCard = ({ data }) => {
       <div>
         <div>
           <span className="font-semibold">ORDER ID:</span> {data?.order_id}</div>
-        <div className="order-status mt-1">
-          Pending
+        <div className="order-status mt-1 "
+          style={{ backgroundColor: data.status_color || "#000" }}
+        >
+          {data.order_status}
         </div>
 
         <div className="my-2">

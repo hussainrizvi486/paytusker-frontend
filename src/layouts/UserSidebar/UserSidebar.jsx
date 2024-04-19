@@ -16,14 +16,14 @@ export const UserSidebar = () => {
             ]
         },
         {
-            label: "My Orders", url: "/profile/orders", icon: <ScrollText />,
+            label: "My Orders", url: "/profile/orders/all", icon: <ScrollText />,
             child_elements: [
                 { label: "Pending Orders", url: "/profile/orders/pending" },
                 { label: "Orders History", url: "/profile/orders/all" },
             ]
         },
         {
-            label: "My Reviews", url: "/profile/reviews", icon: <MessageCircle />,
+            label: "My Reviews", url: "/profile/reviews/list", icon: <MessageCircle />,
             child_elements: [
                 { label: "To Review", url: "/profile/reviews/history", },
                 { label: "View Reviews", url: "/profile/reviews/list", },

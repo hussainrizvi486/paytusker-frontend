@@ -3,11 +3,12 @@ import { FormSelect } from "../../components/Form/FormSelect";
 import { Header, UserSidebar } from "../../layouts";
 import { useAddUserAddressMutation, useUpdateUserAddressMutation, useGetUserAddressQuery } from "../../api";
 import { useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { json, useNavigate, useSearchParams } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import { useParams } from "react-router-dom";
 import toast from 'react-hot-toast';
 import { countries } from "../../webData";
+import { Checkbox } from "../../components";
 
 
 const AddressFormFields = [
@@ -56,18 +57,28 @@ const AddressFormFields = [
         "mandatory": true,
         "value": ""
     },
+    {
+        "fieldname": "default",
+        "label": "Default Address",
+        "fieldtype": "checkbox",
+        "mandatory": true,
+        "value": ""
+    },
 ];
 
 
 const AddAddress = () => {
     const [addAddressApi, apiResponse] = useAddUserAddressMutation();
-
     const handleAddressSubmit = (e) => {
-        const formDataObj = new FormData(e.target)
-
+        const formDataObj = new FormData(e.target);
         const addressObject = {}
         for (const [key, value] of formDataObj.entries()) {
-            addressObject[key] = value
+            try {
+                addressObject[key] = JSON.parse(value)
+            } catch (error) {
+
+                addressObject[key] = value
+            }
         }
         addAddressApi(addressObject)
     }
@@ -144,6 +155,9 @@ const generateForm = (fields, onSubmit, btnLabel) => {
                     if (val.fieldtype === "select") {
                         return <FormSelect key={i} data={val} />;
                     }
+                    if (val.fieldtype === "checkbox") {
+                        return <Checkbox key={i} data={val} />;
+                    }
                 })}
             </div>
             <div>
@@ -157,7 +171,7 @@ const EditAddressForm = ({ searchParams, useGetUserAddressQuery, addressFormFiel
     const addressId = searchParams.get("id")
     const { data, isLoading } = useGetUserAddressQuery({ id: addressId });
     const [FormFields, setFormFields] = useState(addressFormFields.map(field => ({ ...field })))
-    const [editAddressApi, apiResponse] = HandleEditApi()
+    const [editAddressApi, apiResponse] = HandleEditApi();
     const navigate = useNavigate();
     const [formLoading, setFormLoading] = useState(isLoading)
 
@@ -166,7 +180,13 @@ const EditAddressForm = ({ searchParams, useGetUserAddressQuery, addressFormFiel
 
         const addressObject = {}
         for (const [key, value] of formDataObj.entries()) {
-            addressObject[key] = value
+            try {
+                addressObject[key] = JSON.parse(value)
+            } catch (error) {
+                addressObject[key] = value
+
+            }
+
         }
 
         const reqBody = {
@@ -175,6 +195,8 @@ const EditAddressForm = ({ searchParams, useGetUserAddressQuery, addressFormFiel
             action: "edit"
         }
 
+
+        console.log(addressObject)
         editAddressApi(reqBody)
     };
 

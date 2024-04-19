@@ -3,9 +3,12 @@ import { Freeze } from "../../components"
 import { useGetUserDetailsQuery } from "../../api"
 import { UserSidebar, Header } from "../../layouts"
 import { LogOut } from "../../redux/slices/authSlice"
+import { useSearchParams } from "react-router-dom"
 
 const Profile = () => {
   const dispatch = useDispatch();
+  const urlSearchParams = useSearchParams()[0]
+
   const userProfileFields = [
     {
       "fieldname": "first_name",
@@ -55,20 +58,32 @@ const Profile = () => {
 
         <div className="sidebar-page__content profile-page">
           <div>
-            <div className="heading-md">My Profile</div>
-            <form className="user-details-grid" >
-              {userProfileFields?.map((val, idx) =>
-                <div className="input-box" key={idx}>
-                  <div className="input-box__label">{val.label}</div>
-                  <div className="input-box__input">
-                    <input type="text" placeholder={val.label} name={val.fieldname}
-                      readOnly={val.read_only}
-                      defaultValue={val.value}
-                    />
-                  </div>
-                </div>
-              )}
-            </form>
+
+            {
+              urlSearchParams.get("edit") ?
+                <>       <div className="heading-md">Edit Profile</div>
+                  <EditProfile />
+                </>
+
+                :
+                <>
+                  <div className="heading-md">My Profile</div>
+                  <form className="user-details-grid" >
+                    {userProfileFields?.map((val, idx) =>
+                      <div className="input-box" key={idx}>
+                        <div className="input-box__label">{val.label}</div>
+                        <div className="input-box__input">
+                          <input type="text" placeholder={val.label} name={val.fieldname}
+                            readOnly={val.read_only}
+                            defaultValue={val.value}
+                          />
+                        </div>
+                      </div>
+                    )}
+                  </form>
+                </>
+
+            }
             <br />
             <br />
             <div>
@@ -94,15 +109,10 @@ const Profile = () => {
 export default Profile
 
 
-{/* \
-<UserSidebar />
-<div className="sidebar-page__content">
-  <Navbar title={"Your Orders"} />
-  <main className="order-page-main">
-    {orders?.map((val, index) => (
-      <OrdersCard key={index}
-        data={val} />
-    ))}
-  </main>
-</div>
-</div> */}
+const EditProfile = () => {
+  return (
+    <div>
+      
+    </div>
+  )
+}

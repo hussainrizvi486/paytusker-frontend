@@ -2,7 +2,8 @@
 import { ArrowLeft, User2 } from "lucide-react"
 import { Link } from "react-router-dom"
 
-export const Navbar = ({ title }) => {
+
+export const Navbar = ({ title = "" }) => {
     return (
         <header className="header-simple">
             <section>

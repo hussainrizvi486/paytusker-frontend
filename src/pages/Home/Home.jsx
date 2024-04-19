@@ -13,7 +13,7 @@ const Home = () => {
     const [products, setProducts] = useState();
     const homePageCategories = useGetHomeCategoriesQuery();
     const [loading, setLoading] = useState(true)
-   
+
     const getData = async () => {
         setLoading(true);
         try {
@@ -135,7 +135,7 @@ const Home = () => {
 
             </main >
             <>
-                <TestPagitaion />
+                {/* <TestPagitaion /> */}
             </>
         </>
 
