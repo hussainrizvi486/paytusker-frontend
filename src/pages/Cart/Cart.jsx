@@ -25,6 +25,11 @@ const _paymentMethods = [
         id: "klarna",
         name: "Klarna"
     },
+    {
+        image: "https://upload.wikimedia.org/wikipedia/commons/a/a4/Paypal_2014_logo.png",
+        id: "paypal",
+        name: "PayPal"
+    },
 ]
 
 
