@@ -34,7 +34,8 @@ const LoginPage = () => {
 
     }, [isLoading, isSuccess, isError, error])
 
-    const submitForm = async () => {
+    const submitForm = async (e) => {
+        e.preventDefault();
         const password = passwordRef.current.value;
         const email = userNameRef.current.value;
 
@@ -61,7 +62,7 @@ const LoginPage = () => {
         <>
             <Header />
             <div>
-                <form className='auth-form' onSubmit={submitForm}>
+                <form className='auth-form' onSubmit={(e) => submitForm(e)}>
                     <div className="text-center auth-form__upper-text">
                         <h1>Login</h1>
                         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint. Lorem ipsum, dolor sit amet consectetur adipisicing.</p>
@@ -96,6 +97,7 @@ const LoginPage = () => {
                                 label="Login"
                                 btnLoading={pageLoading}
                                 onClick={submitForm}
+                                type="submit"
                             />
                             {/* <button type="submit"
                                 className="auth-form__submit-btn  btn btn-full btn-primary btn-sm">

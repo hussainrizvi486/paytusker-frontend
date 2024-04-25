@@ -28,6 +28,15 @@ export const userApiSlice = apiSlice.injectEndpoints({
             invalidatesTags: (result, error) => error ? [] : ["refetchAddress"]
         }),
 
+        updateUserPassword: builder.mutation({
+            query: (data) => ({
+                url: "api/user/password/update",
+                method: "POST",
+                body: data,
+            }),
+            // invalidatesTags: (result, error) => error ? [] : ["refetchAddress"]
+        }),
+
         getUserDetails: builder.query({
             query: () => ({
                 url: "api/get-user-details/",
@@ -42,7 +51,6 @@ export const userApiSlice = apiSlice.injectEndpoints({
                 params: params
             }),
             providesTags: ["refetchAddress"]
-
         }),
     }),
     overrideExisting: false

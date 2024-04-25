@@ -12,6 +12,7 @@ export const {
     useGetUserAddressQuery,
     useGetUserDetailsQuery,
     useLoginUserMutation,
+    useUpdateUserPasswordMutation
 } = userApiSlice;
 
 export const {
