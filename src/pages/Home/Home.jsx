@@ -144,7 +144,7 @@ const Home = () => {
                                 Digital Categories
                             </div>
                                 <div className="home-categories-row">
-                                    {homePageCategories.data?.categories?.phyical?.map((val, i) => <CategoryCard key={i}
+                                    {homePageCategories.data?.categories?.digital?.map((val, i) => <CategoryCard key={i}
                                         category={val?.name}
                                         image={val?.image}
                                         id={val?.id}
