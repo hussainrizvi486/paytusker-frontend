@@ -66,13 +66,15 @@
     display: none;
 }
 
+.follow-us__sm {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
 
 @media (min-width:600px) {
     .follow-us__sm {
-        display: flex;
-        justify-content: center;
-        gap: 1rem
-        ;
+        display: none;
     }
 
     .follow-us__lg {
@@ -85,3 +87,4 @@
         grid-template-columns: repeat(3, 1fr);
     }
 }
+
