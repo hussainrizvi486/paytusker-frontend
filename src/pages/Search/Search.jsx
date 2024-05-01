@@ -232,7 +232,8 @@ const Search = () => {
                         <ProductLoadingGrid />
                         : !productsLoading && productsData ?
                             <div>
-                                <div className="mb-5">Showing {searchResCount} results for &quot;{query}&quot;</div>
+                                {query ? <div className="mb-5">Showing {searchResCount} results for &quot;{query}&quot;</div> : <></>}
+
                                 <div className="products-grid">
                                     {productsData?.map((val, i) => <ProductCard key={i} product={val} />)}
                                 </div>
