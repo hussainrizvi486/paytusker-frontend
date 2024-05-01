@@ -281,6 +281,11 @@
     width: var(--icon-size-sm);
 }
 
+.icon-md {
+    height: var(--icon-size-md);
+    width: var(--icon-size-md);
+}
+
 /* tag */
 .tag-sm {
     padding: .25rem .45rem;

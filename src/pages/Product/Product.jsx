@@ -227,7 +227,7 @@ const ProductMediaCarousel = ({ slides = [] }) => {
         hide = "hide";
     }
 
-    if (totalSlides < 7) { navHide = "hide" }
+    // if (totalSlides < 6) { navHide = "hide" }
     const [navigationIndex, setNavigationIndex] = useState(0);
 
     const moveNavigation = (action) => {

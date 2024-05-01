@@ -62,8 +62,24 @@
     font-size: var(--text-sm);
 }
 
+.follow-us__lg {
+    display: none;
+}
+
 
 @media (min-width:600px) {
+    .follow-us__sm {
+        display: flex;
+        justify-content: center;
+        gap: 1rem
+        ;
+    }
+
+    .follow-us__lg {
+        display: block;
+    }
+
+
     .footer-links__tab {
         display: grid;
         grid-template-columns: repeat(3, 1fr);

@@ -57,7 +57,7 @@
     border-width: 2px;
 }
 
-.search-filter__option-values .filter-option:hover,
+/* .search-filter__option-values .filter-option:hover, */
 .search-filter__option-values .filter-option.active {
     border-width: 2px;
     cursor: pointer;
