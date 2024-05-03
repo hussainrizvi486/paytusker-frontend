@@ -454,3 +454,38 @@
     background-color: var(--color-primary-bg);
     color: #FFF;
 }
+
+.dropdown-container {
+    position: relative;
+}
+
+.dropdown-container__detail-wrapper {
+    position: absolute;
+    padding: .25rem;
+    z-index: 2;
+    top: 130%;
+    left: auto;
+    right: 0;
+    /* text-align: center; */
+    min-width: 150px;
+    box-shadow: 0 0 5px #bcbcbc;
+    background-color: #ffff;
+    border-radius: 5px;
+}
+
+.dropdown-option__wrapper {
+    padding: .5rem .25rem;
+    /* font-weight: 500; */
+    /* font-family: Poppins, roboto; */
+    /* font-size: var(--text-xs); */
+}
+
+.dropdown-option__wrapper:not(:last-of-type) {
+    /* margin-bottom: .5rem; */
+}
+
+.dropdown-option__wrapper:hover {
+    cursor: pointer;
+    background-color: #ececec;
+    transition: all 200ms;
+}

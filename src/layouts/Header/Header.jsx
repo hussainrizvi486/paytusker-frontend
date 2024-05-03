@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react"
-import { LogIn, Menu, Search, ShoppingCart, User2 } from "lucide-react"
+import { Menu, Search, ShoppingCart, User2 } from "lucide-react"
 import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom"
 import Logo from "../../assets/logo.png"
 import { getUserDetails } from "../../redux/slices/authSlice"
@@ -10,6 +10,7 @@ import axios from "axios"
 import { useSelector } from "react-redux"
 import { UpdateQuery, UpdateSearchProducts } from "../../redux/slices/searchProducts"
 import toast from "react-hot-toast"
+import { DropDown } from "../../components/Common/DropDown"
 
 
 export const Header = () => {
@@ -17,6 +18,11 @@ export const Header = () => {
     const dispatch = useDispatch();
     const cartReduxState = useSelector((state) => state.cart.total_qty);
     const [cartCount, setCartCount] = useState(cartReduxState || 466);
+    const ProfileDropDownOptions = [
+        { "label": "My Profile", "url": "/profile" },
+        { "label": "Logut", "url": "/logout" }
+
+    ]
 
     useEffect(() => { setCartCount(cartReduxState) }, [cartReduxState])
 
@@ -71,11 +77,13 @@ export const Header = () => {
                         <ShoppingCart />
                     </Link>
                     {isAuthenticated ?
-                        <Link className="header-nav__link" to={"/profile"}>
-                            <User2 />
-                        </Link> :
+                        <DropDown options={ProfileDropDownOptions}>
+                            <span className="header-nav__link">
+                                <User2 />
+                            </span>
+                        </DropDown>
+                        :
                         <Link className="header-nav__link" to={"/login"}>
-                            {/* <LogIn /> */}
                             <User2 />
                         </Link>
                     }

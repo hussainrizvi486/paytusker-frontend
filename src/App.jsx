@@ -1,11 +1,11 @@
 /* eslint-disable react/no-children-prop */
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { Suspense, lazy } from "react"
 import { Route, Routes, useLocation, Outlet, Navigate } from "react-router-dom"
 
 import Logo from "./assets/logo.png"
 import { Freeze } from "./components";
-import { Footer, MobileSideBar } from "./layouts"
+import { Footer, Header, MobileSideBar } from "./layouts"
 import { useDispatch, useSelector } from "react-redux";
 
 import "react-loading-skeleton/dist/skeleton.css";
@@ -24,6 +24,8 @@ import "./styles/pages/profile.css";
 import { useGetCartDetailsQuery } from "./api";
 import { closeMobileSideBar } from "./redux/slices/appUiSlice";
 import { updateCart } from "./redux/slices/cartSlice";
+import { LogOut } from "./redux/slices/authSlice";
+import axios from "axios";
 
 const Home = lazy(() => import("./pages/Home/Home"));
 const Product = lazy(() => import("./pages/Product/Product"));
@@ -76,6 +78,8 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/privacy" element={<PrivacyPolicyPage />} />
             <Route path="/faqs" element={<FAQsPage />} />
+            <Route path="/logout" element={<LogOutPage />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="*" element={<p>Path not resolved</p>} />
 
             <Route element={<ProtectedRoute isAuthenticated={isAuthenticated} />}>
@@ -113,4 +117,38 @@ function ScrollToTop() {
 function ProtectedRoute({ isAuthenticated }) {
   if (!isAuthenticated) return <Navigate to={"/login"} />
   return <Outlet />
+}
+
+function LogOutPage() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(LogOut())
+    window.location.href = "/"
+
+  }, [dispatch])
+
+  return <>
+  </>
+
+}
+
+
+let CachedPrivacyPolicy = null
+export const PrivacyPolicy = () => {
+  const [data, setData] = useState(CachedPrivacyPolicy)
+  const getPrivacyPolicy = async () => {
+    const req = await axios.get("https://crm.paytusker.us/api/method/paytusker.apis.get_privacy_policy")
+    if (req.status === 200 && req.data) {
+      setData(req.data.privacy_policy)
+      CachedPrivacyPolicy = req.data.privacy_policy;
+    }
+  }
+  useEffect(() => { if (!CachedPrivacyPolicy) { getPrivacyPolicy() } }, [])
+  return (
+    <>
+      <Header />
+      <main dangerouslySetInnerHTML={{ __html: data || "" }}></main>
+    </>
+  )
 }

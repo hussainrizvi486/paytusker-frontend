@@ -20,7 +20,6 @@ section.home-section {
     .slider-container {
         height: 300px;
     }
-
 }
 
 
@@ -115,6 +114,18 @@ section.home-section {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: .25rem;
+}
+
+@media (max-width:768px) {
+    .slider-btn svg {
+        height: var(--icon-size-sm);
+        width: var(--icon-size-sm);
+    }
+
+    .slider-nav-el.dot {
+        height: 7px;
+        width: 7px;
+    }
 }
 
 

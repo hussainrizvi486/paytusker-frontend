@@ -1,14 +1,11 @@
-import { useDispatch } from "react-redux"
 import { Button, FormInput, Freeze } from "../../components"
 import { useGetUserDetailsQuery, useUpdateUserPasswordMutation } from "../../api"
 import { UserSidebar, Header } from "../../layouts"
-import { LogOut } from "../../redux/slices/authSlice"
 import { Link, useNavigate, useSearchParams } from "react-router-dom"
 import { useEffect, useRef, useState } from "react"
 import toast from "react-hot-toast"
 
 const Profile = () => {
-  const dispatch = useDispatch();
   const urlSearchParams = useSearchParams()[0]
 
   const userProfileFields = [
@@ -90,7 +87,14 @@ const Profile = () => {
                     </form>
                     <br />
                     <br />
-                    <div>
+                    <div className="flex gap-2">
+
+                      {/* <Link style={{
+                        marginBottom: ".5rem"
+                      }} to={"/profile"}>
+                        <button className="btn btn-sm btn-primary">Edit Profile</button>
+                      </Link> */}
+
                       <Link style={{
                         marginBottom: ".5rem"
                       }} to={"/profile?change_password=true"}>
@@ -98,17 +102,6 @@ const Profile = () => {
                       </Link>
                       <br />
                       <br />
-                      {/* <br /> */}
-                      <button
-                        style={{
-                          color: "#fff",
-                          backgroundColor: "#ff5a5a"
-                        }}
-                        onClick={() => {
-                          dispatch(LogOut())
-                          window.location.reload()
-                        }}
-                        className="btn btn-sm">Logout</button>
                     </div>
                   </>
 

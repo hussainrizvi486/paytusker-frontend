@@ -9,12 +9,23 @@ import Skeleton from "react-loading-skeleton";
 import { useGetHomeCategoriesQuery } from "../../api";
 
 
+let CachedBannerData = null;
+
 const Home = () => {
     const [products, setProducts] = useState();
     const [digitalProducts, setDigitalProducts] = useState();
     const homePageCategories = useGetHomeCategoriesQuery();
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(true);
+    const [bannerImages, setBannerImages] = useState(CachedBannerData);
 
+
+    const getBannerImages = async () => {
+        const req = await axios.get("https://crm.paytusker.us/api/method/paytusker.apis.get_banner_images")
+        if (req.status == 200 && req.data) {
+            setBannerImages(req.data.images)
+            CachedBannerData = req.data.images
+        }
+    }
     const getData = async () => {
         setLoading(true);
         try {
@@ -31,14 +42,13 @@ const Home = () => {
 
 
     useEffect(() => {
+        if (!CachedBannerData) {
+            getBannerImages()
+        }
         getData()
     }, [])
 
-    const slides = [
-        "https://img.freepik.com/free-vector/red-flat-style-black-friday-sale-banner-template_1017-27735.jpg?w=1380&t=st=1708900725~exp=1708901325~hmac=8a8da6f08487ac3e93faa23b75400fa5f728f28baa6a866f5368c63afb434afa",
-        "https://icms-image.slatic.net/images/ims-web/cd8d8e75-cbc4-4cb2-bfd9-c39eed09adcc.jpg",
-        "https://icms-image.slatic.net/images/ims-web/abaa358e-3c50-4772-a7ff-417ef23ab1e8.png"
-    ]
+    const slides = bannerImages
 
     const [activeIndex, setActiveIndex] = useState(0)
 
@@ -74,9 +84,21 @@ const Home = () => {
                                     </div>
                                 ))} */}
 
-                                <div className="slider-slide flex-center">
-                                    <img src="https://img.freepik.com/free-vector/red-flat-style-black-friday-sale-banner-template_1017-27735.jpg?w=1380&t=st=1708900725~exp=1708901325~hmac=8a8da6f08487ac3e93faa23b75400fa5f728f28baa6a866f5368c63afb434afa" alt="" />
+                                {
+                                bannerImages?.map((obj, i) => (
+                                        <picture className="slider-slide flex-center" key={i}>
+                                            <source media="(min-width: 768px)" srcSet={obj.banner_image_lg} />
+                                            <img src={obj.banner_image_sm} />
+                                        </picture>
+                                    ))
+                                }
+                                {/* <div className="slider-slide flex-center">
+                                    <img src={banner} alt="" />
                                 </div>
+                                <div className="slider-slide flex-center">
+                                    <img src={banner2} alt="" />
+                                </div>
+
                                 <div className="slider-slide flex-center">
                                     <img src="https://img.freepik.com/premium-vector/winter-sale-poster-with-realistic-3d-snowflakes-gift-boxes-blue-backdrop-digital-banner_348818-1483.jpg?w=1800" alt="" />
                                 </div>
@@ -85,7 +107,7 @@ const Home = () => {
                                 </div>
                                 <div className="slider-slide flex-center">
                                     <span className="font-medium">SLIDE 4</span>
-                                </div>
+                                </div> */}
                             </div>
                         </div>
 
