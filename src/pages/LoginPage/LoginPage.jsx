@@ -65,7 +65,7 @@ const LoginPage = () => {
                 <form className='auth-form' onSubmit={(e) => submitForm(e)}>
                     <div className="text-center auth-form__upper-text">
                         <h1>Login</h1>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint. Lorem ipsum, dolor sit amet consectetur adipisicing.</p>
+                        <p>Let’s get into your account.</p>
                     </div>
 
                     <div className="auth-form__fields-container">

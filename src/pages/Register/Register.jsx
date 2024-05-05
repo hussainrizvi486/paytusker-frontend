@@ -72,7 +72,7 @@ const Register = () => {
                 >
                     <div className="text-center auth-form__upper-text">
                         <h1>Register</h1>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint. Lorem ipsum, dolor sit amet consectetur adipisicing.</p>
+                        <p>Create your Paytukser Account.</p>
                     </div>
 
                     <div className="auth-form__fields-container">
@@ -153,8 +153,7 @@ const Register = () => {
                             />
                         </div>
                         <div className="auth-form__optional-text">
-                            <span>Already have an account?</span>
-                            <Link to={"/login"}>Login</Link>
+                            <span>Already have an account?</span> <Link to={"/login"}>Login</Link>
                         </div>
                     </div>
                 </form>

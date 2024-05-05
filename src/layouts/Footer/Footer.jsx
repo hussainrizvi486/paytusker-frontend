@@ -101,7 +101,7 @@ export const Footer = () => {
 
 
             <section className="pg-footer__copyrights">
-                &copy;2024 aytusker,All rights reserved
+                &copy;2024 Paytusker. All rights reserved
             </section>
         </footer >
     )

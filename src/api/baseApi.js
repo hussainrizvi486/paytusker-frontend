@@ -38,14 +38,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 export const apiSlice = createApi({
     baseQuery: baseQueryWithReauth,
     tagTypes: ["refetchCart", "refetchAddress", "refetchReviews", "refetchOrders"],
-    endpoints: (builder) => ({
-        getHomeCategories: builder.query({
-            query: () => ({
-                url: "api/category/get",
-                method: "GET"
-            }),
-        })
-    })
+    endpoints: () => ({})
 });
 
 

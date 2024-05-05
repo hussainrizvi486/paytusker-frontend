@@ -1,12 +1,17 @@
 import { useDispatch } from "react-redux";
+import { X } from "lucide-react";
+
 import { ToggleMobileSideBar } from "../../redux/slices/appUiSlice";
 import { SidebarNavElement } from "../UserSidebar/UserSidebar"
-import { X } from "lucide-react";
 import { getUserDetails } from "../../redux/slices/authSlice";
+import { useGetProductCategoriesQuery } from "../../api";
+import { useEffect, useState } from "react";
+
 
 
 export const MobileSideBar = ({ active }) => {
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
+    const productsCategories = useGetProductCategoriesQuery();
     function ToggleSideBar() { dispatch(ToggleMobileSideBar()) }
 
     const authenticatedSidebarLinks = [
@@ -29,13 +34,12 @@ export const MobileSideBar = ({ active }) => {
             ]
         },
         {
-            label: "My Reviews", url: "/profile/reviews",
+            label: "My Reviews", url: "/profile/reviews/history",
         },
     ]
     const unAuthenticatedSidebarLinks = [
         {
             label: "Paytusker Home", url: "/"
-            // , icon: <Home />
         },
         {
             label: "Follow Us",
@@ -57,6 +61,28 @@ export const MobileSideBar = ({ active }) => {
         },
 
     ]
+    const [sideBarLinks, setSideBarLinks] = useState(
+        getUserDetails()[1] ? authenticatedSidebarLinks : unAuthenticatedSidebarLinks
+    );
+
+    useEffect(() => {
+        console.log(productsCategories.data)
+        if (productsCategories?.data?.categories?.physical) {
+            const categories = productsCategories.data.categories.physical;
+            const childElements = categories.map(category => ({
+                label: category.name,
+                url: "/faqs",
+            }));
+            setSideBarLinks(prev => [
+                ...prev,
+                { label: "Categories", child_elements: childElements }
+            ]);
+        }
+    }, [productsCategories.data]);
+
+
+    useEffect(() => { console.log(sideBarLinks) }, [sideBarLinks])
+
 
     return (
         <div className={`mobile-sidebar__wrapper ${!active ? "inactive" : "active"}`}>
@@ -76,26 +102,17 @@ export const MobileSideBar = ({ active }) => {
                     </div>
                 </div>
                 <br />
-                {
-                    getUserDetails()[1] ?
-                        authenticatedSidebarLinks.map((val, i) => (
-                            <SidebarNavElement key={i} child_elements={val.child_elements} label={val.label} url={val.url}
-                                icon={val.icon}
-                            />
-                        )) : <>{
-                            unAuthenticatedSidebarLinks.map((val, i) => (
-                                <SidebarNavElement key={i} child_elements={val.child_elements} label={val.label} url={val.url}
-                                    icon={val.icon}
-                                />
-                            ))
-                        }</>}
+                {sideBarLinks?.map((val, i) => (
+                    <SidebarNavElement key={i} child_elements={val.child_elements} label={val.label} url={val.url}
+                        icon={val.icon}
+                    />
+                ))}
             </div>
             <div className="mobile-sidebar__backdrop"
                 onClick={ToggleSideBar}
                 onDrag={(e) => e.preventDefault()}
                 onDragStart={(e) => e.preventDefault()}
                 onScroll={(e) => e.preventDefault()}
-
             >
             </div>
         </div>

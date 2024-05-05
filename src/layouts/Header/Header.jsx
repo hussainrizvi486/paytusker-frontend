@@ -1,27 +1,27 @@
-import { useEffect, useRef, useState } from "react"
-import { Menu, Search, ShoppingCart, User2 } from "lucide-react"
-import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom"
+import { useEffect, useRef, useState } from "react";
+import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { Menu, Search, ShoppingCart, User2 } from "lucide-react";
+import { useSelector, useDispatch } from "react-redux";
+import toast from "react-hot-toast";
+import axios from "axios";
+
 import Logo from "../../assets/logo.png"
 import { getUserDetails } from "../../redux/slices/authSlice"
 import { ToggleMobileSideBar } from "../../redux/slices/appUiSlice"
-import { useDispatch } from "react-redux"
 import { API_URL } from "../../redux/store"
-import axios from "axios"
-import { useSelector } from "react-redux"
-import { UpdateQuery, UpdateSearchProducts } from "../../redux/slices/searchProducts"
-import toast from "react-hot-toast"
-import { DropDown } from "../../components/Common/DropDown"
+import { UpdateQuery, UpdateSearchProducts } from "../../redux/slices/searchProducts";
+import { DropDown } from "../../components/Common/DropDown";
 
 
 export const Header = () => {
-    const isAuthenticated = getUserDetails()[1];
     const dispatch = useDispatch();
     const cartReduxState = useSelector((state) => state.cart.total_qty);
+    const isAuthenticated = getUserDetails()[1];
     const [cartCount, setCartCount] = useState(cartReduxState || 466);
+
     const ProfileDropDownOptions = [
         { "label": "My Profile", "url": "/profile" },
         { "label": "Logut", "url": "/logout" }
-
     ]
 
     useEffect(() => { setCartCount(cartReduxState) }, [cartReduxState])
@@ -94,7 +94,7 @@ export const Header = () => {
 }
 
 
-const HeaderSearchBox = ({ placeholder = "Type somthing here.", handleSearch = () => { } }) => {
+const HeaderSearchBox = ({ placeholder = "Type something here.", handleSearch = () => { } }) => {
     const navigate = useNavigate()
     const location = useLocation()
     const params = new URLSearchParams(window.location.search)
@@ -102,12 +102,9 @@ const HeaderSearchBox = ({ placeholder = "Type somthing here.", handleSearch = (
     const searchInpRef = useRef()
 
     const search = (e) => {
-        e.preventDefault()
+        e.preventDefault();
         const query = searchInpRef.current.value
-
-
         handleSearch(query)
-
         if (location.pathname != "/search") {
             navigate(`/search?query=${query}`)
         }

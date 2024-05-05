@@ -6,7 +6,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { API_URL } from "../../redux/store";
 import toast from "react-hot-toast";
 import Skeleton from "react-loading-skeleton";
-import { useGetHomeCategoriesQuery } from "../../api";
+import { useGetProductCategoriesQuery } from "../../api";
 
 
 let CachedBannerData = null;
@@ -14,9 +14,11 @@ let CachedBannerData = null;
 const Home = () => {
     const [products, setProducts] = useState();
     const [digitalProducts, setDigitalProducts] = useState();
-    const homePageCategories = useGetHomeCategoriesQuery();
     const [loading, setLoading] = useState(true);
     const [bannerImages, setBannerImages] = useState(CachedBannerData);
+
+    const productCategories = useGetProductCategoriesQuery();
+
 
 
     const getBannerImages = async () => {
@@ -79,35 +81,15 @@ const Home = () => {
                             <div className="slider-slides-container" style={{
                                 transform: `translateX(-${100 * activeIndex}%)`
                             }}>
-                                {/* {slides?.map((slide, i) => (
-                                    <div className="slider-slide flex-center" key={i}>
-                                    </div>
-                                ))} */}
 
                                 {
-                                bannerImages?.map((obj, i) => (
+                                    bannerImages?.map((obj, i) => (
                                         <picture className="slider-slide flex-center" key={i}>
                                             <source media="(min-width: 768px)" srcSet={obj.banner_image_lg} />
                                             <img src={obj.banner_image_sm} />
                                         </picture>
                                     ))
                                 }
-                                {/* <div className="slider-slide flex-center">
-                                    <img src={banner} alt="" />
-                                </div>
-                                <div className="slider-slide flex-center">
-                                    <img src={banner2} alt="" />
-                                </div>
-
-                                <div className="slider-slide flex-center">
-                                    <img src="https://img.freepik.com/premium-vector/winter-sale-poster-with-realistic-3d-snowflakes-gift-boxes-blue-backdrop-digital-banner_348818-1483.jpg?w=1800" alt="" />
-                                </div>
-                                <div className="slider-slide flex-center">
-                                    <span className="font-medium">SLIDE 3</span>
-                                </div>
-                                <div className="slider-slide flex-center">
-                                    <span className="font-medium">SLIDE 4</span>
-                                </div> */}
                             </div>
                         </div>
 
@@ -129,7 +111,7 @@ const Home = () => {
                     <section className="home-section">
                         <div className="section-heading">Categories</div>
                         <div className="home-categories-row">
-                            {homePageCategories.data?.categories?.phyical?.map((val, i) => <CategoryCard key={i}
+                            {productCategories.data?.categories?.physical?.map((val, i) => <CategoryCard key={i}
                                 category={val?.name}
                                 image={val?.image}
                                 id={val?.id}
@@ -166,7 +148,7 @@ const Home = () => {
                                 Digital Categories
                             </div>
                                 <div className="home-categories-row">
-                                    {homePageCategories.data?.categories?.digital?.map((val, i) => <CategoryCard key={i}
+                                    {productCategories.data?.categories?.digital?.map((val, i) => <CategoryCard key={i}
                                         category={val?.name}
                                         image={val?.image}
                                         id={val?.id}

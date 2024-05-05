@@ -51,7 +51,7 @@ const AddressFormFields = [
 
     {
         "fieldname": "address_line_1",
-        "label": "Street address",
+        "label": "Street Address",
         "placeholder": "Apartment, suite, unit, building, floor, etc.",
         "fieldtype": "text",
         "mandatory": true,
