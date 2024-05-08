@@ -16,7 +16,6 @@ const Home = () => {
     const [digitalProducts, setDigitalProducts] = useState();
     const [loading, setLoading] = useState(true);
     const [bannerImages, setBannerImages] = useState(CachedBannerData);
-
     const productCategories = useGetProductCategoriesQuery();
 
 
@@ -175,36 +174,6 @@ const Home = () => {
     )
 }
 
-const TestPagitaion = () => {
-    const [currentPage, setCurrentPage] = useState(10);
-    const handleCurrentPage = (page) => {
-        setCurrentPage(page)
-    }
-    const handleNextPage = () => {
-        setCurrentPage((prev) => prev + 1)
-    }
-    const handlePrevPage = () => {
-        setCurrentPage((prev) => prev - 1)
-    }
-
-    return (
-        <>
-
-            <br />
-            <br />
-            <br />
-            <h1>Test Section</h1>
-            <div>
-                <Pagination
-                    pageCount={20}
-                    currentPage={currentPage}
-                    setCurrentPage={handleCurrentPage}
-                    handleNext={handleNextPage}
-                    handlePrev={handlePrevPage}
-                />
-            </div></>
-    )
-}
 export default Home
 
 

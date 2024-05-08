@@ -1,49 +1,107 @@
-export const Pagination = ({ handleNext, setCurrentPage, handlePrev, pageCount = 0, currentPage = 1, }) => {
+import { ChevronLeft, ChevronRight } from "lucide-react";
+
+export const Pagination = ({
+    handleNext,
+    setCurrentPage,
+    handlePrev,
+    pageCount = 0,
+    currentPage = 1,
+}) => {
     const pagesArr = Array.from({ length: pageCount }, (_, index) => index + 1);
-
-
-    if (currentPage > 5) {
-        const centerSec = [...pagesArr.slice(currentPage - 3, currentPage - 1), currentPage, ...pagesArr.slice(currentPage, currentPage + 2)]
-        return (
+    const centerRow = pagesArr.slice(currentPage - 2, currentPage + 1);
+    const startRow = [1];
+    const breakLimit = 5;
+    const endRow = [pagesArr.length];
+    const endLimit = (pagesArr.length - breakLimit) + 1;
+    if (pageCount > 1) return (
+        <>
             <div className="pagination-wrapper">
-                <button className="btn btn-sm btn-primary" onClick={handlePrev}>Prev</button>
-                <div
-                    className={`pagination-count__btn`}
-                    onClick={() => setCurrentPage(1)}
-                >{1}</div>
-                ...
-                {centerSec.map((v) => (
-                    <div
-                        className={`pagination-count__btn ${currentPage === v ? "active" : ""}`}
-                        key={v}
-                        onClick={() => setCurrentPage(v)}
-                    >{v}</div>
-                ))}
-                ...
-                <div
-                    className={`pagination-count__btn`}
-                    onClick={() => setCurrentPage(pageCount)}
-                >{pageCount}</div>
-                <button className="btn btn-sm btn-primary" onClick={handleNext}>Next</button>
+                <button className="pagination-btn" onClick={handlePrev}>
+                    <ChevronLeft className="icon-sm" />
+                </button>
+                {currentPage > breakLimit - 1 && pageCount > breakLimit - 1 && currentPage < endLimit ? (
+                    <>
+                        {startRow.map((v) => (
+                            <div
+                                className={`pagination-btn text-sm ${currentPage === v ? "active" : ""}`}
+                                key={v}
+                                onClick={() => setCurrentPage(v)}
+                            >
+                                {v}
+                            </div>
+                        ))}
+                        ...
+                        {centerRow.map((v) => (
+                            <div
+                                className={`pagination-btn text-sm ${currentPage === v ? "active" : ""}`}
+                                key={v}
+                                onClick={() => setCurrentPage(v)}
+                            >
+                                {v}
+                            </div>
+                        ))}
+                        ...
+                        {endRow.map((v) => (
+                            <div
+                                className={`pagination-btn text-sm ${currentPage === v ? "active" : ""}`}
+                                key={v}
+                                onClick={() => setCurrentPage(v)}
+                            >
+                                {v}
+                            </div>
+                        ))}
+                    </>
+                ) : currentPage >= endLimit ? (
+                    <>
+                        {startRow.map((v) => (
+                            <div
+                                className={`pagination-btn text-sm ${currentPage === v ? "active" : ""}`}
+                                key={v}
+                                onClick={() => setCurrentPage(v)}
+                            >
+                                {v}
+                            </div>
+                        ))}
+                        ...
+                        {pagesArr.slice(endLimit - 1, pagesArr.length).map((v) => (
+                            <div
+                                className={`pagination-btn text-sm ${currentPage === v ? "active" : ""}`}
+                                key={v}
+                                onClick={() => setCurrentPage(v)}
+                            >
+                                {v}
+                            </div>
+                        ))}
+                    </>
+                ) : pageCount > breakLimit && currentPage < breakLimit ? (
+                    <>
+                        {pagesArr.slice(0, breakLimit).map((v) => (
+                            <div
+                                className={`pagination-btn text-sm ${currentPage === v ? "active" : ""}`}
+                                key={v}
+                                onClick={() => setCurrentPage(v)}
+                            >
+                                {v}
+                            </div>
+                        ))}
+                        ...
+                        {endRow.map((v) => (
+                            <div
+                                className={`pagination-btn text-sm ${currentPage === v ? "active" : ""}`}
+                                key={v}
+                                onClick={() => setCurrentPage(v)}
+                            >
+                                {v}
+                            </div>
+                        ))}
+                    </>
+                ) : (
+                    <></>
+                )}
+                <button className="pagination-btn" onClick={handleNext}>
+                    <ChevronRight className="icon-sm" />
+                </button>
             </div>
-        )
-    }
-    // const displayArr = 
-    return (
-        <>{pageCount > 1 ?
-            <div className="pagination-wrapper">
-
-                <button className="btn btn-sm btn-primary" onClick={handlePrev}>Prev</button>
-                {pagesArr.map((v, index) => (
-                    <div
-                        className={`pagination-count__btn ${currentPage === index + 1 ? "active" : ""}`}
-                        key={v + index}
-                        onClick={() => setCurrentPage(index + 1)}
-                    >{index + 1}</div>
-                ))}
-                <button className="btn btn-sm btn-primary" onClick={handleNext}>Next</button>
-            </div>
-            : <></>}
         </>
-    )
-}
+    );
+};

@@ -35,7 +35,6 @@ const Search = () => {
 
     useEffect(() => {
         setQueryPayload((prev) => ({ ...prev, query: query }))
-        console.log("CAll 1")
     }, [query]);
 
     useEffect(() => {
@@ -248,7 +247,9 @@ const Search = () => {
                             pageCount={paginationDataObj.totalPages}
                             currentPage={paginationDataObj.currentPageNum}
                             setCurrentPage={handleCurrentPage}
-                            handleNext={handleNextPage} handlePrev={handlePrevPage} />
+                            handleNext={handleNextPage}
+
+                            handlePrev={handlePrevPage} />
                     </div>
                 </section>
             </main>

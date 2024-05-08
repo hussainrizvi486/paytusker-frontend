@@ -66,7 +66,6 @@ export const MobileSideBar = ({ active }) => {
     );
 
     useEffect(() => {
-        console.log(productsCategories.data)
         if (productsCategories?.data?.categories?.physical) {
             const categories = productsCategories.data.categories.physical;
             const childElements = categories.map(category => ({
@@ -81,7 +80,7 @@ export const MobileSideBar = ({ active }) => {
     }, [productsCategories.data]);
 
 
-    useEffect(() => { console.log(sideBarLinks) }, [sideBarLinks])
+    useEffect(() => {}, [sideBarLinks])
 
 
     return (

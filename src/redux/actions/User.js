@@ -10,7 +10,6 @@ export const CreateOrder = async (data) => {
     })
 
     if (req.status === 200) {
-        console.log(req)
     }
 
 }

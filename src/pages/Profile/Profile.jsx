@@ -162,7 +162,6 @@ const ChangePassowrd = () => {
 
 
   const updatePass = () => {
-    console.log(passwordObject)
     updatePasswordApi(passwordObject)
   }
   return (

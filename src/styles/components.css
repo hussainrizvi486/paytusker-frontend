@@ -191,6 +191,7 @@
 .product-card__name {
     margin-block: .3rem;
     font-size: var(--text-xs);
+    min-height: 2rem;
 }
 
 @media (min-width: 786px) {
@@ -437,22 +438,30 @@
     gap: .5rem;
 }
 
-.pagination-count__btn {
-    height: 2rem;
-    width: 2rem;
+.pagination-btn {
+    height: 1.75rem;
+    width: 1.75rem;
     display: flex;
     justify-content: center;
     align-items: center;
     border: 1px solid;
-    border-color: var(--color-primary-bg);
     border-radius: .25rem;
-    /* font-weight: bold; */
+    user-select: none;
     cursor: pointer;
+    border-color: #0000003b;
+    background-color: #FFF;
+    transition: all 200ms;
 }
 
-.pagination-count__btn.active {
-    background-color: var(--color-primary-bg);
-    color: #FFF;
+.pagination-btn:hover {
+    background-color: rgba(0, 0, 0, 0.034);
+
+}
+
+
+.pagination-btn.active {
+    background-color: #00000014;
+    color: #000;
 }
 
 .dropdown-container {

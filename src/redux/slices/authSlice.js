@@ -31,7 +31,6 @@ const authSlice = createSlice({
     reducers: {
         LogIn: (state, action) => {
             const tokens = action.payload;
-            console.log(tokens)
             const user = jwtDecode(tokens.access);
 
             state.user = user;

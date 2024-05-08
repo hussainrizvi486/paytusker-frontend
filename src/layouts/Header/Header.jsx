@@ -38,7 +38,6 @@ export const Header = () => {
             });
             if (req.status === 200) {
                 const res = req.data?.results?.products;
-                console.log()
                 if (res && res?.length > 0) {
                     dispatch(UpdateSearchProducts({ products: res }));
                 }

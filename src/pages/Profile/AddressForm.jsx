@@ -196,7 +196,6 @@ const EditAddressForm = ({ searchParams, useGetUserAddressQuery, addressFormFiel
         }
 
 
-        console.log(addressObject)
         editAddressApi(reqBody)
     };
 
