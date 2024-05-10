@@ -11,76 +11,51 @@ import { useEffect, useState } from "react";
 
 export const MobileSideBar = ({ active }) => {
     const dispatch = useDispatch();
+    const userAuthenticated = getUserDetails()[1]
     const productsCategories = useGetProductCategoriesQuery();
     function ToggleSideBar() { dispatch(ToggleMobileSideBar()) }
 
-    const authenticatedSidebarLinks = [
-        {
-            label: "Home", url: "/",
-        },
-        {
-            label: "My Account", url: "/profile", child_elements: [
-                { label: "Manage Account", url: "/profile" },
-                { label: "Address Book", url: "/profile/address" },
-                { label: "Add Address", url: "/profile/address/form/add" },
-                // { label: "Vouchers", url: "/profile", },
-            ]
-        },
-        {
-            label: "My Orders", url: "/profile/orders",
-            child_elements: [
-                { label: "Pending Orders", url: "/profile/orders" },
-                { label: "Orders History", url: "/profile/orders" },
-            ]
-        },
-        {
-            label: "My Reviews", url: "/profile/reviews/history",
-        },
-    ]
-    const unAuthenticatedSidebarLinks = [
-        {
-            label: "Paytusker Home", url: "/"
-        },
-        {
-            label: "Follow Us",
-            child_elements: [
-                { label: "Twitter", url: "https://mobile.twitter.com/paytusker" },
-                { label: "Facebook", url: "https://m.facebook.com/#!/TuPublish/?tsid=0.584001426281142&source=result" },
-                { label: "LinkedIn", url: "https://www.linkedin.com/company/tupublish/" },
-                { label: "YouTube", url: "https://youtube.com/channel/UCgIsSYLJzBLOl5yRhDlwPaQ" },
-                { label: "Discord", url: "https://discord.gg/TV3M28nD" }
-            ]
-        },
-        {
-            label: "About",
-            child_elements: [
-                { label: "FAQs", url: "/faqs" },
-                { label: "Privacy Policy", url: "/privacy" },
-                { label: "Term & Conditions", url: "/privacy" },
-            ]
-        },
 
+    let UserSidebarLinks = [
+        {
+            label: "Paytusker Home", url: "/",
+            child_elements: [
+                { label: "Login", url: "/login" },
+                { label: "Register", url: "/register" }]
+        },
     ]
-    const [sideBarLinks, setSideBarLinks] = useState(
-        getUserDetails()[1] ? authenticatedSidebarLinks : unAuthenticatedSidebarLinks
-    );
+
+    if (userAuthenticated) {
+        UserSidebarLinks = [
+            {
+                label: "Paytusker Home", url: "/", child_elements: [
+                    { label: "Manage Account", url: "/profile" },
+                    { label: "Address Book", url: "/profile/address" },
+                    { label: "My Orders", url: "/profile/orders/pending" },
+                ]
+            }
+        ]
+    }
+
+    const [sideBarLinks, setSideBarLinks] = useState(UserSidebarLinks);
 
     useEffect(() => {
-        if (productsCategories?.data?.categories?.physical) {
+        if (productsCategories.data?.categories?.physical) {
             const categories = productsCategories.data.categories.physical;
-            const childElements = categories.map(category => ({
+            const childElements = categories.slice(0, 10).map(category => ({
                 label: category.name,
                 url: "/faqs",
             }));
+
             setSideBarLinks(prev => [
                 ...prev,
-                { label: "Categories", child_elements: childElements }
+                { label: "Top Categories", child_elements: childElements }
             ]);
         }
     }, [productsCategories.data]);
 
 
-    useEffect(() => {}, [sideBarLinks])
+    useEffect(() => { }, [sideBarLinks])
 
 
     return (

@@ -13,7 +13,7 @@ export const DropDown = ({ label = "", options = [], children }) => {
     }
     useEffect(() => {
         document.addEventListener("click", (e) => {
-            if (!menuRef.current.contains(e.target)) {
+            if (!menuRef.current?.contains(e.target)) {
                 setActive(false)
             }
         })

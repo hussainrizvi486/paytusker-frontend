@@ -35,10 +35,8 @@ const _paymentMethods = [
 
 
 const Cart = () => {
-    const navigate = useNavigate();
-
     const [cartDataObject, setCartDataObject] = useState(null);
-    const { data: cartApiData, isLoading: getItemsLoading, isSuccess, isError } = useGetCartDetailsQuery();
+    const { data: cartApiData, isLoading: getItemsLoading, isSuccess } = useGetCartDetailsQuery();
     const [createOrderApi, createOrderApiRes] = useCreateCustomerOrderMutation();
 
     const [updateCartApi, qtyResults] = useUpdateCartMutation();
@@ -100,7 +98,6 @@ const Cart = () => {
     useEffect(() => { setUserAddress(addressApiData) }, [addressApiData])
 
 
-    if (isError) { toast.error("Something went wrong.") }
     if (createOrderApiRes.isSuccess) {
         if (createOrderApiRes.data.checkout_url) {
             window.location.href = createOrderApiRes.data.checkout_url
@@ -109,11 +106,11 @@ const Cart = () => {
 
     if (pageLoading && !createOrderApiRes.isLoading) return <Freeze />
 
+
     return (
         <>
-            <div >
+            <div>
                 <Navbar title={"Your Cart"} />
-
                 <div className='cart-page'>
                     <div className="cart-items__wrapper">
                         <div className="ci-w2">
@@ -137,26 +134,26 @@ const Cart = () => {
                             </div>
                         </div>
                     </div>
-
-                    <div className="cart-summary__wrapper">
-                        <OrderSummary
-                            sub_total={cartDataObject?.total_qty}
-                            total={cartDataObject?.total_amount}
-                            setPaymentMethod={setSelectedPaymentMethod}
-                            currentPaymentMethod={selectedPaymentMethod}
-                            paymentMethods={availablePaymentMethods}
-                            checkoutCart={checkoutCart}
-                            userAddressList={userAddress}
-                            currentSelectedAddress={currentSelectedAddress}
-                            setSelectedAddress={setSelectedAddress}
-                            pageLoading={pageLoading}
-                        />
-                    </div>
+                    {cartDataObject && cartDataObject.items?.length > 0 ? (
+                        <div className="cart-summary__wrapper">
+                            <OrderSummary
+                                sub_total={cartDataObject?.total_qty}
+                                total={cartDataObject?.total_amount}
+                                setPaymentMethod={setSelectedPaymentMethod}
+                                currentPaymentMethod={selectedPaymentMethod}
+                                paymentMethods={availablePaymentMethods}
+                                checkoutCart={checkoutCart}
+                                userAddressList={userAddress}
+                                currentSelectedAddress={currentSelectedAddress}
+                                setSelectedAddress={setSelectedAddress}
+                                pageLoading={pageLoading}
+                            />
+                        </div>
+                    ) : <></>}
                 </div>
 
             </div>
         </>
-
     )
 }
 

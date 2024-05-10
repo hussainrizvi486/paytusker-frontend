@@ -121,6 +121,10 @@
     border-bottom: 1px solid #c5c5c5;
 }
 
+.header-nav__link {
+    cursor: pointer;
+}
+
 .header-nav__link svg {
     height: var(--icon-size-md);
     width: var(--icon-size-md);
