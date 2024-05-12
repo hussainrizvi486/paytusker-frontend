@@ -2,7 +2,7 @@ import { ChevronDown } from "lucide-react"
 
 export const FormSelect = ({ data }) => {
     let mandatoryFlag = <></>
-    if (data.mandatory) {
+    if (data?.mandatory) {
         mandatoryFlag = <span className="mandatory-flag">*</span>
     }
     return (

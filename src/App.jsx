@@ -10,7 +10,6 @@ import { useDispatch, useSelector } from "react-redux";
 
 import "react-loading-skeleton/dist/skeleton.css";
 import "./styles/global.css";
-import "./styles/utils.css";
 import "./styles/main.css";
 import "./styles/components.css";
 import "./styles/reset.css";
@@ -20,6 +19,7 @@ import "./styles/pages/home.css";
 import "./styles/pages/cart.css";
 import "./styles/pages/orders.css";
 import "./styles/pages/profile.css";
+import "./styles/utils.css";
 
 import { useGetCartDetailsQuery } from "./api";
 import { closeMobileSideBar } from "./redux/slices/appUiSlice";
@@ -76,8 +76,9 @@ function App() {
             <Route path="/search" element={<Search />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/privacy" element={<PrivacyPolicyPage />} />
+            {/* <Route path="/privacy" element={<PrivacyPolicyPage />} /> */}
             <Route path="/faqs" element={<FAQsPage />} />
+            <Route path="/about-us" element={<AboutUs />} />
             <Route path="/logout" element={<LogOutPage />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="*" element={<p>Path not resolved</p>} />
@@ -125,12 +126,9 @@ function LogOutPage() {
   useEffect(() => {
     dispatch(LogOut())
     window.location.href = "/"
-
   }, [dispatch])
 
-  return <>
-  </>
-
+  return <></>
 }
 
 
@@ -151,4 +149,39 @@ export const PrivacyPolicy = () => {
       <main dangerouslySetInnerHTML={{ __html: data || "" }}></main>
     </>
   )
+}
+
+
+export const AboutUs = () => {
+  return <>
+    <Header />
+    <br />
+    <br />
+    <main>
+      <div className="ql-editor read-mode">
+        <div>
+          <h1 className="text-lg">About Us</h1>
+          <br />
+        </div>
+        <p><span style={{ fontSize: '14px', }}>Paytusker LLC is the owner of the online marketplace known as “Paytusker.com”. Paytusker is an online platform for owners to sell their products online to a worldwide audience. Sellers can sell digital products and their intellectual property.</span></p>
+        <p><br /></p>
+        <p><br /></p>
+        <p><span style={{ fontSize: '14px', }}>Paytusker is available on both standard desktop and mobile web browsers.</span></p>
+        <p><span style={{ fontSize: '14px', }}>Paytusker is committed to the good user experience of our community, and will address any reports of product compliance and safety concerns. All vendors on the Paytusker marketplace are obligated to follow all applicable laws and regulations, as well as adhere to Paytusker’s Merchant Policies.</span></p>
+        <p><br /></p>
+        <p><br /></p>
+        <p><span style={{ fontSize: '14px', }}>Paytusker is not the manufacturer, intellectual property owner, seller, distributor, or importer of 3rd-party vendor products traded on Paytusker.com. Vendors on Paytusker are independently responsible for the conformity and safety of their products, as well as their regulatory compliance.</span></p>
+        <p><br /></p>
+        <p><span style={{ fontSize: '14px', }}>Contact us</span></p>
+        <p><br /></p>
+        <p><span style={{ fontSize: '14px', }}>Call us 24/7</span></p>
+        <p><br /></p>
+        <p><span style={{ fontSize: '14px', }}>+1(720) 9659214</span></p>
+        <p><span style={{ fontSize: '14px', }}>Paytusker LLC P.O Box 102442 Denver, Co 80250</span></p>
+        <p><a href="mailto:sales@paytusker.com" rel="noopener noreferrer" style={{ fontSize: '14px', }}>sales@paytusker.com</a></p>
+      </div>
+
+
+    </main>
+  </>
 }

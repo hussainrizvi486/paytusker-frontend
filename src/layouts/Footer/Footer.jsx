@@ -10,7 +10,7 @@ export const Footer = () => {
         },
         {
             "label": "Facebook",
-            "href": "https://m.facebook.com/#!/TuPublish/?tsid=0.584001426281142&source=result",
+            "href": "https://www.facebook.com/TuPublish?mibextid=LQQJ4d",
             "icon": <Facebook className="icon-md" />
         },
         {
@@ -75,10 +75,10 @@ export const Footer = () => {
                                 <Link to="/faqs">FAQs</Link>
                             </li>
                             <li><Link to="/privacy-policy" className="text-sm">Privacy Policy</Link></li>
-                            <li><Link to="#" className="text-sm">About Us</Link></li>
-                            <li><Link to="#" className="text-sm">Terms & Conditions</Link></li>
+                            <li><Link to="/about-us" className="text-sm">About Us</Link></li>
+                            {/* <li><Link to="#" className="text-sm">Terms & Conditions</Link></li>
                             <li><Link to="#" className="text-sm">Contact Us</Link></li>
-                            <li><Link to="#" className="text-sm">Sell on Paytusker</Link></li>
+                            <li><Link to="#" className="text-sm">Sell on Paytusker</Link></li> */}
                         </ul>
                     </div>
 

@@ -166,9 +166,7 @@ const Home = () => {
                 </section>
 
             </main >
-            <>
-                {/* <TestPagitaion /> */}
-            </>
+       
         </>
 
     )

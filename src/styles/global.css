@@ -71,6 +71,10 @@ body {
 
 
 /* Button */
+button:disabled {
+    cursor: not-allowed;
+}
+
 .btn {
     padding: .4rem 1rem;
     border: none;

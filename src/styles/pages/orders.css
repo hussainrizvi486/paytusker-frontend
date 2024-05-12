@@ -10,8 +10,8 @@
     margin-top: 1rem;
     padding-inline: .25rem;
     padding-block: .5rem;
-    height: 80vh;
-    overflow-y: auto;
+    /* height: 80vh;
+    overflow-y: auto; */
 }
 
 .order-item__card {

@@ -16,6 +16,7 @@
 
 .input-box__select {
     position: relative;
+    text-overflow: ellipsis;
 }
 
 .input-box__select-icon {
@@ -25,6 +26,7 @@
     transform: translateY(-50%);
     color: #666;
     pointer-events: none;
+    background-color: #f3f3f3
 }
 
 .input-box__input select {

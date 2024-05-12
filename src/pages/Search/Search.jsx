@@ -98,8 +98,10 @@ const Search = () => {
     };
 
     const handlePrevPage = () => {
-        const prevPage = paginationDataObj.currentPageNum - 1;
-        handleCurrentPage(prevPage);
+        if (paginationDataObj.currentPageNum != 1) {
+            const prevPage = paginationDataObj.currentPageNum - 1;
+            handleCurrentPage(prevPage);
+        }
     };
 
     const updatePriceFilters = () => {
@@ -248,7 +250,6 @@ const Search = () => {
                             currentPage={paginationDataObj.currentPageNum}
                             setCurrentPage={handleCurrentPage}
                             handleNext={handleNextPage}
-
                             handlePrev={handlePrevPage} />
                     </div>
                 </section>
