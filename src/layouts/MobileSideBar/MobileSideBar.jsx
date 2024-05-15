@@ -1,61 +1,67 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { X } from "lucide-react";
 
 import { ToggleMobileSideBar } from "../../redux/slices/appUiSlice";
 import { SidebarNavElement } from "../UserSidebar/UserSidebar"
-import { getUserDetails } from "../../redux/slices/authSlice";
 import { useGetProductCategoriesQuery } from "../../api";
 import { useEffect, useState } from "react";
 
 
 
 export const MobileSideBar = ({ active }) => {
-    const dispatch = useDispatch();
-    const userAuthenticated = getUserDetails()[1]
-    const productsCategories = useGetProductCategoriesQuery();
-    function ToggleSideBar() { dispatch(ToggleMobileSideBar()) }
-
-
-    let UserSidebarLinks = [
+    const [sideBarLinks, setSideBarLinks] = useState([
         {
             label: "Paytusker Home", url: "/",
             child_elements: [
                 { label: "Login", url: "/login" },
                 { label: "Register", url: "/register" }]
         },
-    ]
+    ]);
 
-    if (userAuthenticated) {
-        UserSidebarLinks = [
-            {
-                label: "Paytusker Home", url: "/", child_elements: [
-                    { label: "Manage Account", url: "/profile" },
-                    { label: "Address Book", url: "/profile/address" },
-                    { label: "My Orders", url: "/profile/orders/pending" },
-                ]
-            }
-        ]
+    const dispatch = useDispatch();
+
+    const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+    const productsCategories = useGetProductCategoriesQuery();
+
+    function ToggleSideBar() { dispatch(ToggleMobileSideBar()) }
+
+    function appendCategories(data) {
+        const categories = data
+        const childElements = categories?.slice(0, 10).map(category => ({
+            label: category.name,
+            url: `/search?category=${category.id}`,
+        }));
+
+        setSideBarLinks(prev => [
+            ...prev,
+            { label: "Top Categories", child_elements: childElements }
+        ]);
     }
 
-    const [sideBarLinks, setSideBarLinks] = useState(UserSidebarLinks);
+
+
 
     useEffect(() => {
-        if (productsCategories.data?.categories?.physical) {
-            const categories = productsCategories.data.categories.physical;
-            const childElements = categories.slice(0, 10).map(category => ({
-                label: category.name,
-                url: "/faqs",
-            }));
+        if (isAuthenticated) {
+            setSideBarLinks([
+                {
+                    label: "Paytusker Home", url: "/", child_elements: [
+                        { label: "Manage Account", url: "/profile" },
+                        { label: "Address Book", url: "/profile/address" },
+                        { label: "My Orders", url: "/profile/orders/pending" },
+                    ]
+                }
+            ])
 
-            setSideBarLinks(prev => [
-                ...prev,
-                { label: "Top Categories", child_elements: childElements }
-            ]);
+
         }
-    }, [productsCategories.data]);
+        const categories = productsCategories.data?.categories?.physical
+        if (categories) {
+            appendCategories(categories)
+        }
+    }, [isAuthenticated, productsCategories.data])
 
 
-    useEffect(() => { }, [sideBarLinks])
 
 
     return (

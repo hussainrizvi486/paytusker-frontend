@@ -11,4 +11,4 @@ export { FormSelect } from "./Form/FormSelect";
 export { Checkbox } from "./Form/Checkbox.jsx";
 export { FormInputFile } from "./Form/FormInputFile";
 export { Pagination } from "./Pagination";
-
+export { HomeCarousel } from "./HomeCarousel/HomeCarousel";

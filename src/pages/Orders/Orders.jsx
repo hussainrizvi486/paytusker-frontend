@@ -119,7 +119,14 @@ const OrdersCard = ({ data }) => {
     <div className="order-card">
       <div>
         <div>
-          <span className="font-semibold">ORDER ID:</span> {data?.order_id}</div>
+          <span className="font-semibold">ORDER ID:</span> {data?.order_id}
+        </div>
+        {data?.delivery_date ?
+          <div className="text-sm">
+            <span className="font-semibold">Expected Delivery Date:</span> {data?.delivery_date}
+          </div> : <></>}
+
+
         <div className="order-status mt-1 "
           style={{ backgroundColor: data.status_color || "#000" }}
         >

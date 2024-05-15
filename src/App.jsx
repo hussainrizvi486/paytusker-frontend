@@ -1,12 +1,10 @@
-/* eslint-disable react/no-children-prop */
-import { useEffect, useState } from "react"
-import { Suspense, lazy } from "react"
-import { Route, Routes, useLocation, Outlet, Navigate } from "react-router-dom"
-
-import Logo from "./assets/logo.png"
-import { Freeze } from "./components";
-import { Footer, Header, MobileSideBar } from "./layouts"
+import axios from "axios";
+import { Suspense, lazy, useEffect, useState } from "react";
+import { Route, Routes, useLocation, Outlet, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { Freeze } from "./components";
+import { Footer, Header, MobileSideBar } from "./layouts";
+import Logo from "./assets/logo.png";
 
 import "react-loading-skeleton/dist/skeleton.css";
 import "./styles/global.css";
@@ -25,7 +23,6 @@ import { useGetCartDetailsQuery } from "./api";
 import { closeMobileSideBar } from "./redux/slices/appUiSlice";
 import { updateCart } from "./redux/slices/cartSlice";
 import { LogOut } from "./redux/slices/authSlice";
-import axios from "axios";
 
 const Home = lazy(() => import("./pages/Home/Home"));
 const Product = lazy(() => import("./pages/Product/Product"));
@@ -38,11 +35,10 @@ const Register = lazy(() => import("./pages/Register/Register"));
 const Search = lazy(() => import("./pages/Search/Search"));
 const OrdersListPage = lazy(() => import("./pages/Orders/Orders"));
 const OrdersDetailPage = lazy(() => import("./pages/Orders/Details"));
-const CheckOut = lazy(() => import("./pages/CheckOut/CheckOut"))
-const VourchersPage = lazy(() => import("./pages/Profile/Vourchers"))
-const ReviewsPage = lazy(() => import("./pages/Profile/Reviews"))
-const PrivacyPolicyPage = lazy(() => import("./pages/CustomerSupport/PrivacyPolicy"))
-const FAQsPage = lazy(() => import("./pages/CustomerSupport/FAQsPage"))
+const CheckOut = lazy(() => import("./pages/CheckOut/CheckOut"));
+const VourchersPage = lazy(() => import("./pages/Profile/Vourchers"));
+const ReviewsPage = lazy(() => import("./pages/Profile/Reviews"));
+const FAQsPage = lazy(() => import("./pages/CustomerSupport/FAQsPage"));
 
 
 function App() {
@@ -65,7 +61,7 @@ function App() {
   }
 
   return (
-    <Suspense fallback={<Freeze children={<LoadingChildren />} />}>
+    <Suspense fallback={<><Freeze><LoadingChildren /></Freeze></>}>
       <main id="app-container" >
         <MobileSideBar active={mobileSideOpen} />
         <ScrollToTop />
@@ -127,7 +123,6 @@ function LogOutPage() {
     dispatch(LogOut())
     window.location.href = "/"
   }, [dispatch])
-
   return <></>
 }
 

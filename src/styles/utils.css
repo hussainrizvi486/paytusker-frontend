@@ -299,3 +299,15 @@
     max-width: max-content;
     border-radius: .25rem;
 }
+
+/* Utils Medias */
+
+@media (max-width:768px) {
+    .sm__w-100 {
+        width: 100%;
+    }
+
+    .sm__flex-auto {
+        flex: auto;
+    }
+}

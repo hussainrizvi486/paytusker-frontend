@@ -2,12 +2,12 @@ import { Button, FormInput, Freeze } from "../../components"
 import { useGetUserDetailsQuery, useUpdateUserPasswordMutation } from "../../api"
 import { UserSidebar, Header } from "../../layouts"
 import { Link, useNavigate, useSearchParams } from "react-router-dom"
-import { useEffect, useRef, useState } from "react"
-import toast from "react-hot-toast"
+import { useEffect, useRef, useState } from "react";
+import toast from "react-hot-toast";
+
 
 const Profile = () => {
-  const urlSearchParams = useSearchParams()[0]
-
+  const urlSearchParams = useSearchParams()[0];
   const userProfileFields = [
     {
       "fieldname": "first_name",
@@ -39,71 +39,59 @@ const Profile = () => {
       "read_only": true,
       "value": ""
     }
-  ]
+  ];
 
   const { data, isLoading } = useGetUserDetailsQuery();
-
   if (data) { userProfileFields.map((val) => { val.value = data[val.fieldname || ""] }) }
   if (isLoading) return <Freeze />
 
   return (
     <div>
-      <div>
-        <Header />
-      </div>
+      <Header />
 
       <div className="sidebar-page">
         <UserSidebar />
-
         <div className="sidebar-page__content profile-page">
           <div>
 
-            {
-              urlSearchParams.get("edit") ?
+            {urlSearchParams.get("edit") ?
+              <>
+                <div className="heading-md">Edit Profile</div>
+                <EditProfile />
+              </> :
+              urlSearchParams.get("change_password") ?
                 <>
-                  <div className="heading-md">Edit Profile</div>
-                  <EditProfile />
+                  <div className="heading-md">Change Password</div>
+                  <ChangePassowrd />
                 </> :
-                urlSearchParams.get("change_password") ?
-                  <>
-                    <div className="heading-md">Change Password</div>
-                    <ChangePassowrd />
-                  </> :
-                  <>
-                    <div className="heading-md">My Profile</div>
-                    <form className="user-details-grid" >
-                      {userProfileFields?.map((val, idx) =>
-                        <div className="input-box" key={idx}>
-                          <div className="input-box__label">{val.label}</div>
-                          <div className="input-box__input">
-                            <input type="text" placeholder={val.label} name={val.fieldname}
-                              readOnly={val.read_only}
-                              defaultValue={val.value}
-                            />
-                          </div>
+                <>
+                  <div className="heading-md">My Profile</div>
+                  <form className="user-details-grid" >
+                    {userProfileFields?.map((val, idx) =>
+                      <div className="input-box" key={idx}>
+                        <div className="input-box__label">{val.label}</div>
+                        <div className="input-box__input">
+                          <input type="text" placeholder={val.label} name={val.fieldname}
+                            readOnly={val.read_only}
+                            defaultValue={val.value}
+                          />
                         </div>
-                      )}
+                      </div>
+                    )}
 
-                    </form>
-                    <br />
-                    <br />
-                    <div className="flex gap-2">
+                  </form>
+                  {/* className="flex gap-2" */}
+                  <div className="my-8 flex gap-2">
+                    <Link className="sm__flex-auto" to="/profile/orders/pending">
+                      <button className="btn btn-sm btn-primary sm__w-100 sm__flex-auto">My Orders</button>
+                    </Link>
 
-                      {/* <Link style={{
-                        marginBottom: ".5rem"
-                      }} to={"/profile"}>
-                        <button className="btn btn-sm btn-primary">Edit Profile</button>
-                      </Link> */}
+                    <Link className="sm__flex-auto" to={"/profile?change_password=true"}>
+                      <button className="btn btn-sm btn-primary sm__w-100 ">Update Password</button>
+                    </Link>
 
-                      <Link style={{
-                        marginBottom: ".5rem"
-                      }} to={"/profile?change_password=true"}>
-                        <button className="btn btn-sm btn-primary">Update Password</button>
-                      </Link>
-                      <br />
-                      <br />
-                    </div>
-                  </>
+                  </div>
+                </>
 
             }
 
