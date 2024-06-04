@@ -23,6 +23,7 @@ import { useGetCartDetailsQuery } from "./api";
 import { closeMobileSideBar } from "./redux/slices/appUiSlice";
 import { updateCart } from "./redux/slices/cartSlice";
 import { LogOut } from "./redux/slices/authSlice";
+import { Helmet } from "react-helmet-async";
 
 const Home = lazy(() => import("./pages/Home/Home"));
 const Product = lazy(() => import("./pages/Product/Product"));
@@ -63,6 +64,10 @@ function App() {
   return (
     <Suspense fallback={<><Freeze><LoadingChildren /></Freeze></>}>
       <main id="app-container" >
+        <Helmet>
+          <title>Paytusker Home</title>
+          <meta name="description" content="Consumer products & digital assets marketplace" />
+        </Helmet>
         <MobileSideBar active={mobileSideOpen} />
         <ScrollToTop />
         <div className="page-container">
