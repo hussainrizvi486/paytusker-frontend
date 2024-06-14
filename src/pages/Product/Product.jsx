@@ -8,6 +8,7 @@ import { Header } from "../../layouts";
 import { Button, Freeze, Rating } from "../../components";
 import { useAddItemToCartMutation } from "../../api";
 import { getUserDetails } from "../../redux/slices/authSlice";
+import { Helmet } from "react-helmet-async";
 
 const Product = () => {
     const navigate = useNavigate();
@@ -64,6 +65,12 @@ const Product = () => {
 
     return (
         <>
+            <Helmet>
+                <title>Paytusker.com: {productData?.product_name}</title>
+                <meta name="description" content={productData?.product_name} />
+                <meta name="keywords" content={productData?.product_name} />
+                <meta property="og:image" content={productData?.images[0]} />
+            </Helmet>
             <Header />
             <main className="product-page_main">
                 <section className="product-page__display-section">
