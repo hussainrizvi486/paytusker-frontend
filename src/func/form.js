@@ -8,9 +8,9 @@ export const generateForm = (fields, handleSubmit, btnLabel) => {
         for (const [key, value] of formObject.entries()) {
             dataObject[key] = value
         }
-
         handleSubmit(event, dataObject);
     }
+
     return <form onSubmit={(e) => (formSubmit(e))}>
         <div>
             <button className="btn btn-primary">{btnLabel}</button>

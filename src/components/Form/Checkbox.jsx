@@ -17,7 +17,7 @@ export const Checkbox = ({ data }) => {
                 </label>
             </div>
 
-            <label htmlFor={data.fieldname}>{data.label}</label>
+            <label className="no-select cursor-pointer" htmlFor={data.fieldname}>{data.label}</label>
         </div>
     )
 }

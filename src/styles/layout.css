@@ -1,13 +1,31 @@
-/* Sideabar */
+/* header-simple  */
+.header-simple {
+    display: flex;
+    align-items: center;
+    padding: 1rem .5rem;
+}
 
+.header-simple section {
+    flex-basis: 100%;
+
+}
+
+.plain-header__heading {
+    font-weight: 600;
+    font-size: var(--text-lg);
+    text-align: center;
+    white-space: nowrap !important;
+}
+
+/* ************* */
+
+/* Sideabar */
 .user-sidebar {
-    /* min-height: calc(100vh - 3.3rem - 5rem); */
     min-height: 100dvh;
     max-width: 16rem;
     width: 13rem;
     padding: 1rem 0;
 }
-
 
 .profile-card {
     display: flex;

@@ -1,0 +1,14 @@
+.list-view-main {
+    padding-top: 1rem;
+}
+
+.list-view__heading {
+    font-size: var(--text-xl);
+    font-weight: 700;
+}
+
+.list-view__pagination {
+    display: flex;
+    justify-content: right;
+    margin-top: 2rem;
+}

@@ -7,38 +7,40 @@ import { Footer, Header, MobileSideBar } from "./layouts";
 import Logo from "./assets/logo.png";
 
 import "react-loading-skeleton/dist/skeleton.css";
-import "./styles/global.css";
 import "./styles/main.css";
-import "./styles/components.css";
-import "./styles/reset.css";
-import "./styles/layout.css";
-import "./styles/forms.css";
-import "./styles/pages/home.css";
-import "./styles/pages/cart.css";
-import "./styles/pages/orders.css";
-import "./styles/pages/profile.css";
-import "./styles/utils.css";
+// import "./styles/global.css";
+// import "./styles/components.css";
+// import "./styles/layout.css";
+// import "./styles/forms.css";
+// import "./styles/pages/home.css";
+// import "./styles/pages/cart.css";
+// import "./styles/pages/orders.css";
+// import "./styles/pages/profile.css";
+// import "./styles/utils.css";
 
 import { useGetCartDetailsQuery } from "./api";
 import { closeMobileSideBar } from "./redux/slices/appUiSlice";
 import { updateCart } from "./redux/slices/cartSlice";
 import { LogOut } from "./redux/slices/authSlice";
 
-const Home = lazy(() => import("./pages/Home/Home"));
-const Product = lazy(() => import("./pages/Product/Product"));
-const LoginPage = lazy(() => import("./pages/LoginPage/LoginPage"));
-const Cart = lazy(() => import("./pages/Cart/Cart"));
-const Address = lazy(() => import("./pages/Profile/Address"));
-const Profile = lazy(() => import("./pages/Profile/Profile"));
-const AddressForm = lazy(() => import("./pages/Profile/AddressForm"));
-const Register = lazy(() => import("./pages/Register/Register"));
-const Search = lazy(() => import("./pages/Search/Search"));
-const OrdersListPage = lazy(() => import("./pages/Orders/Orders"));
-const OrdersDetailPage = lazy(() => import("./pages/Orders/Details"));
-const CheckOut = lazy(() => import("./pages/CheckOut/CheckOut"));
-const VourchersPage = lazy(() => import("./pages/Profile/Vourchers"));
-const ReviewsPage = lazy(() => import("./pages/Profile/Reviews"));
+const Home = lazy(() => import("./pages/home/Home"));
+const Product = lazy(() => import("./pages/product/Product"));
+const LoginPage = lazy(() => import("./pages/auth/LoginPage"));
+const Cart = lazy(() => import("./pages/cart/Cart"));
+const Address = lazy(() => import("./pages/profile/Address"));
+const Profile = lazy(() => import("./pages/profile/Profile"));
+const AddressForm = lazy(() => import("./pages/profile/AddressForm"));
+const Register = lazy(() => import("./pages/auth/Register"));
+const Search = lazy(() => import("./pages/search/Search"));
+const OrdersListPage = lazy(() => import("./pages/orders/Orders"));
+const OrdersDetailPage = lazy(() => import("./pages/orders/Details"));
+const VourchersPage = lazy(() => import("./pages/profile/Vourchers"));
+const ReviewsPage = lazy(() => import("./pages/profile/Reviews"));
 const FAQsPage = lazy(() => import("./pages/CustomerSupport/FAQsPage"));
+const SellerOrdersListingPage = lazy(() => import("./pages/seller/orders/ListOrders"));
+
+
+const SellerProductUploadPage = lazy(() => import("./pages/seller/products/UploadProduct"))
 
 
 function App() {
@@ -79,18 +81,19 @@ function App() {
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="*" element={<p>Path not resolved</p>} />
 
+            <Route path="/seller/product/upload" element={<SellerProductUploadPage />} />
+            <Route path="/seller/order/list" element={<SellerOrdersListingPage />} />
+
             <Route element={<ProtectedRoute isAuthenticated={isAuthenticated} />}>
               <Route path="/cart" element={<Cart />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/profile/address" element={<Address />} />
               <Route path="/profile/address/form/:action" element={<AddressForm />} />
-              <Route path="/checkout" element={<CheckOut />} />
               <Route path="/profile/orders/:status" element={<OrdersListPage />} />
               <Route path="/profile/orders/details/:id" element={<OrdersDetailPage />} />
               <Route path="/profile/vourchers" element={<VourchersPage />} />
               <Route path="/profile/reviews/:action" element={<ReviewsPage />} />
             </Route>
-
           </Routes>
         </div>
         <Footer />

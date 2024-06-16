@@ -1,5 +1,5 @@
-import { FormInput } from "../../components/Form/FormInput";
-import { FormSelect } from "../../components/Form/FormSelect";
+import { FormInput } from "../../components/form/FormInput";
+import { FormSelect } from "../../components/form/FormSelect";
 import { Header, UserSidebar } from "../../layouts";
 import { useAddUserAddressMutation, useUpdateUserAddressMutation, useGetUserAddressQuery } from "../../api";
 import { useEffect, useState } from "react";

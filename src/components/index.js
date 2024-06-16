@@ -6,9 +6,11 @@ export { ProductCardLoader } from "./Loaders/ProductCardLoader";
 export { CategoryCard } from "./CategoryCard/CategoryCard";
 export { Rating } from "./Rating/Rating";
 export { Button } from "./Common/Button";
-export { FormInput } from "./Form/FormInput";
-export { FormSelect } from "./Form/FormSelect";
-export { Checkbox } from "./Form/Checkbox.jsx";
-export { FormInputFile } from "./Form/FormInputFile";
+export { FormInput } from "./form/FormInput.jsx";
+export { FormSelect } from "./form/FormSelect.jsx";
+
+// export { FormTextEditor } from "./form/FormTextEditor.jsx"
+export { Checkbox } from "./form/Checkbox.jsx";
+export { FormInputFile } from "./form/FormInputFile.jsx";
 export { Pagination } from "./Pagination";
 export { HomeCarousel } from "./HomeCarousel/HomeCarousel";

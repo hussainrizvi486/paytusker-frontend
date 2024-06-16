@@ -12,7 +12,7 @@ import { CategoryCard, HomeCarousel, ProductCard, ProductCardLoader } from "../.
 const Home = () => {
     const productCategories = useGetProductCategoriesQuery();
 
-    const [products, setProducts] = useState();
+    const [products, setProducts] = useState({});
     const [digitalProducts, setDigitalProducts] = useState();
     const [loading, setLoading] = useState(true);
 
@@ -22,7 +22,7 @@ const Home = () => {
         try {
             const response = await axios.get(`${API_URL}api/product/home`);
             if (response.status === 200) {
-                setProducts(response.data?.home_products || []);
+                setProducts(response.data?.home_products || {});
                 setDigitalProducts(response.data?.digital_products || []);
             }
         } catch (error) {
@@ -52,6 +52,7 @@ const Home = () => {
                             />)}
                         </div>
                     </section>}
+
 
 
                 {loading ? (<ProductLoadingGrid />) : (

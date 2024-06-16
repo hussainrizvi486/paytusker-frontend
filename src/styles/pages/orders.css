@@ -135,3 +135,38 @@
     height: 60px;
     width: 70px;
 }
+
+/* order list */
+.order-status__filter-row {
+    display: flex;
+    gap: .25rem;
+    margin-block: 1rem;
+}
+
+.order-status__filter-card {
+    padding: .25rem;
+    font-size: var(--text-sm);
+    border: 1px solid #909090;
+    cursor: pointer;
+    border-radius: .25rem;
+}
+
+.orders-dasbord__grid {
+    display: grid;
+    /* grid-template-columns: repeat(4, 1fr); */
+    gap: .5rem;
+}
+
+@media (min-width: 1200px) {
+    .orders-dasbord__grid {
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
+
+.orders-dasbord__grid-card {
+    padding: .5rem;
+    border: 2px solid #c6c6c6;
+    border-radius: .5rem;
+    cursor: pointer;
+    /* color: #000; */
+}
