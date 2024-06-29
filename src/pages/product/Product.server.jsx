@@ -8,12 +8,13 @@ import { Header } from "../../layouts";
 import { Button, Freeze, Rating } from "../../components";
 import { useAddItemToCartMutation } from "../../api";
 import { getUserDetails } from "../../redux/slices/authSlice";
+// import { Helmet } from "react-helmet-async";
 
 const Product = () => {
     const navigate = useNavigate();
     const [productData, setProductData] = useState(null);
     const [pageLoading, setPageLoading] = useState(true);
-
+    console.log("Server")
     let LoadingMessage = "Loading..."
     const { id } = useParams();
     const [addItemToCart, cartApiResponse] = useAddItemToCartMutation();
@@ -28,14 +29,15 @@ const Product = () => {
             })
             if (req.status === 200) {
                 setProductData(req.data);
-                setPageLoading(false);
             }
         }
-        catch (error) { console.error(error) }
+        catch (error) { console.log(error) }
+        finally {
+            setPageLoading(false);
+        }
     }
 
     useEffect(() => { getProductDetail() }, [id])
-
 
     const addToCart = (product_id) => {
         if (!getUserDetails()[1]) {
@@ -49,7 +51,6 @@ const Product = () => {
             toast.success("Item successfully added to your cart.")
             setPageLoading(cartApiResponse.isLoading)
         }
-
     }, [cartApiResponse.isLoading, cartApiResponse.isSuccess, cartApiResponse.isError])
 
 
@@ -57,13 +58,14 @@ const Product = () => {
         toast.error(String(cartApiResponse.error.data?.message || ""))
     }
 
-    if (pageLoading) return <Freeze
-        message={LoadingMessage}
-        backdropStyle={{ "backgroundColor": "#ffffff7a" }}
-    />
+    // if (pageLoading) return
 
     return (
-        <>
+        <div>
+            <Freeze
+                show={pageLoading}
+                message={LoadingMessage}
+            />
             <Header />
             <main className="product-page_main">
                 <section className="product-page__display-section">
@@ -80,20 +82,20 @@ const Product = () => {
                                 {productData?.category || ""}
                             </div>
                             <div className="product-price" >
-                                {productData.formatted_price}
+                                {productData?.formatted_price}
                             </div>
                             <div className="product-rating-wrapper">
 
                                 <Rating rating={productData?.rating || 0} />
                                 <div className="font-bold">{parseInt(productData?.rating || 0).toFixed(1)}</div>
                             </div>
-                            {productData.product_varients ?
+                            {productData?.product_varients ?
                                 <>
                                     <br />
                                     <br />
                                     <div className="text-sm font-medium">Select Options</div>
                                     <div className="product-variants__wrapper">
-                                        {productData.product_varients.map((val, index) => (
+                                        {productData?.product_varients.map((val, index) => (
                                             <ProductVariantBox data={val} key={index} />
                                         ))}
                                     </div>
@@ -172,7 +174,7 @@ const Product = () => {
                         </section> : <></>
                 }
             </main>
-        </>
+        </div>
     )
 }
 

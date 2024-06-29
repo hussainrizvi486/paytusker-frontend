@@ -3,6 +3,7 @@ import { orderApiSlice } from "./orderApi";
 import { cartApiSlice } from "./cartApi";
 import { apiSlice } from "./baseApi";
 import { ProductApiSlice } from "./productApi";
+import { sellerApiSlice } from "./sellerApi";
 export { apiSlice } from "./baseApi"
 
 
@@ -31,3 +32,6 @@ export const {
 } = cartApiSlice;
 
 export const { useGetProductCategoriesQuery } = ProductApiSlice;
+
+
+export const { useGetSellerProductListingQuery } = sellerApiSlice;

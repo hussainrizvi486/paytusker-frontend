@@ -92,21 +92,43 @@
 
 .order-status__box {
     margin-bottom: 1.75rem;
-    position: relative;
+    /* position: relative; */
     font-family: "Poppins", sans-serif;
     color: #000;
 }
 
-.order-status__box-brd::before {
+.timeline-box__icon-wrapper {
+    position: relative;
+}
+
+/* .timeline-box__icon-wrapper:not(:first-of-type).timeline-box__icon-wrapper::before { */
+.timeline-box__icon-wrapper:nth-of-type(1) {
+    /* content: "";
+    position: absolute;
+    height: 1.25rem;
+    width: 5px;
+    top: -100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: .25rem; */
+    /* background-color: #909090; */
+}
+
+.timeline-status__wrapper .timeline-box__icon-wrapper:first-of-type {
+    background-color: #909090;
+}
+
+/* .timeline-box__icon-wrapper:not(:last-of-type)::before {
     content: "";
     position: absolute;
     height: 1.25rem;
     width: 5px;
-    top: -97%;
-    left: 2%;
+    top: -100%;
+    left: 50%;
+    transform: translateX(-50%);
     border-radius: .25rem;
     background-color: #909090;
-}
+} */
 
 
 .order-detail__items-wrapper {

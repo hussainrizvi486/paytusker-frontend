@@ -13,8 +13,7 @@ const Details = () => {
 
     return (
         <>
-            <Navbar
-                title="Order Details"
+            <Navbar title="Order Details"
             />
             <main className="order-detail-page">
                 <header className="order-detail__header">
@@ -76,8 +75,10 @@ export default Details
 const OrderStatusBox = ({ data, index }) => {
 
     return (
-        <div className={`${index > 0 ? "order-status__box-brd" : ""} order-status__box flex-align-center gap `}>
-            <div>{data?.icon}</div>
+        <div className="timeline-box order-status__box flex-align-center gap">
+            <div className="timeline-box__icon-wrapper">
+                {data?.icon}
+            </div>
             <div className="font-medium order text-sm">{data?.name}</div>
         </div>
     )

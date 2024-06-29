@@ -13,6 +13,7 @@ export const FormSelect = forwardRef(function FormSelect({ data, onChange = () =
             <div className="input-box__input input-box__select">
                 <select name={data?.fieldname} defaultValue={data?.value}
                     ref={ref}
+                    data-mandatory={data?.mandatory || false}
                     onChange={(event) => onChange(event)}
                 >
                     {data?.options?.map((val, i) => {

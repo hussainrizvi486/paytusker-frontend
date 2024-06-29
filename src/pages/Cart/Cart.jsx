@@ -104,11 +104,12 @@ const Cart = () => {
         }
     }
 
-    if (pageLoading && !createOrderApiRes.isLoading) return <Freeze />
+    // if (pageLoading && !createOrderApiRes.isLoading) return
 
 
     return (
         <>
+            <Freeze show={pageLoading && !createOrderApiRes.isLoading} />
             <div>
                 <Navbar title={"Your Cart"} />
                 <div className='cart-page'>

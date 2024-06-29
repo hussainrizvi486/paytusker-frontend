@@ -233,7 +233,8 @@
     right: 0;
     z-index: 10;
     height: 100dvh;
-    background-color: rgba(255, 255, 255, 0.714);
+    /* background-color: rgba(255, 255, 255, 0.714); */
+    background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -321,4 +322,28 @@
     cursor: pointer;
     background-color: #ececec;
     transition: all 200ms;
+}
+
+
+
+.single-file-upload-wrapper {
+    height: 6rem;
+    width: 6rem;
+    position: relative;
+    box-shadow: 0 0 5px #555;
+
+}
+
+.single-file-upload-wrapper input,
+.single-file-upload-wrapper img {
+    height: 100%;
+    width: 100%;
+}
+
+.single-file-upload-wrapper input {
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    left: 0;
+    cursor: pointer;
 }

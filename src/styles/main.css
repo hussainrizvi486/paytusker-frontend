@@ -64,7 +64,8 @@
 }
 
 .input-box__input input,
-select {
+select,
+textarea {
     padding: .5rem;
     width: 100%;
     outline: transparent;
@@ -87,10 +88,10 @@ select:focus-visible {
 
 
 .react-tel-input .form-control {
-    border: none !important;
+
+    border: 1px solid #b1b1b1;
     background-color: #f3f3f3 !important;
     width: 100% !important;
-
 }
 
 .auth-form__optional-text {

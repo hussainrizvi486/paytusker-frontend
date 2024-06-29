@@ -8,9 +8,13 @@ export { Rating } from "./Rating/Rating";
 export { Button } from "./Common/Button";
 export { FormInput } from "./form/FormInput.jsx";
 export { FormSelect } from "./form/FormSelect.jsx";
+export { SingleFileInput } from "./SingleFileInput.jsx";
 
 // export { FormTextEditor } from "./form/FormTextEditor.jsx"
 export { Checkbox } from "./form/Checkbox.jsx";
 export { FormInputFile } from "./form/FormInputFile.jsx";
 export { Pagination } from "./Pagination";
 export { HomeCarousel } from "./HomeCarousel/HomeCarousel";
+
+// 
+export { AutoComplete } from "./inputs/AutoComplete.jsx"

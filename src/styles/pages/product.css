@@ -292,6 +292,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: .5rem;
+    transition: all 200ms;
 }
 
 .upload-img__file-wrapper {

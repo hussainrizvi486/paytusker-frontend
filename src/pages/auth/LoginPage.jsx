@@ -23,13 +23,14 @@ const LoginPage = () => {
     useEffect(() => {
         setPageLoading(isLoading)
         if (isSuccess) {
-            setFormMsg({ message: "Login Success", "type": "success" })
-            toast.success("Login Success")
+            setFormMsg({ message: "Login Success", "type": "success" });
+            toast.success("Login Success");
         }
 
         if (isError) {
-            setFormMsg({ "message": error.data?.detail, "type": "error" })
-            toast.error(error.data?.detail)
+            const { message } = error.data;
+            setFormMsg({ "message": message, "type": "error" });
+            toast.error(message);
         }
 
     }, [isLoading, isSuccess, isError, error])
@@ -38,22 +39,21 @@ const LoginPage = () => {
         e.preventDefault();
         const password = passwordRef.current.value;
         const email = userNameRef.current.value;
-
         const reqBody = {
-            "email": email, "password": password
-        }
+            "email": email,
+            "password": password
+        };
+
         const req = await UseLoginUser(reqBody);
         if (req.data) {
-            const data = await req.data
-            dispatch(LogIn(data))
-            if (URLParams.get("redirect_to")) {
-                navigate(URLParams.get("redirect_to"))
-            }
-            else {
-                navigate("/")
-            }
-        }
+            const data = await req.data;
+            dispatch(LogIn(data));
 
+            if (URLParams.get("redirect_to")) {
+                navigate(URLParams.get("redirect_to"));
+            }
+            else { navigate("/") }
+        }
     }
 
 

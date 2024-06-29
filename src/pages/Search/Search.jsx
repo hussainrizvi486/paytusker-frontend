@@ -67,7 +67,6 @@ const Search = () => {
                         ...prev, currentPageNum
                             : reqData.current_page, totalPages: reqData.total_pages
                     }))
-
                     window.scrollTo(0, 0)
                 }
                 await setLoading(false)
@@ -76,12 +75,16 @@ const Search = () => {
                 await setLoading(false)
             }
         }
-
         FetchSearchResults(payload_data, setProductsLoading, setProductsData, setPaginationDataObj)
     }, [queryPayload])
 
 
-
+    useEffect(() => {
+        console.log(searchParams.get("category"))
+        setQueryPayload((prev) => {
+            return { ...prev, category: searchParams.get("category") }
+        })
+    }, [searchParams])
 
 
     const handleCurrentPage = (pageNum) => {
@@ -145,14 +148,13 @@ const Search = () => {
 
     const checkFilterAttributesExist = (key, val) => {
         let current_attributes = queryPayload?.filters?.attributes || null
-        if (!current_attributes) return false
+        if (!current_attributes) return false;
         if (Object.keys(current_attributes).includes(key)) {
             if (current_attributes[key].includes(val)) {
-                return true
+                return true;
             }
-            return false
         }
-        return false
+        return false;
     }
 
     return (
@@ -175,7 +177,6 @@ const Search = () => {
                     </div>
 
                     <div className={`mt-4 search-filter__section-wrapper  ${searchFiltersOpen ? "active" : ""}`}>
-
                         {/* <div className="search-filters__categories search-filter__section">
                             <div className="font-medium text-lg sf-section__heading">Category</div>
                             <div className="search-categories__wrapper">
@@ -184,7 +185,6 @@ const Search = () => {
                                 </ul>
                             </div>
                         </div> */}
-
                         {searchFiltersDict ?
                             Object.keys(searchFiltersDict).map((key, i) => (
                                 <div key={i} className="search-filter__option-wrapper">
