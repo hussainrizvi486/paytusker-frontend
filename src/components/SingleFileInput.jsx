@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { Info } from "lucide-react";
 
-export const SingleFileInput = ({ name = "", handleChange = () => { } }) => {
-    const [currentFile, setCurrentFile] = useState(null);
+export const SingleFileInput = ({ name = "", handleChange = () => { }, defaultValue = null }) => {
+    const [currentFile, setCurrentFile] = useState(defaultValue);
 
     const handlePreview = (e) => {
         if (e.target.files) {
             const file = e.target.files[0];
             if (file) {
-                setCurrentFile(file);
+                setCurrentFile(URL.createObjectURL(file));
                 handleChange(file);
             }
         }
@@ -17,10 +17,12 @@ export const SingleFileInput = ({ name = "", handleChange = () => { } }) => {
     return (
         <div>
             {/* <div className="single-file-upload-wrapper"> */}
-            <div className="input-file__wrapper">
-                <input type="file" onChange={(e) => handlePreview(e)} name={name} />
+            <div className="input-file__wrapper single-file__preview-wrapper">
+                <input type="file"
+                    // defaultValue={currentFile instanceof Blob || File ? currentFile : undefined}
+                    onChange={(e) => handlePreview(e)} name={name} />
                 {currentFile ?
-                    <img src={URL.createObjectURL(currentFile)} />
+                    <img src={currentFile} />
                     : <img src="https://cdn-icons-png.flaticon.com/512/401/401061.png" alt="" />
                 }
             </div>

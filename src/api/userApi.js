@@ -10,9 +10,36 @@ export const userApiSlice = apiSlice.injectEndpoints({
             })
         }),
 
+
+        updateUserPassword: builder.mutation({
+            query: (data) => ({
+                url: "api/user/update/password",
+                method: "PUT",
+                body: data,
+            }),
+            // invalidatesTags: (result, error) => error ? [] : ["refetchAddress"]
+        }),
+
+        getUserDetails: builder.query({
+            query: () => ({
+                url: "api/user/detail",
+                method: "GET",
+            })
+        }),
+
+        // Address APIS
+        getUserAddress: builder.query({
+            query: (params) => ({
+                url: "api/user/address",
+                method: "GET",
+                params: params
+            }),
+            providesTags: ["refetchAddress"]
+        }),
+
         addUserAddress: builder.mutation({
             query: (data) => ({
-                url: "api/user/address/add",
+                url: "api/user/address",
                 method: "POST",
                 body: data,
             }),
@@ -21,37 +48,22 @@ export const userApiSlice = apiSlice.injectEndpoints({
 
         updateUserAddress: builder.mutation({
             query: (data) => ({
-                url: "api/user/address/update",
-                method: "POST",
+                url: "api/user/address",
+                method: "PUT",
                 body: data,
             }),
             invalidatesTags: (result, error) => error ? [] : ["refetchAddress"]
         }),
 
-        updateUserPassword: builder.mutation({
+        deleteUserAddress: builder.mutation({
             query: (data) => ({
-                url: "api/user/password/update",
-                method: "POST",
+                url: "api/user/address",
+                method: "DELETE",
                 body: data,
             }),
-            // invalidatesTags: (result, error) => error ? [] : ["refetchAddress"]
-        }),
-
-        getUserDetails: builder.query({
-            query: () => ({
-                url: "api/get-user-details/",
-                method: "GET",
-            })
-        }),
-
-        getUserAddress: builder.query({
-            query: (params) => ({
-                url: "api/user/address/get",
-                method: "GET",
-                params: params
-            }),
-            providesTags: ["refetchAddress"]
+            invalidatesTags: (result, error) => error ? [] : ["refetchAddress"]
         }),
     }),
+
     overrideExisting: false
 })

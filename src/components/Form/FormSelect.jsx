@@ -14,14 +14,16 @@ export const FormSelect = forwardRef(function FormSelect({ data, onChange = () =
                 <select name={data?.fieldname} defaultValue={data?.value}
                     ref={ref}
                     data-mandatory={data?.mandatory || false}
+
+                    disabled={Boolean(data?.disabled)}
                     onChange={(event) => onChange(event)}
                 >
                     {data?.options?.map((val, i) => {
-                        if (typeof val == "string") {
-                            return <option key={i} value={val} > {val}</option>
+                        if (val instanceof String) {
+                            return <option key={i} value={val}>{val}</option>
                         }
-                        else if (typeof val == 'object') {
-                            return <option key={i} value={val.value}>{val.label}</option>
+                        else if (val instanceof Object) {
+                            return <option key={i} disabled={val?.disabled || false} value={val[data.valueKey || "value"]}>{val[data.labelKey || "label"]}</option>
                         }
                     })}
                 </select>

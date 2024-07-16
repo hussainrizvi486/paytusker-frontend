@@ -35,6 +35,7 @@ const FAQsPage = lazy(() => import("./pages/CustomerSupport/FAQsPage"));
 
 const SellerOrdersListingPage = lazy(() => import("./pages/seller/orders/ListOrders"));
 const SellerProductUploadPage = lazy(() => import("./pages/seller/products/UploadProduct"))
+const SellerProductEditPage = lazy(() => import("./pages/seller/products/EditProduct"))
 const SellerProductListing = lazy(() => import("./pages/seller/products/ProductListing"))
 
 
@@ -81,13 +82,14 @@ function App() {
             <Route path="*" element={<p>Path not resolved</p>} />
 
 
-            {/* <Route element={<ProtectedRoute allowRole={"seller"} redirectTo="/" />}> */}
-            <Route element={<SidebarLayout />}>
-              <Route path="/seller/product/upload" element={<SellerProductUploadPage />} />
-              <Route path="/seller/product/list" element={<SellerProductListing />} />
-              <Route path="/seller/order/list" element={<SellerOrdersListingPage />} />
+            <Route element={<ProtectedRoute allowRole={"seller"} redirectTo="/" />}>
+              <Route element={<SidebarLayout />}>
+                <Route path="/seller/product/upload" element={<SellerProductUploadPage />} />
+                <Route path="/seller/product/list" element={<SellerProductListing />} />
+                <Route path="/seller/product/edit/:id" element={<SellerProductEditPage />} />
+                <Route path="/seller/order/list" element={<SellerOrdersListingPage />} />
+              </Route>
             </Route>
-            {/* </Route> */}
 
             <Route element={<ProtectedRoute />}>
               <Route path="/cart" element={<Cart />} />

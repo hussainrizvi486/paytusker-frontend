@@ -23,10 +23,13 @@ export const getAuthUser = () => {
     let isAuthenticated = false;
     let accessToken = null;
     let refreshToken = null;
+    let roles = null
 
     if (localStorage.getItem("authTokens")) {
         const tokensObj = JSON.parse(localStorage.getItem("authTokens"))
         accessToken = tokensObj.access;
+        let decodedToken = jwtDecode(tokensObj.access);
+        roles = decodedToken.roles;
         refreshToken = tokensObj.refresh;
     }
 
@@ -36,7 +39,8 @@ export const getAuthUser = () => {
         user: user,
         isAuthenticated: isAuthenticated,
         accessToken: accessToken,
-        refreshToken: refreshToken
+        refreshToken: refreshToken,
+        roles: roles
     }
     // return [user, isAuthenticated, accessToken, refreshToken]
 }

@@ -66,18 +66,6 @@
     border: 1px solid #b1b1b1 !important;
 }
 
-.input-box--autocomplete:focus-within input {
-    /* border-color: #FFF; */
-
-}
-
-/* .input-box:focus-within .input-autocomplete__wrapper { */
-/* border-top: 2px solid #fff; */
-/* box-shadow: inset 0px 4px 3px #fff; */
-/* ; */
-/* display: block; */
-/* } */
-
 .input-autocomplete__option {
     font-size: var(--text-sm);
     padding: .35rem;
@@ -121,6 +109,7 @@
 .input-file__wrapper img {
     height: 100%;
     width: 100%;
+    object-fit: contain;
 }
 
 .file-review__wrapper {

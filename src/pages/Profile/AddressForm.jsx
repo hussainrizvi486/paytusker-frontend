@@ -10,6 +10,12 @@ import toast from 'react-hot-toast';
 import { countries } from "../../webData";
 import { Checkbox } from "../../components";
 
+// "address_title",
+// "address_line",
+// "address_type",
+// "country",
+// "state",
+// "city",
 
 const AddressFormFields = [
     {
@@ -50,9 +56,9 @@ const AddressFormFields = [
     },
 
     {
-        "fieldname": "address_line_1",
+        "fieldname": "address_line",
         "label": "Street Address",
-        "placeholder": "Apartment, suite, unit, building, floor, etc.",
+        "placeholder": "Apartment, suite, unit, building, floor, etc",
         "fieldtype": "text",
         "mandatory": true,
         "value": ""
@@ -87,19 +93,16 @@ const AddAddress = () => {
     const urlParams = useParams();
     let navigate = useNavigate();
 
-
-
-    useEffect(() => { }, [apiResponse.isSuccess]);
-
-
-    if (apiResponse.isSuccess) {
-        if (searchParams.get("redirect-to")) {
-            navigate(searchParams.get("redirect-to"));
+    useEffect(() => {
+        if (apiResponse.isSuccess) {
+            if (searchParams.get("redirect-to")) {
+                navigate(searchParams.get("redirect-to"));
+            }
+            else {
+                navigate("/profile/address");
+            }
         }
-        else {
-            navigate("/profile/address");
-        }
-    }
+    }, [apiResponse.isSuccess]);
     let pageHeading = urlParams.action === "add" ? "Add New Address" : "Edit";
     const [pageLoading, setPageLoading] = useState(false);
 
@@ -178,7 +181,7 @@ const EditAddressForm = ({ searchParams, useGetUserAddressQuery, addressFormFiel
     const HandleEdit = (e) => {
         const formDataObj = new FormData(e.target)
 
-        const addressObject = {}
+        const addressObject = { id: addressId }
         for (const [key, value] of formDataObj.entries()) {
             try {
                 addressObject[key] = JSON.parse(value)
@@ -189,11 +192,12 @@ const EditAddressForm = ({ searchParams, useGetUserAddressQuery, addressFormFiel
 
         }
 
-        const reqBody = {
-            address_object: addressObject,
-            id: addressId,
-            action: "edit"
-        }
+        // const reqBody = {
+        // address_object: addressObject,
+        // id: addressId,
+        // action: "edit"
+        // }
+        const reqBody = addressObject;
 
 
         editAddressApi(reqBody)

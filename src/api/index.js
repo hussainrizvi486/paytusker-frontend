@@ -14,7 +14,9 @@ export const {
     useGetUserAddressQuery,
     useGetUserDetailsQuery,
     useLoginUserMutation,
-    useUpdateUserPasswordMutation
+    useUpdateUserPasswordMutation,
+    useDeleteUserAddressMutation
+
 } = userApiSlice;
 
 export const {
@@ -34,4 +36,4 @@ export const {
 export const { useGetProductCategoriesQuery } = ProductApiSlice;
 
 
-export const { useGetSellerProductListingQuery } = sellerApiSlice;
+export const { useGetSellerProductListingQuery, useCreateSellerProductMutation, useUpdateSellerProductMutation} = sellerApiSlice;

@@ -20,8 +20,6 @@ export const FormInput = forwardRef(function FormInput({ data, onChange = () => 
         defaultValue: data?.value,
     }
 
-
-
     if (data?.mandatory) {
         mandatoryFlag = <span className="mandatory-flag">*</span>
     }
@@ -32,7 +30,8 @@ export const FormInput = forwardRef(function FormInput({ data, onChange = () => 
 
     if (fieldtype == "currency") {
         inputParamsObject["onBlur"] = (event) => validateCurrencyInput(event)
-        inputParamsObject["defaultValue"] = parseFloat(data?.value).toFixed(2) || 0.00;
+
+        inputParamsObject["defaultValue"] = parseFloat(data?.value || 0) || 0.00;
     }
 
     inputParamsObject["type"] = fieldtype

@@ -4,21 +4,20 @@ import { Pencil, Trash2 } from "lucide-react";
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 
-import { useGetUserAddressQuery, useUpdateUserAddressMutation } from "../../api";
+import { useDeleteUserAddressMutation, useGetUserAddressQuery, useUpdateUserAddressMutation } from "../../api";
 import { Header, UserSidebar } from "../../layouts";
 
 
 const Address = () => {
     const { data, isLoading: isFetchingAddress } = useGetUserAddressQuery();
     const [editAddressApi, editAddressApiRes] = useUpdateUserAddressMutation();
+    const [removeAddressApi, removeAddressApiRes] = useDeleteUserAddressMutation();
     const [pageLoading, setPageLoading] = useState(false);
 
     const removeAddress = (id) => {
+
         if (window.confirm("Are you sure you want to remove this address?")) {
-            editAddressApi({
-                id: id,
-                action: "remove"
-            });
+            removeAddressApi({ id: id });
         }
     };
 
@@ -59,7 +58,6 @@ const Address = () => {
                                 </>
                         }
                     </div>
-
                 </div>
             </div>
         </div>
@@ -101,7 +99,7 @@ const AddressCard = ({ data, removeAddress }) => {
             </div>
 
             <div className="address-card__info text-sm" >
-                {data?.address_line_1}
+                {data?.address_line}
             </div>
 
         </div>
@@ -112,13 +110,12 @@ const AddressCard = ({ data, removeAddress }) => {
 const NoAddressComponent = () => {
     return (
         <div className="text-center">
-            <br />
-            <br />
-            <br />
-            <div>No addresses have been added. Would you like to add a new address?</div>
-            <Link to={"/profile/address/form/add"}>
-                <button className="btn btn-primary btn-sm  mt-3">Add Address</button>
-            </Link>
+            <div className="mt-6">
+                <div>No addresses have been added. Would you like to add a new address?</div>
+                <Link to={"/profile/address/form/add"}>
+                    <button className="btn btn-primary btn-sm  mt-3">Add Address</button>
+                </Link>
+            </div>
         </div>
     )
 }

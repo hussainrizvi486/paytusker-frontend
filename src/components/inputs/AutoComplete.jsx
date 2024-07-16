@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 
 
-export const AutoComplete = ({ setValue = () => { }, label = "", placeholder = "", fieldname = "", results = null, mandatory = true }) => {
+export const AutoComplete = ({ setValue = () => { }, label = "", placeholder = "", fieldname = "", results = null, mandatory = true, defaultValue = null }) => {
     let inputRef = useRef();
     let mandatoryFlag = <></>;
 
-    const [inputQuery, setInputQuery] = useState("");
+    const [inputQuery, setInputQuery] = useState(defaultValue || "");
     const [showResults, setShowResults] = useState(results);
     const [displayResults, setDisplayResults] = useState(false);
     const inputWrapperRef = useRef();
@@ -39,7 +39,7 @@ export const AutoComplete = ({ setValue = () => { }, label = "", placeholder = "
     const hanleSetValue = (val) => {
         inputRef.current.value = val;
         setInputQuery(val);
-        setValue(val)
+        setValue(val);
         setShowResults([]);
     }
 
@@ -69,6 +69,7 @@ export const AutoComplete = ({ setValue = () => { }, label = "", placeholder = "
                     onFocus={() => setDisplayResults(true)}
                     onBlur={() => handleBlur()}
                     placeholder={placeholder}
+                    defaultValue={defaultValue}
                     name={fieldname}
                 />
 

@@ -287,7 +287,6 @@
     font-size: var(--text-sm);
 }
 
-/* input-box__input */
 
 .dropdown-container {
     position: relative;
@@ -338,6 +337,10 @@
 .single-file-upload-wrapper img {
     height: 100%;
     width: 100%;
+}
+.single-file-upload-wrapper img {
+    border: 1px solid;
+    border-radius: .5rem;
 }
 
 .single-file-upload-wrapper input {

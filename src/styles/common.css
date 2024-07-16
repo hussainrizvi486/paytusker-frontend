@@ -40,7 +40,7 @@ button:disabled {
 }
 
 .btn-sm {
-    padding: .4rem 1rem;
+    padding: 0.25rem .75rem;
     font-size: var(--text-sm);
 }
 
@@ -50,8 +50,18 @@ button:disabled {
 }
 
 .btn-success {
-    background-color: var(--color-green);
-    color: var(--color-text-1);
+    background-color: #16a34a;
+    color: #fff;
+}
+
+.btn-warning {
+    background-color: #f59e0b;
+    color: #fff;
+}
+
+.btn-info {
+    background-color: #0284c7;
+    color: #fff;
 }
 
 .btn-danger {
@@ -129,7 +139,29 @@ th {
 
 
 .table tr,
+.table .link-row,
 td,
 th {
     border: 1px solid var(--table-border-color);
+}
+
+
+.table .link-row {
+    display: table-row;
+    vertical-align: inherit;
+    unicode-bidi: isolate;
+    border-color: inherit;
+}
+
+
+@media (max-width:768px) {
+    .table .hidden-sm {
+        display: none;
+    }
+
+    .small-sm td,
+    th {
+        font-size: var(--text-xs);
+    }
+
 }

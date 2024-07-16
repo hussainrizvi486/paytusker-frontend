@@ -25,15 +25,16 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 
     else if (refreshToken && result?.error?.status === 401) {
         try {
-            let refreshResult = await axios.post(`${baseUrl}api/auth-token/refresh/`, { "refresh": getUserDetails()[3] })
+            let refreshResult = await axios.post(`${baseUrl}api/auth-token/refresh`, { "refresh": getUserDetails()[3] })
             if (refreshResult.data) {
                 api.dispatch(UpdateCredentials(refreshResult.data));
                 result = await baseQuery(args, api, extraOptions)
             }
 
         } catch (error) {
-            // api.dispatch(LogOut())
-            // window.location.href = "/login"
+            console.log(error)
+            api.dispatch(LogOut())
+            window.location.href = "/login"
         }
     }
     return result
@@ -41,7 +42,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 
 export const apiSlice = createApi({
     baseQuery: baseQueryWithReauth,
-    tagTypes: ["refetchCart", "refetchAddress", "refetchReviews", "refetchOrders"],
+    tagTypes: ["refetchCart", "refetchAddress", "refetchReviews", "refetchOrders", "refetchSellerProductsListView"],
     endpoints: () => ({})
 });
 

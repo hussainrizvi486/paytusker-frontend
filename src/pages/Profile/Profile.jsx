@@ -53,7 +53,6 @@ const Profile = () => {
         <UserSidebar />
         <div className="sidebar-page__content profile-page">
           <div>
-
             {urlSearchParams.get("edit") ?
               <>
                 <div className="heading-md">Edit Profile</div>
@@ -133,18 +132,17 @@ const ChangePassowrd = () => {
     }
   }, [apiResponse.isLoading])
 
-
   useEffect(() => {
+
     if (apiResponse.isError || apiResponse.isSuccess) {
-      setLoading(false)
+      setLoading(false);
     }
     if (apiResponse.isError) {
-      toast.error(apiResponse.error.data?.message || "Something went wrong")
+      toast.error(apiResponse.error.data?.message || "Something went wrong");
     }
     if (apiResponse.isSuccess) {
-      toast.success(apiResponse.data?.message || "Password updated")
-      navigate("/profile")
-
+      toast.success(apiResponse.data?.message || "Password updated");
+      navigate("/profile");
     }
   }, [apiResponse.isError, apiResponse.isSuccess])
 

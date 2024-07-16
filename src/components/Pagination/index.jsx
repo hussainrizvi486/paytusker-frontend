@@ -53,37 +53,30 @@ export const Pagination = ({
 
     if (totalPage > 1) return (
         <>
-            <div className="pagination-wrapper"
-
-            >
+            <div className="pagination-wrapper">
                 <button
                     disabled={currentPage == 1}
                     className={`pagination-btn `} onClick={handlePrev}>
                     <ChevronLeft className="icon-sm" />
                 </button>
                 <>
-                    {paginationsELements?.map((obj) => {
-                        if (isNaN(obj.pageNum)) {
-                            return <>...</>
-                        }
+                    {paginationsELements?.map((obj, i) => {
+                        if (isNaN(obj.pageNum)) return <span key={i}>...</span>
                         else {
                             return (
                                 <div
                                     className={`pagination-btn text-sm ${currentPage === obj.pageNum ? "active" : ""}`}
-                                    key={obj.pageNum}
+                                    key={i}
                                     onClick={() => setCurrentPage(obj.pageNum)}
                                 >
                                     {obj.pageNum}
                                 </div>
                             )
                         }
-                    }
-                    )}
+                    })}
                 </>
                 <button className="pagination-btn" onClick={handleNext}
-                    disabled={currentPage == totalPage}
-
-                >
+                    disabled={currentPage == totalPage}>
                     <ChevronRight className="icon-sm" />
                 </button>
             </div>
