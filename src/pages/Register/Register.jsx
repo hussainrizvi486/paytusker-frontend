@@ -122,7 +122,6 @@ const Register = () => {
                                         autoFocus: false, required: "required",
                                         name: "phone"
                                     }}
-{/*                                     disableDropdown={true} */}
                                 />
                             </div>
                         </div>
