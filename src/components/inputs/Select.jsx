@@ -2,7 +2,7 @@ import { forwardRef } from "react"
 import { ChevronDown } from "lucide-react"
 
 
-export const FormSelect = forwardRef(function FormSelect({ data, onChange = () => { } }, ref) {
+export const Select = forwardRef(function Select({ data, onChange = () => { } }, ref) {
     let mandatoryFlag = <></>
     if (data?.mandatory) {
         mandatoryFlag = <span className="mandatory-flag">*</span>
@@ -18,10 +18,10 @@ export const FormSelect = forwardRef(function FormSelect({ data, onChange = () =
                     onChange={(event) => onChange(event)}
                 >
                     {data?.options?.map((val, i) => {
-                        if (val instanceof String) {
+                        if (typeof val == "string") {
                             return <option key={i} value={val}>{val}</option>
                         }
-                        else if (val instanceof Object) {
+                        if (val instanceof Object) {
                             return <option key={i} disabled={val?.disabled || false} value={val[data.valueKey || "value"]}>{val[data.labelKey || "label"]}</option>
                         }
                     })}

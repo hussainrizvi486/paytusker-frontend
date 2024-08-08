@@ -6,7 +6,7 @@ export const sellerApiSlice = apiSlice.injectEndpoints({
             query: (params) => ({
                 url: "api/seller/product/list",
                 params: params
-            }), 
+            }),
             providesTags: ["refetchSellerProductsListView"]
         }),
         createSellerProduct: builder.mutation({
@@ -24,6 +24,12 @@ export const sellerApiSlice = apiSlice.injectEndpoints({
                 body: data
             }),
             invalidatesTags: (res, error) => error ? [] : ["refetchSellerProductsListView"]
+        }),
+        productUploadDetails: builder.query({
+            query: () => ({
+                url: "api/product/upload-details",
+                method: "GET",
+            }),
         }),
     }
     )

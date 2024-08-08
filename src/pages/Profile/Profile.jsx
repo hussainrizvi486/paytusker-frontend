@@ -1,7 +1,7 @@
 import { Button, FormInput, Freeze } from "../../components"
 import { useGetUserDetailsQuery, useUpdateUserPasswordMutation } from "../../api"
 import { UserSidebar, Header } from "../../layouts"
-import { Link, useNavigate, useSearchParams } from "react-router-dom"
+import { Link, Navigate, useNavigate, useSearchParams } from "react-router-dom"
 import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 
@@ -41,7 +41,8 @@ const Profile = () => {
     }
   ];
 
-  const { data, isLoading } = useGetUserDetailsQuery();
+  const { data, isLoading, isError } = useGetUserDetailsQuery();
+  if (isError) return <Navigate to={"/"} />
   if (data) { userProfileFields.map((val) => { val.value = data[val.fieldname || ""] }) }
   if (isLoading) return <Freeze />
 

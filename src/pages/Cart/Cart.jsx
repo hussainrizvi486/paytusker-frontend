@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Minus, Plus, Trash2 } from "lucide-react";
 import toast from "react-hot-toast";
+import noImage from "@src/assets/noImage.png";
 
 import {
     useGetCartDetailsQuery,
@@ -78,7 +79,7 @@ const Cart = () => {
     }, [createOrderApiRes.isLoading, createOrderApiRes.isSuccess, createOrderApiRes.isError]);
 
     useEffect(() => {
-        if (isSuccess) {
+        if (cartApiData) {
             getPaymentMethods()
             setCartDataObject(cartApiData);
             setPageLoading(false);
@@ -103,35 +104,31 @@ const Cart = () => {
             window.location.href = createOrderApiRes.data.checkout_url
         }
     }
-
-    // if (pageLoading && !createOrderApiRes.isLoading) return
-
+    useEffect(() => {
+        document.title = 'Paytusker.com Shopping Cart'
+    }, []);
 
     return (
         <>
             <Freeze show={pageLoading && !createOrderApiRes.isLoading} />
             <div>
-                <Navbar title={"Your Cart"} />
+                <Navbar title={"Shopping Cart"} />
                 <div className='cart-page'>
                     <div className="cart-items__wrapper">
                         <div className="ci-w2">
                             <div className="cart-items__container">
-                                {cartDataObject && cartDataObject.items?.length > 0 ? (
-                                    cartDataObject.items.map((item, index) => (
-                                        <CartItemCard
-                                            key={index}
-                                            price={item.rate}
-                                            qty={item.qty}
-                                            name={item.product_name}
-                                            image={item.cover_image}
-                                            editQty={updateCartApi}
-                                            id={item.id}
-                                            setPageLoading={setPageLoading}
-                                        />
-                                    ))
-                                ) : !getItemsLoading && (!cartDataObject || !cartDataObject.items) ? (
-                                    <EmptyCart />
-                                ) : (<></>)}
+                                {cartDataObject?.items?.length > 0 ?
+                                    (
+                                        cartDataObject.items.map((item, index) => (
+                                            <CartItemCard
+                                                data={item}
+                                                key={index}
+                                                handleQtyUpdate={updateCartApi}
+                                            />
+                                        ))
+                                    ) : !getItemsLoading && (!cartDataObject || !cartDataObject.items) ?
+                                        (<EmptyCart />)
+                                        : (<></>)}
                             </div>
                         </div>
                     </div>
@@ -175,7 +172,9 @@ const OrderSummary = ({
 
     useEffect(() => {
         userAddressList?.forEach((val) => {
-            setSelectedAddress(val.id)
+            if (val.default) {
+                setSelectedAddress(val.id);
+            }
         })
     }, [userAddressList])
 
@@ -263,16 +262,33 @@ export const PaymentMethodCard = ({ name, img, active }) => {
         </div>
     )
 }
+const CartItemCard = ({ data, handleQtyUpdate }) => {
+    const [renderData, setRenderData] = useState(data);
 
-const CartItemCard = ({ price, name, qty, image, id, editQty }) => {
     const updateQty = (id, action) => {
-        const payload = { cart_item_id: id, action: action }
-        editQty(payload)
+        const payload = { cart_item_id: id, action: action };
+
+        if (action == "decrease") {
+            setRenderData(prev => {
+                let obj = { ...prev };
+                obj["qty"] = obj["qty"] - 1;
+                return obj
+            })
+        }
+        else if (action == "increase") {
+            setRenderData(prev => {
+                let obj = { ...prev };
+                obj["qty"] = obj["qty"] + 1;
+                return obj
+            })
+        }
+        handleQtyUpdate(payload);
     }
+
     return (
         <div className="cart-item-card flex ">
             <div className="cart-item-card__image-container ">
-                <img src={image} alt=""
+                <img src={renderData?.cover_image || noImage} alt=""
                     className="h-100 w-100 img-contain"
                 />
             </div>
@@ -284,34 +300,34 @@ const CartItemCard = ({ price, name, qty, image, id, editQty }) => {
                             overflow: "hidden",
                             maxWidth: "90%"
                         }}
-                    >{name || ""}</div>
+                    >{renderData?.product_name || ""}</div>
                 </div>
 
                 <div className="flex-align-between">
-                    <div className="font-medium cart-item-price">{FormatCurreny(price) || ""}</div>
-
+                    <div className="font-medium cart-item-price">
+                        {FormatCurreny(renderData?.rate || 0)}
+                    </div>
                     <div className="remove-cart-item">
                         <Trash2
-                            onClick={() => updateQty(id, "remove")}
+                            onClick={() => updateQty(renderData?.id, "remove")}
                         />
                     </div>
                 </div>
-
                 <div className="cart-qty-wrapper">
                     <div className="cart-qty-container">
                         <button className="cart-qty-btn"
-                            onClick={() => updateQty(id, "decrease")}>
+                            onClick={() => updateQty(renderData?.id, "decrease")}>
                             <Minus />
                         </button>
-                        <input type="number" readOnly className="cart-qty-input" defaultValue={qty} />
+                        <input type="number" readOnly className="cart-qty-input" defaultValue={renderData?.qty || 0} value={renderData?.qty || 0} />
                         <button className="cart-qty-btn"
-                            onClick={() => updateQty(id, "increase")}>
+                            onClick={() => updateQty(renderData?.id, "increase")}>
                             <Plus />
                         </button>
                     </div>
                 </div>
             </div>
-        </div >
+        </div>
     )
 }
 

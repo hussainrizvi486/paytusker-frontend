@@ -12,7 +12,10 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      '@': '/src',
+      '@src': '/src',
+      '@api': '/src/api',
+      '@components': '/src/components',
+      '@utils': '/src/utils',
     },
   },
 })

@@ -36,4 +36,4 @@ export const {
 export const { useGetProductCategoriesQuery } = ProductApiSlice;
 
 
-export const { useGetSellerProductListingQuery, useCreateSellerProductMutation, useUpdateSellerProductMutation} = sellerApiSlice;
+export const { useGetSellerProductListingQuery, useCreateSellerProductMutation, useUpdateSellerProductMutation, useProductUploadDetailsQuery} = sellerApiSlice;

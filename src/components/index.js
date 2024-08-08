@@ -5,7 +5,8 @@ export { Freeze } from "./Loaders/Freeze";
 export { ProductCardLoader } from "./Loaders/ProductCardLoader";
 export { CategoryCard } from "./CategoryCard/CategoryCard";
 export { Rating } from "./Rating/Rating";
-export { Button } from "./Common/Button";
+export { Button } from "./common/Button";
+export { DropDown } from "./common/DropDown";
 export { FormInput } from "./form/FormInput.jsx";
 export { FormSelect } from "./form/FormSelect.jsx";
 export { SingleFileInput } from "./SingleFileInput.jsx";
@@ -17,4 +18,13 @@ export { Pagination } from "./Pagination";
 export { HomeCarousel } from "./HomeCarousel/HomeCarousel";
 
 // 
-export { AutoComplete } from "./inputs/AutoComplete.jsx"
+export { Autocomplete } from "./inputs/Autocomplete.jsx"
+
+
+export { Input } from "./inputs/Input";
+export { Select } from "./inputs/Select";
+export { InputFile } from "./inputs/InputFile";
+export { InputDate } from "./inputs/Input";
+// export { Checkbox } from "./inputs/Checkbox";
+// export { TextEditor } from "./inputs/TextEditor";
+// export { Autocomplete } from "./inputs/Autocomplete";

@@ -18,7 +18,7 @@ import { ProtectedRoute } from "./utils";
 import { SidebarLayout } from "./layouts/SidebarLayout";
 
 const Home = lazy(() => import("./pages/home/Home"));
-const Product = lazy(() => import("./pages/product/Product.server"));
+const Product = lazy(() => import("./pages/product/index"));
 const LoginPage = lazy(() => import("./pages/auth/LoginPage"));
 const Cart = lazy(() => import("./pages/cart/Cart"));
 const Address = lazy(() => import("./pages/profile/Address"));
@@ -65,6 +65,7 @@ function App() {
           <title>Paytusker Home</title>
           <meta name="description" content="Consumer products & digital assets marketplace" />
         </Helmet>
+
         <MobileSideBar active={mobileSideOpen} />
         <ScrollToTop />
         <div className="page-container">
@@ -74,7 +75,6 @@ function App() {
             <Route path="/search" element={<Search />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<Register />} />
-            {/* <Route path="/privacy" element={<PrivacyPolicyPage />} /> */}
             <Route path="/faqs" element={<FAQsPage />} />
             <Route path="/about-us" element={<AboutUs />} />
             <Route path="/logout" element={<LogOutPage />} />

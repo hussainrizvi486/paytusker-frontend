@@ -8,13 +8,18 @@ import { API_URL } from "../../redux/store";
 import { Header } from "../../layouts";
 import { CategoryCard, HomeCarousel, ProductCard, ProductCardLoader } from "../../components";
 
+let cachedDataObject = {
+    digital_products: null,
+    home_products: null,
+}
+
 
 const Home = () => {
     const productCategories = useGetProductCategoriesQuery();
 
-    const [products, setProducts] = useState({});
-    const [digitalProducts, setDigitalProducts] = useState();
-    const [loading, setLoading] = useState(true);
+    const [products, setProducts] = useState(cachedDataObject.home_products || {});
+    const [digitalProducts, setDigitalProducts] = useState(cachedDataObject.digital_products || []);
+    const [loading, setLoading] = useState(productCategories.isLoading);
 
 
     const getData = async () => {
@@ -22,16 +27,25 @@ const Home = () => {
         try {
             const response = await axios.get(`${API_URL}api/product/home`);
             if (response.status === 200) {
-                setProducts(response.data?.home_products || {});
-                setDigitalProducts(response.data?.digital_products || []);
+                const { data } = response;
+                cachedDataObject.home_products = data?.home_products || {}
+                cachedDataObject.digital_products = data?.digital_products || []
+                setProducts(data?.home_products || {});
+                setDigitalProducts(data?.digital_products || []);
             }
         } catch (error) {
-            toast.error("Server Error");
+            toast.error("Internal Server Error");
         } finally { setLoading(false); }
     };
 
 
-    useEffect(() => { getData() }, [])
+    useEffect(() => {
+        if (!cachedDataObject.digital_products || !cachedDataObject.home_products) {
+            getData();
+        }
+    }, [])
+
+
 
     return (
         <>

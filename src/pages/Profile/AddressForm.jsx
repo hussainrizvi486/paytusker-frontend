@@ -1,21 +1,14 @@
 import { FormInput } from "../../components/form/FormInput";
-import { FormSelect } from "../../components/form/FormSelect";
+import { Select } from "@components";
 import { Header, UserSidebar } from "../../layouts";
 import { useAddUserAddressMutation, useUpdateUserAddressMutation, useGetUserAddressQuery } from "../../api";
 import { useEffect, useState } from "react";
-import { json, useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import { useParams } from "react-router-dom";
 import toast from 'react-hot-toast';
 import { countries } from "../../webData";
-import { Checkbox } from "../../components";
-
-// "address_title",
-// "address_line",
-// "address_type",
-// "country",
-// "state",
-// "city",
+import { Checkbox } from "@components";
 
 const AddressFormFields = [
     {
@@ -144,8 +137,8 @@ const generateForm = (fields, onSubmit, btnLabel) => {
     const formInputTypes = ["number", "password", "text"]
 
     const handleFormSubmit = (e) => {
-        e.preventDefault()
-        onSubmit(e)
+        e.preventDefault();
+        onSubmit(e);
     }
     return (
         <form className="web-form" onSubmit={(e) => handleFormSubmit(e)} >
@@ -156,8 +149,9 @@ const generateForm = (fields, onSubmit, btnLabel) => {
                     }
 
                     if (val.fieldtype === "select") {
-                        return <FormSelect key={i} data={val} />;
+                        return <Select key={i} data={val} />;
                     }
+
                     if (val.fieldtype === "checkbox") {
                         return <Checkbox key={i} data={val} />;
                     }
@@ -179,27 +173,18 @@ const EditAddressForm = ({ searchParams, useGetUserAddressQuery, addressFormFiel
     const [formLoading, setFormLoading] = useState(isLoading)
 
     const HandleEdit = (e) => {
-        const formDataObj = new FormData(e.target)
+        const formDataObj = new FormData(e.target);
+        const addressObject = { id: addressId };
 
-        const addressObject = { id: addressId }
         for (const [key, value] of formDataObj.entries()) {
             try {
-                addressObject[key] = JSON.parse(value)
+                addressObject[key] = JSON.parse(value);
             } catch (error) {
-                addressObject[key] = value
-
+                addressObject[key] = value;
             }
-
         }
 
-        // const reqBody = {
-        // address_object: addressObject,
-        // id: addressId,
-        // action: "edit"
-        // }
         const reqBody = addressObject;
-
-
         editAddressApi(reqBody)
     };
 

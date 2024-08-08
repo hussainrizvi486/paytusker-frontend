@@ -3,10 +3,8 @@ import { Link } from "react-router-dom";
 import { Pencil, Trash2 } from "lucide-react";
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
-
 import { useDeleteUserAddressMutation, useGetUserAddressQuery, useUpdateUserAddressMutation } from "../../api";
 import { Header, UserSidebar } from "../../layouts";
-
 
 const Address = () => {
     const { data, isLoading: isFetchingAddress } = useGetUserAddressQuery();
@@ -15,7 +13,6 @@ const Address = () => {
     const [pageLoading, setPageLoading] = useState(false);
 
     const removeAddress = (id) => {
-
         if (window.confirm("Are you sure you want to remove this address?")) {
             removeAddressApi({ id: id });
         }
@@ -42,7 +39,6 @@ const Address = () => {
                                 <AddressCardLoadingSkeleton />
                                 <AddressCardLoadingSkeleton />
                                 <AddressCardLoadingSkeleton />
-                                <AddressCardLoadingSkeleton />
                             </>
                             : data?.length === 0 ? <NoAddressComponent />
                                 : <>{data?.map((val, idx) => (
@@ -50,11 +46,14 @@ const Address = () => {
                                         data={val}
                                         removeAddress={removeAddress} />
                                 ))}
-                                    <div className="mt-4">
-                                        <Link to={"/profile/address/form/add"}>
-                                            <button className="btn btn-sm btn-primary">Add new address</button>
-                                        </Link>
-                                    </div>
+
+                                    {data?.length < 5 ?
+                                        <div className="mt-4">
+                                            <Link to={"/profile/address/form/add"}>
+                                                <button className="btn btn-sm btn-primary">Add new address</button>
+                                            </Link>
+                                        </div> : <></>
+                                    }
                                 </>
                         }
                     </div>
@@ -93,11 +92,9 @@ const AddressCard = ({ data, removeAddress }) => {
             <div className="text-sm">
                 {data?.address_type}
             </div>
-
             <div className="text-sm">
                 {data.city}, {data.country}
             </div>
-
             <div className="address-card__info text-sm" >
                 {data?.address_line}
             </div>

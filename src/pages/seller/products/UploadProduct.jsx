@@ -4,26 +4,12 @@ import { ProductForm } from "../../../forms";
 import { useCreateSellerProductMutation } from "../../../api";
 
 const UploadProduct = () => {
-    const [createProduct, createProductResponse] = useCreateSellerProductMutation();
-    const navigate = useNavigate();
-    const handleSubmitEvent = async (data) => {
-        createProduct(data);
-    }
-
-    if (createProductResponse.isSuccess) {
-        toast.success(createProductResponse.data);
-        navigate("/seller/product/list")
-    }
-    if (createProductResponse.isError) {
-        toast.error(createProductResponse.data);
-
-        // navigate("/seller/product/list")
-    }
+    const apiHook = useCreateSellerProductMutation();
 
     return (
         <>
             <ProductForm
-                submitForm={(data) => handleSubmitEvent(data)} />
+                apiHook={apiHook} />
         </>
     )
 }

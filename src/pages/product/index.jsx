@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useParams, Link, useNavigate } from "react-router-dom"
+import { useParams, Link, useNavigate, useLoaderData } from "react-router-dom"
 import { ArrowLeft, ArrowRight, BadgeCheck, ChevronLeft, ChevronRight, } from "lucide-react";
 import axios from "axios"
 import toast from "react-hot-toast";
@@ -11,10 +11,10 @@ import { getUserDetails } from "../../redux/slices/authSlice";
 // import { Helmet } from "react-helmet-async";
 
 const Product = () => {
+
     const navigate = useNavigate();
     const [productData, setProductData] = useState(null);
-    const [pageLoading, setPageLoading] = useState(true);
-    console.log("Server")
+    const [pageLoading, setPageLoading] = useState(false);
     let LoadingMessage = "Loading..."
     const { id } = useParams();
     const [addItemToCart, cartApiResponse] = useAddItemToCartMutation();
@@ -57,8 +57,6 @@ const Product = () => {
     if (cartApiResponse.isError) {
         toast.error(String(cartApiResponse.error.data?.message || ""))
     }
-
-    // if (pageLoading) return
 
     return (
         <div>
@@ -165,8 +163,8 @@ const Product = () => {
                 {
                     productData?.product_reviews.length > 0 ?
                         <section className="product-reviews">
-                            <div className="section-heading">Top Cusomer reviews</div>
-                            <div>
+                            <div className="section-heading">Customer reviews</div>
+                            <div className="product-reviews__container">
                                 {productData?.product_reviews?.map((val, i) =>
                                     <ReviewCard key={i} data={val} />
                                 )}

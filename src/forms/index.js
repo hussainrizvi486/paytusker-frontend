@@ -1,1 +1,3 @@
-export { ProductForm } from './ProductForm'
+
+export { ProductForm } from "./product/form"
+// export { ProductForm } from './product/ProductForm'

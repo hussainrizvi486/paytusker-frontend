@@ -17,7 +17,7 @@ export const UserSidebar = ({ role = getAuthUser().roles[0] }) => {
                 icon: <ScrollText />,
                 child_elements: [
                     { label: "My Products", url: "/seller/product/list" },
-                    { label: "Upload Product", url: "/seller/product/upload" },
+                    { label: "My Orders", url: "/seller/product/list" },
                 ]
             },
         ],
@@ -26,7 +26,7 @@ export const UserSidebar = ({ role = getAuthUser().roles[0] }) => {
                 label: "My Account", url: "/profile", icon: <User />, child_elements: [
                     { label: "Manage Account", url: "/profile" },
                     { label: "Address Book", url: "/profile/address" },
-                    { label: "Add Address", url: "/profile/address/form/add" },
+                    // { label: "Add Address", url: "/profile/address/form/add" },
                 ]
             },
             {

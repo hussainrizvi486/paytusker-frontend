@@ -327,3 +327,7 @@
     height: .875rem;
     width: .875rem;
 }
+
+.product-reviews__container {
+    max-width: 600px;
+}
