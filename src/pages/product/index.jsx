@@ -1,17 +1,15 @@
 import { useEffect, useState } from "react"
-import { useParams, Link, useNavigate, useLoaderData } from "react-router-dom"
-import { ArrowLeft, ArrowRight, BadgeCheck, ChevronLeft, ChevronRight, } from "lucide-react";
+import { useParams, Link, useNavigate } from "react-router-dom"
+import { ArrowBigDownDash, ArrowLeft, ArrowRight, BadgeCheck, ChevronLeft, ChevronRight, } from "lucide-react";
 import axios from "axios"
 import toast from "react-hot-toast";
 import { API_URL } from "../../redux/store";
 import { Header } from "../../layouts";
-import { Button, Freeze, Rating } from "../../components";
-import { useAddItemToCartMutation } from "../../api";
+import { Button, Freeze, Rating } from "@components";
 import { getUserDetails } from "../../redux/slices/authSlice";
-// import { Helmet } from "react-helmet-async";
+import { useAddItemToCartMutation } from "@api";
 
-const Product = () => {
-
+const Page = () => {
     const navigate = useNavigate();
     const [productData, setProductData] = useState(null);
     const [pageLoading, setPageLoading] = useState(false);
@@ -31,7 +29,7 @@ const Product = () => {
                 setProductData(req.data);
             }
         }
-        catch (error) { console.log(error) }
+        catch (error) { navigate("/") }
         finally {
             setPageLoading(false);
         }
@@ -73,6 +71,10 @@ const Product = () => {
 
                     <section className="product-info__details">
                         <div className="product-info__details-wrapper">
+                            {
+                                productData?.is_digital ?
+                                    <div className="digital-product-tag"><ArrowBigDownDash className="icon-md" /> Digital Product </div> : <></>
+                            }
                             <div className="product-name">
                                 {productData?.product_name}
                             </div>
@@ -176,7 +178,7 @@ const Product = () => {
     )
 }
 
-export default Product
+export default Page
 
 const ProductVariantBox = ({ data }) => {
     const { id } = useParams();

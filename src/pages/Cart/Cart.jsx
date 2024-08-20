@@ -287,11 +287,13 @@ const CartItemCard = ({ data, handleQtyUpdate }) => {
 
     return (
         <div className="cart-item-card flex ">
-            <div className="cart-item-card__image-container ">
-                <img src={renderData?.cover_image || noImage} alt=""
-                    className="h-100 w-100 img-contain"
-                />
-            </div>
+            <Link className="unset cursor-pointer" to={`/product/${renderData?.product_id}`}>
+                <div className="cart-item-card__image-container ">
+                    <img src={renderData?.cover_image || noImage} alt=""
+                        className="h-100 w-100 img-contain"
+                    />
+                </div>
+            </Link>
             <div className="cart-item-card__details-container">
                 <div>
                     <div className="text-sm"
@@ -344,7 +346,6 @@ const EmptyCart = () => {
                     </Link>
                 </div>
             </div>
-
         </div>
     )
 }

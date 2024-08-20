@@ -1,67 +1,155 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
-import { Button } from "../../components";
-import { useLoginUserMutation } from "../../api";
+import { serializeFormData } from "@utils";
+import { Button } from "@components";
+import { useLoginUserMutation } from "@api";
 import { Header } from "../../layouts";
 import { LogIn } from "../../redux/slices/authSlice";
+import { AuthForm } from "./form";
+import axios from "axios";
+import { API_URL } from "../../redux/store";
 
 const LoginPage = () => {
     const URLParams = useSearchParams()[0]
-    const userNameRef = useRef();
-    const passwordRef = useRef();
-    const navigate = useNavigate();
     const [FormMsg, setFormMsg] = useState({ message: "", type: "" });
     const [pageLoading, setPageLoading] = useState(false);
-    const [UseLoginUser, { isError, isSuccess, isLoading, error }] = useLoginUserMutation();
+    const [UseLoginUser, LoginUserResponse] = useLoginUserMutation();
     const dispatch = useDispatch();
 
 
     useEffect(() => {
-        setPageLoading(isLoading)
-        if (isSuccess) {
+        setPageLoading(LoginUserResponse.isLoading);
+        if (LoginUserResponse.isSuccess) {
             setFormMsg({ message: "Login Success", "type": "success" });
             toast.success("Login Success");
         }
 
-        if (isError) {
-            const { message } = error.data;
+        if (LoginUserResponse.isError) {
+            const { message } = LoginUserResponse.error.data;
             setFormMsg({ "message": message, "type": "error" });
             toast.error(message);
         }
+    }, [LoginUserResponse])
 
-    }, [isLoading, isSuccess, isError, error])
-
-    const submitForm = async (e) => {
+    const handlePasswordReset = async (e) => {
         e.preventDefault();
-        const password = passwordRef.current.value;
-        const email = userNameRef.current.value;
-        const reqBody = {
-            "email": email,
-            "password": password
-        };
-
-        const req = await UseLoginUser(reqBody);
-        if (req.data) {
-            const data = await req.data;
-            dispatch(LogIn(data));
-
-            if (URLParams.get("redirect_to")) {
-                navigate(URLParams.get("redirect_to"));
+        setPageLoading(true);
+        const formData = serializeFormData(e.target);
+        try {
+            const request = await axios.post(API_URL + "api/user/password/forgot", formData)
+            if (request.data && request.status == 200) {
+                toast.success("Password reset details have been sent to your email.");
             }
-            else { navigate("/") }
+            else {
+                toast("Something went wrong please try again later", { icon: "⚠️" });
+            }
+        } catch (error) {
+
+            const data = error?.response?.data;
+            if (typeof data === "object") {
+                Object.keys(data).forEach((key) => {
+                    toast.error(data[key][0]);
+                })
+            }
+            else {
+
+                toast.error("Internal server error!");
+            }
+
+        } finally {
+            setPageLoading(false);
         }
+
     }
 
+    const handleUserLogin = async (e) => {
+        e.preventDefault();
+        const reqBody = serializeFormData(e.target);
+        const request = await UseLoginUser(reqBody);
 
-    // if (pageLoading) return <Freeze />
+        if (request.data) {
+            const response = await request.data;
+            dispatch(LogIn(response));
+            URLParams.get("redirect_to") ?
+                window.location.href = URLParams.get("redirect_to") :
+                window.location.href = "/";
+        }
+    }
+    useEffect(() => {
+        setFormMsg({ message: "", type: "" });
+    }, [URLParams])
     return (
         <>
             <Header />
             <div>
+                {
+                    //  Reset password request form 
+                    URLParams.get("reset_password_request") ? <>
+                        <AuthForm
+                            title={"Password assistance"}
+                            subPara={"Enter the email address associated with your Paytusker account."}
+                            buttonLabel={"Continue"}
+                            isLoading={pageLoading}
+                            handleSubmit={handlePasswordReset}
+                            fields={[
+                                {
+                                    "fieldname": "email",
+                                    "label": "Email",
+                                    "placeholder": "Enter your email",
+                                    "fieldtype": "email",
+                                    "hideLabel": true
+                                }
+                            ]}
+
+                            BottomTag={<div className="auth-form__optional-text" ><Link to="/login">Back to Login</Link></div>}
+                            FormMsg={FormMsg}
+                        /> </> :
+                        <>
+                            {/* Login user form  */}
+                            <AuthForm
+                                title={"Login"}
+                                subPara={"Let’s get into your account."}
+                                buttonLabel={"Login"}
+                                isLoading={pageLoading}
+                                Tag={
+                                    <div className="text-sm text-right hover-underline">
+                                        <Link to={"/login?reset_password_request=true"}>
+                                            Forgot password?
+                                        </Link>
+                                    </div>
+                                }
+                                FormMsg={FormMsg}
+                                handleSubmit={handleUserLogin}
+                                BottomTag={<div className="auth-form__optional-text" >
+                                    <Link to="/register">
+                                        Don&apos;t have an account ? Register Here
+                                    </Link>
+                                </div>}
+                                fields={[
+                                    {
+                                        "fieldname": "email",
+                                        "label": "Email",
+                                        "placeholder": "Enter your email",
+                                        "fieldtype": "email",
+                                        "hideLabel": true
+                                    },
+                                    {
+                                        "fieldname": "password",
+                                        "label": "Password",
+                                        "placeholder": "Enter your passowrd",
+                                        "fieldtype": "password",
+                                        "hideLabel": true
+                                    }
+                                ]}
+                            />
+                        </>
+
+                }
+
+                {/* 
                 <form className='auth-form' onSubmit={(e) => submitForm(e)}>
                     <div className="text-center auth-form__upper-text">
                         <h1>Login</h1>
@@ -69,23 +157,26 @@ const LoginPage = () => {
                     </div>
 
                     <div className="auth-form__fields-container">
-
                         <div className="input-box">
                             <div className="input-box__label"></div>
-
                             <div className="input-box__input">
                                 <input type="email" placeholder="Username or Email" ref={userNameRef} className="auth-input" />
                             </div>
                         </div>
                         <div className="input-box">
                             <div className="input-box__label"></div>
-
                             <div className="input-box__input">
                                 <input type="password" placeholder="Password" ref={passwordRef} className="auth-input" />
                             </div>
                         </div>
+
                     </div>
 
+                    <div className="text-sm text-right hover-underline">
+                        <Link >
+                            Forgot password?
+                        </Link>
+                    </div>
 
                     <div className={`auth-form__msg-container auth-msg ${FormMsg?.type || ""}`}>
                         {FormMsg.message}
@@ -99,9 +190,6 @@ const LoginPage = () => {
                                 onClick={submitForm}
                                 type="submit"
                             />
-                            {/* <button type="submit"
-                                className="auth-form__submit-btn  btn btn-full btn-primary btn-sm">
-                                Login </button> */}
                         </div>
                         <div className="auth-form__optional-text" >
                             <Link to="/register">
@@ -111,6 +199,7 @@ const LoginPage = () => {
                     </div>
 
                 </form>
+                 */}
             </div>
         </>
     )

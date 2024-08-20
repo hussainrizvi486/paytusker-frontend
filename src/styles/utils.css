@@ -36,6 +36,15 @@
     justify-content: space-between;
 }
 
+.justify-content-between {
+    justify-content: space-between;
+}
+
+.justify-content-center {
+    justify-content: center;
+
+}
+
 .align-items-center {
     align-items: center;
 }
@@ -93,6 +102,25 @@
 
 .text-xl {
     font-size: var(--text-xl);
+}
+
+.text-xxl {
+    font-size: var(--text-xxl);
+}
+
+.text-3xl {
+    font-size: var(--text-3xl);
+
+}
+
+.text-4xl {
+    font-size: var(--text-4xl);
+
+}
+
+.text-5xl {
+    font-size: var(--text-5xl);
+
 }
 
 .text-center {
@@ -431,4 +459,13 @@
 
 .text-danger {
     color: #ff3838;
+}
+
+
+.hover-pointer:hover {
+    cursor: pointer !important;
+}
+
+.hover-underline:hover {
+    text-decoration: underline;
 }

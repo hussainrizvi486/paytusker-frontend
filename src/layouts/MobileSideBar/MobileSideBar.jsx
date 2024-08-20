@@ -1,14 +1,62 @@
 import { useDispatch, useSelector } from "react-redux";
-import { X } from "lucide-react";
+import { MessageCircle, ScrollText, Sidebar, User, X } from "lucide-react";
 
 import { ToggleMobileSideBar } from "../../redux/slices/appUiSlice";
 import { SidebarNavElement } from "../UserSidebar/UserSidebar"
 import { useGetProductCategoriesQuery } from "../../api";
 import { useEffect, useState } from "react";
+import { getAuthUser, getUserDetails } from "../../redux/slices/authSlice";
 
 
 
 export const MobileSideBar = ({ active }) => {
+    const authUser = getUserDetails()[0]
+    const roles = getAuthUser().roles
+    let currentRole = "customer";
+
+    if (roles.includes("seller")) {
+        currentRole = "seller";
+    }
+
+    const sidebarLinks = {
+        "seller": [
+            {
+                label: "My Account", url: "/profile", icon: <User />
+            },
+            {
+                label: "Inventory", url: "/",
+                icon: <ScrollText />,
+                child_elements: [
+                    { label: "My Products", url: "/seller/product/list" },
+                    { label: "My Orders", url: "/seller/product/list" },
+                ]
+            },
+        ],
+        "customer": [
+            {
+                label: "My Account", url: "/profile", icon: <User />, child_elements: [
+                    { label: "Manage Account", url: "/profile" },
+                    { label: "Address Book", url: "/profile/address" },
+                    // { label: "Add Address", url: "/profile/address/form/add" },
+                ]
+            },
+            {
+                label: "My Orders", url: "/profile/orders/all", icon: <ScrollText />,
+                child_elements: [
+                    { label: "Pending Orders", url: "/profile/orders/pending" },
+                    { label: "Orders History", url: "/profile/orders/all" },
+                ]
+            },
+            {
+                label: "My Reviews", url: "/profile/reviews/list", icon: <MessageCircle />,
+                child_elements: [
+                    { label: "To Review", url: "/profile/reviews/history", },
+                    { label: "View Reviews", url: "/profile/reviews/list", },
+                ]
+            },
+        ]
+    }
+
     const [sideBarLinks, setSideBarLinks] = useState([
         {
             label: "Paytusker Home", url: "/",
@@ -39,21 +87,9 @@ export const MobileSideBar = ({ active }) => {
     }
 
 
-
-
     useEffect(() => {
         if (isAuthenticated) {
-            setSideBarLinks([
-                {
-                    label: "Paytusker Home", url: "/", child_elements: [
-                        { label: "Manage Account", url: "/profile" },
-                        { label: "Address Book", url: "/profile/address" },
-                        { label: "My Orders", url: "/profile/orders/pending" },
-                    ]
-                }
-            ])
-
-
+            setSideBarLinks(sidebarLinks[currentRole]);
         }
         const categories = productsCategories.data?.categories?.physical
         if (categories) {

@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Pagination, Autocomplete, Select, Input, InputDate } from "@components";
+import { Pagination, Select, Input, InputDate } from "@components";
 import { ScrollToTop, serializeFormData } from "@utils";
 
-// import { } from "@components";
 
 const renderField = (field, key) => {
     if (field?.type === "text") {
@@ -36,13 +35,13 @@ const renderField = (field, key) => {
             key={key}
             data={field}
         />
-
     }
 
 }
 
 import { useGetSellerProductListingQuery } from "@api";
 import noImage from "@src/assets/noImage.png";
+import { ChevronDown, ChevronUp, Pen } from "lucide-react";
 
 
 const listingFilterFields = [
@@ -73,6 +72,13 @@ const listingFilterFields = [
         "options": ["", { "label": "Enabled", "value": 0 }, { "label": "Disabled", "value": 1 }]
     },
     {
+        "name": "is_digital",
+        "label": "Digital Items",
+        "placeholder": "",
+        "type": "select",
+        "options": ["", { "label": "Enabled", "value": 0 }, { "label": "Disabled", "value": 1 }]
+    },
+    {
         "name": "creation",
         "label": "Created on",
         "type": "date"
@@ -90,16 +96,16 @@ const ProductListing = () => {
         if (listingAPI.data) {
             const { data } = listingAPI;
             const { results } = data;
-            setProductsData(results || []);
+
+            setExpandedRows([]);
+            results.length > 0 ? setProductsData(results) : setProductsData(null);
             setPaginationObject({
                 currentPage: data.current_page,
                 pageCount: data.total_pages,
             })
             ScrollToTop();
         }
-        else if (!listingAPI.isLoading && !listingAPI.isSuccess) {
-            console.warn("test")
-        }
+
     }, [listingAPI])
 
     const handleFiltersSubmit = (e) => {
@@ -111,9 +117,16 @@ const ProductListing = () => {
                 filterObject[key] = serializedData[key]
             }
         })
-        // console.log("abc")
         setQueryPayload({ "filters": JSON.stringify(filterObject) })
     }
+    const [expandedRows, setExpandedRows] = useState({});
+
+    const toggleRow = (index) => {
+        setExpandedRows(prevState => ({
+            ...prevState,
+            [index]: !prevState[index]
+        }));
+    };
     return (
         <div>
             <div className="mb-4">
@@ -132,7 +145,7 @@ const ProductListing = () => {
 
                 <div>
                     <div>
-                        <h2 className="text-lg mt-4 mb-2">Filters</h2>
+                        <h2 className="text-lg mt-4 mb-2 ">Filters</h2>
                     </div>
                     <form onSubmit={(e) => handleFiltersSubmit(e)}>
                         <div className="flex align-items-center gap-1">
@@ -158,7 +171,7 @@ const ProductListing = () => {
                 </div>
             </div>
             <table className="table w-100 small-sm">
-                <thead >
+                <thead>
                     <tr>
                         <th width="2%">Sr</th>
                         <th className="w-40">Product</th>
@@ -168,38 +181,103 @@ const ProductListing = () => {
                         <th className="w-10 hidden-sm">Status</th>
                         <th className="w-10 hidden-sm">Date Created</th>
                         <th className="w-10 hidden-sm">Date Modified</th>
+                        <th className="w-10 hidden-sm">Edit</th>
                     </tr>
                 </thead>
                 <tbody>
+                    {productsData ? productsData.map((val, index) => {
+                        if (val.item_type == "002" && val.variants) {
+                            return (
+                                <>
+                                    <tr key={index}>
+                                        <td >{++index}</td>
+                                        <td colSpan={7} >
+                                            <div className="flex align-items-center gap-1">
+                                                <button onClick={() => toggleRow(index)} style={{ cursor: "pointer" }}
+                                                >
+                                                    {expandedRows[index] ? <ChevronUp /> : <ChevronDown />}
+                                                </button>
+                                                <div>
+                                                    <b>
+                                                        {val.product_name}
+                                                    </b>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
 
-                    {productsData?.map((val, index) => (
-                        <tr key={index}>
-                            <td>{index + 1}</td>
-                            <td>
-                                <Link className="cursor-pointer" key={index} to={`/seller/product/edit/${val.id}`}  >
-                                    <div className="flex gap"
-                                        style={{ height: "70px" }}
-                                    >
-                                        {
-                                            val?.item_type != "002" ?
-                                                <img src={val?.cover_image || noImage}
-                                                    alt="" style={{ width: "50px", objectFit: "contain", flexShrink: 0 }} />
-                                                : <></>
-                                        }
-                                        <div style={{ height: "100%", overflow: "hidden", "margin": "0 0 .25rem" }}>
-                                            {val.product_name}
+
+                                            <Link className="cursor-pointer" to={`/seller/product/edit/${val?.id}`}>
+                                                <Pen className="icon-sm" strokeWidth={2.25} />
+                                                {/* <Pen /> */}
+                                            </Link>
+                                        </td>
+                                    </tr>
+
+                                    {expandedRows[index] && val.variants.map((variant, sr) => (
+                                        <tr key={sr}>
+                                            <td><b>{++sr}</b></td>
+                                            <td>
+                                                <div className="flex gap" style={{ height: "70px" }}>
+                                                    {variant.item_type !== "002" &&
+                                                        <img src={variant.cover_image || noImage}
+                                                            alt="" style={{ width: "50px", objectFit: "contain", flexShrink: 0 }} />}
+                                                    <div style={{ height: "100%", overflow: "hidden", margin: "0 0 .25rem" }}>
+                                                        {variant.product_name}
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td className="hidden-sm text-right">{variant.stock}</td>
+                                            <td className="text-right">{variant.net_price}</td>
+                                            <td className="hidden-sm">{variant.item_type_name}</td>
+                                            <td className="hidden-sm">{variant.disabled ? "Disabled" : "Enabled"}</td>
+                                            <td className="hidden-sm">{variant.creation}</td>
+                                            <td className="hidden-sm">{variant.modified}</td>
+                                            <td>
+                                                <Link className="cursor-pointer" to={`/seller/product/edit/${variant?.id}`}>
+                                                    <Pen className="icon-sm" strokeWidth={2.25} />
+                                                </Link>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </>
+
+                            )
+                        }
+                        return (
+                            <tr key={index}>
+                                <td>{index + 1}</td>
+                                <td>
+                                    <Link className="cursor-pointer" key={index} to={`/seller/product/edit/${val.id}`}  >
+                                        <div className="flex gap"
+                                            style={{ height: "70px" }}
+                                        >
+                                            {
+                                                val?.item_type != "002" ?
+                                                    <img src={val?.cover_image || noImage}
+                                                        alt="" style={{ width: "50px", objectFit: "contain", flexShrink: 0 }} />
+                                                    : <></>
+                                            }
+                                            <div style={{ height: "100%", overflow: "hidden", "margin": "0 0 .25rem" }}>
+                                                {val.product_name}
+                                            </div>
                                         </div>
-                                    </div>
-                                </Link>
-                            </td>
-                            <td className="hidden-sm text-right">{val.stock} </td>
-                            <td className="text-right">{val.net_price} </td>
-                            <td className="hidden-sm">{val.item_type_name} </td>
-                            <td className="hidden-sm">{val.disabled ? "Disabled" : "Enabled"} </td>
-                            <td className="hidden-sm">{val.creation} </td>
-                            <td className="hidden-sm">{val.modified} </td>
-                        </tr>
-                    ))}
+                                    </Link>
+                                </td>
+                                <td className="hidden-sm text-right">{val.stock} </td>
+                                <td className="text-right">{val.net_price} </td>
+                                <td className="hidden-sm">{val.item_type_name} </td>
+                                <td className="hidden-sm">{val.disabled ? "Disabled" : "Enabled"} </td>
+                                <td className="hidden-sm">{val.creation} </td>
+                                <td className="hidden-sm">{val.modified} </td>
+                                <td>
+                                    <Link className="cursor-pointer" to={`/seller/product/edit/${val?.id}`}>
+                                        <Pen className="icon-sm" strokeWidth={2.25} />
+                                    </Link>
+                                </td>
+                            </tr>
+                        )
+                    }) : <><tr><td colSpan={8} className="text-center">No products found</td></tr></>}
                 </tbody>
 
             </table>
@@ -212,7 +290,7 @@ const ProductListing = () => {
                     }))}
                 />
             </div>
-        </div>
+        </div >
     )
 }
 

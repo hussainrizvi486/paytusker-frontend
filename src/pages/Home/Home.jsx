@@ -33,6 +33,7 @@ const Home = () => {
                 setProducts(data?.home_products || {});
                 setDigitalProducts(data?.digital_products || []);
             }
+
         } catch (error) {
             toast.error("Internal Server Error");
         } finally { setLoading(false); }
@@ -54,37 +55,6 @@ const Home = () => {
                 <section>
                     <HomeCarousel />
                 </section>
-
-                {loading ? <CategoriesLoadingGrid /> :
-                    <section className="home-section">
-                        <div className="section-heading">Categories</div>
-                        <div className="home-categories-row">
-                            {productCategories.data?.categories?.physical?.map((val, i) => <CategoryCard key={i}
-                                category={val?.name}
-                                image={val?.image}
-                                id={val?.id}
-                            />)}
-                        </div>
-                    </section>}
-
-
-
-                {loading ? (<ProductLoadingGrid />) : (
-                    Object.keys(products)?.map((key, i) => (
-                        products[key].length > 0 && (
-                            <section className="home-section" key={i}>
-                                <div className="section-heading">{key}</div>
-                                <div className="home-section-products products-grid">
-                                    {products[key].map((val, u) => (
-                                        <ProductCard product={val} key={u} />
-                                    ))}
-                                </div>
-                            </section>
-                        )
-                    ))
-                )}
-
-
 
                 <section className="home-section">
                     <section className="home-section">
@@ -111,8 +81,34 @@ const Home = () => {
                     </section>
                 </section>
 
-            </main >
+                {loading ? <CategoriesLoadingGrid /> :
+                    <section className="home-section">
+                        <div className="section-heading">Categories</div>
+                        <div className="home-categories-row">
+                            {productCategories.data?.categories?.physical?.map((val, i) => <CategoryCard key={i}
+                                category={val?.name}
+                                image={val?.image}
+                                id={val?.id}
+                            />)}
+                        </div>
+                    </section>}
 
+                {loading ? (<ProductLoadingGrid />) : (
+                    Object.keys(products)?.map((key, i) => (
+                        products[key].length > 0 && (
+                            <section className="home-section" key={i}>
+                                <div className="section-heading">{key}</div>
+                                <div className="home-section-products products-grid">
+                                    {products[key].map((val, u) => (
+                                        <ProductCard product={val} key={u} />
+                                    ))}
+                                </div>
+                            </section>
+                        )
+                    ))
+                )}
+
+            </main>
         </>
 
     )

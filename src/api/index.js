@@ -7,6 +7,8 @@ import { sellerApiSlice } from "./sellerApi";
 export { apiSlice } from "./baseApi"
 
 
+export default apiSlice;
+
 export const { useGetHomeCategoriesQuery } = apiSlice;
 export const {
     useAddUserAddressMutation,
@@ -36,4 +38,4 @@ export const {
 export const { useGetProductCategoriesQuery } = ProductApiSlice;
 
 
-export const { useGetSellerProductListingQuery, useCreateSellerProductMutation, useUpdateSellerProductMutation, useProductUploadDetailsQuery} = sellerApiSlice;
+export const { useGetSellerProductListingQuery, useCreateSellerProductMutation, useUpdateSellerProductMutation, useProductUploadDetailsQuery } = sellerApiSlice;

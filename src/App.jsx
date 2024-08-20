@@ -1,6 +1,6 @@
 import axios from "axios";
 import { Suspense, lazy, useEffect, useState } from "react";
-import { Route, Routes, useLocation, Navigate } from "react-router-dom";
+import { Route, Routes, useLocation, Navigate, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Freeze } from "./components";
 import { Footer, Header, MobileSideBar } from "./layouts";
@@ -43,10 +43,16 @@ function App() {
   const dispatch = useDispatch();
   const mobileSideOpen = useSelector((state) => state.appUi.MobileSideOpen);
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-  const cartData = useGetCartDetailsQuery();
-
+  const cartData = useGetCartDetailsQuery(undefined, { skip: !isAuthenticated });
   useEffect(() => { }, [isAuthenticated]);
-  useEffect(() => { if (cartData.data) { dispatch(updateCart(cartData.data)) } }, [cartData.data, dispatch]);
+
+  useEffect(() => {
+    if (cartData) {
+      if (cartData.data) {
+        dispatch(updateCart(cartData.data))
+      }
+    }
+  }, [cartData]);
 
   const LoadingChildren = () => {
     return (
@@ -79,7 +85,19 @@ function App() {
             <Route path="/about-us" element={<AboutUs />} />
             <Route path="/logout" element={<LogOutPage />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-            <Route path="*" element={<p>Path not resolved</p>} />
+            <Route path="*" element={<>
+              <Header />
+              <div className="mx-auto flex justify-content-center">
+                <Link to={"/"}>
+                  <div className="text-5xl mt-10">SORRY</div>
+                  <div className="text-xxl">
+                    <div>we couldn&apos;t find that page </div>
+                    <div>Try searching or to Paytusker&apos;s home page.</div>
+                  </div>
+                  <img src="https://cdn-icons-png.flaticon.com/512/14040/14040336.png" alt="Not found image" width={300} className="mx-auto mt-4" />
+                </Link>
+              </div>
+            </>} />
 
 
             <Route element={<ProtectedRoute allowRole={"seller"} redirectTo="/" />}>

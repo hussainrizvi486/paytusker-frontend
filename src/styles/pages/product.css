@@ -331,3 +331,19 @@
 .product-reviews__container {
     max-width: 600px;
 }
+
+.digital-product-tag {
+    width: max-content;
+    color: #434343;
+    font-weight: 600;
+    font-size: .75rem;
+    display: flex;
+    align-items: center;
+    background-color: #cccccc;
+    border-radius: .5rem;
+    padding: .2rem .5rem;
+    text-transform: uppercase;
+    background-color: #c8f6e5;
+}
+
+.digital-product-tag svg {}

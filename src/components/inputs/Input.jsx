@@ -32,10 +32,11 @@ export const Input = forwardRef(function Input({ data, onChange = () => { } }, r
     }
 
     inputParamsObject.type = fieldtype;
-
     return (
         <div className="input-box" >
-            <div className="input-box__label">{data?.label || ""} {mandatoryFlag}</div>
+            {!data?.hideLabel ? <div className="input-box__label">{data?.label || ""}  {mandatoryFlag}</div> : <></>}
+
+            {/* <div className="input-box__label">{data?.label || ""} {mandatoryFlag}</div> */}
             <div className="input-box__input">
                 <input {...inputParamsObject} ref={ref} />
             </div>
@@ -54,7 +55,7 @@ export const InputDate = ({ data, onChange = () => { } }) => {
 
     return (
         <div className="input-box" >
-            <div className="input-box__label">{data?.label || ""} </div>
+            {!data.hideLabel ? <div className="input-box__label">{data?.label || ""} </div> : <></>}
             <div className="input-box__input">
                 <input {...inputParamsObject} />
             </div>

@@ -102,7 +102,7 @@ select:focus-visible {
 }
 
 .auth-form__msg-container {
-    margin-block: 1rem .5rem;
+    margin-block: .5rem;
     font-weight: 500;
     font-size: var(--text-sm);
 }
@@ -132,7 +132,7 @@ select:focus-visible {
 }
 
 .auth-form__submit-btn {
-    margin-top: 1.5rem;
+    margin-top: .5rem;
 }
 
 .auth-form-col {

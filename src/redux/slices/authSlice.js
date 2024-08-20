@@ -23,7 +23,7 @@ export const getAuthUser = () => {
     let isAuthenticated = false;
     let accessToken = null;
     let refreshToken = null;
-    let roles = null
+    let roles = []
 
     if (localStorage.getItem("authTokens")) {
         const tokensObj = JSON.parse(localStorage.getItem("authTokens"))
