@@ -176,7 +176,11 @@ select:focus-visible {
 .spinner.sm {
     --spinner-size: 20px;
     border-width: 2px;
+}
 
+.spinner.md {
+    --spinner-size: 30px;
+    border-width: 3px;
 }
 
 @keyframes rotation {

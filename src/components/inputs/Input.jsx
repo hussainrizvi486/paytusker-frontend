@@ -35,10 +35,8 @@ export const Input = forwardRef(function Input({ data, onChange = () => { } }, r
     return (
         <div className="input-box" >
             {!data?.hideLabel ? <div className="input-box__label">{data?.label || ""}  {mandatoryFlag}</div> : <></>}
-
-            {/* <div className="input-box__label">{data?.label || ""} {mandatoryFlag}</div> */}
             <div className="input-box__input">
-                <input {...inputParamsObject} ref={ref} />
+                <input {...inputParamsObject} ref={ref} required={Boolean(data?.mandatory)} />
             </div>
         </div>
     )

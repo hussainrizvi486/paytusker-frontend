@@ -20,6 +20,9 @@ import { SidebarLayout } from "./layouts/SidebarLayout";
 const Home = lazy(() => import("./pages/home/Home"));
 const Product = lazy(() => import("./pages/product/index"));
 const LoginPage = lazy(() => import("./pages/auth/LoginPage"));
+const PasswordResetPage = lazy(() => import("./pages/auth/PasswordReset"));
+
+
 const Cart = lazy(() => import("./pages/cart/Cart"));
 const Address = lazy(() => import("./pages/profile/Address"));
 const Profile = lazy(() => import("./pages/profile/Profile"));
@@ -80,6 +83,8 @@ function App() {
             <Route path="/product/:id" element={<Product />} />
             <Route path="/search" element={<Search />} />
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/login/password/reset" element={<PasswordResetPage />} />
+
             <Route path="/register" element={<Register />} />
             <Route path="/faqs" element={<FAQsPage />} />
             <Route path="/about-us" element={<AboutUs />} />

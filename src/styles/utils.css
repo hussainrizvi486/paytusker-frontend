@@ -210,6 +210,10 @@
     width: max-content;
 }
 
+.w-max {
+    width: max-content;
+}
+
 /* OTHER */
 .cursor-pointer {
     cursor: pointer;
@@ -441,6 +445,20 @@
 
 .text-success {
     color: #35a700;
+}
+
+
+/*  */
+.border-rounded-sm {
+    border-radius: 0.125rem;
+}
+
+.border-rounded {
+    border-radius: 0.25rem;
+}
+
+.border-rounded-md {
+    border-radius: 0.375rem;
 }
 
 @media (max-width:768px) {

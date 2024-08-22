@@ -35,3 +35,16 @@ export const serializeFormData = (form) => {
 export const ScrollToTop = () => {
     window.scrollTo(0, 0)
 }
+
+export const validatePassword = (password, confirm_password) => {
+    if (/\s/.test(password)) {
+        return "Remove spaces from password!";
+    }
+    if (password.length < 8) {
+        return "Minimum password length is 8 characters";
+    }
+    if (password !== confirm_password) {
+        return "Passwords do not match!";
+    }
+    return null;
+};

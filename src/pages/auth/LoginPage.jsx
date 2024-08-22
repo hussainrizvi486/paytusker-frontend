@@ -1,10 +1,9 @@
-import { useEffect, useRef, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import toast from "react-hot-toast";
 
 import { serializeFormData } from "@utils";
-import { Button } from "@components";
 import { useLoginUserMutation } from "@api";
 import { Header } from "../../layouts";
 import { LogIn } from "../../redux/slices/authSlice";
@@ -18,21 +17,23 @@ const LoginPage = () => {
     const [pageLoading, setPageLoading] = useState(false);
     const [UseLoginUser, LoginUserResponse] = useLoginUserMutation();
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
 
     useEffect(() => {
         setPageLoading(LoginUserResponse.isLoading);
         if (LoginUserResponse.isSuccess) {
-            setFormMsg({ message: "Login Success", "type": "success" });
+            setFormMsg({ message: "Login Success", type: "success" });
             toast.success("Login Success");
         }
 
         if (LoginUserResponse.isError) {
             const { message } = LoginUserResponse.error.data;
-            setFormMsg({ "message": message, "type": "error" });
+            setFormMsg({ message: message, type: "error" });
             toast.error(message);
         }
     }, [LoginUserResponse])
+
 
     const handlePasswordReset = async (e) => {
         e.preventDefault();
@@ -41,7 +42,11 @@ const LoginPage = () => {
         try {
             const request = await axios.post(API_URL + "api/user/password/forgot", formData)
             if (request.data && request.status == 200) {
+                setFormMsg({ "message": "Password reset details have been sent to your email.", "type": "success" })
                 toast.success("Password reset details have been sent to your email.");
+                setTimeout(() => {
+                    navigate("/");
+                }, 3000);
             }
             else {
                 toast("Something went wrong please try again later", { icon: "⚠️" });
@@ -55,7 +60,6 @@ const LoginPage = () => {
                 })
             }
             else {
-
                 toast.error("Internal server error!");
             }
 

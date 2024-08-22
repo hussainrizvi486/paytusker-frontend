@@ -8,10 +8,10 @@ export const AuthForm = ({ title, subPara, buttonLabel, fields, Tag, FormMsg, Bo
         <form className="auth-form" onSubmit={(e) => handleSubmit(e)}>
             <div className="text-center auth-form__upper-text">
                 <h1>{title}</h1>
-                <p>{subPara}.</p>
+                <p>{subPara || ""}</p>
             </div>
             <div className="auth-form__fields-container">
-                {fields.map((field, index) => (
+                {fields?.map((field, index) => (
                     <div key={index} className="input-box">
                         <div className="input-box__input">
                             <RenderField field={field} />
