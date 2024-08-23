@@ -1,13 +1,15 @@
-import { useEffect, useState } from "react"
-import { useParams, Link, useNavigate } from "react-router-dom"
-import { ArrowBigDownDash, ArrowLeft, ArrowRight, BadgeCheck, ChevronLeft, ChevronRight, } from "lucide-react";
 import axios from "axios"
 import toast from "react-hot-toast";
+import { useEffect, useState } from "react";
+import { useParams, Link, useNavigate } from "react-router-dom"
+import { Helmet } from "react-helmet-async";
+import { ArrowBigDownDash, ArrowLeft, ArrowRight, BadgeCheck, ChevronLeft, ChevronRight, } from "lucide-react";
+
+import { Button, Freeze, Rating } from "@components";
+import { useAddItemToCartMutation } from "@api";
 import { API_URL } from "../../redux/store";
 import { Header } from "../../layouts";
-import { Button, Freeze, Rating } from "@components";
 import { getUserDetails } from "../../redux/slices/authSlice";
-import { useAddItemToCartMutation } from "@api";
 
 const Page = () => {
     const navigate = useNavigate();
@@ -18,7 +20,7 @@ const Page = () => {
     const [addItemToCart, cartApiResponse] = useAddItemToCartMutation();
 
     const getProductDetail = async () => {
-        setPageLoading(true)
+        setPageLoading(true);
         try {
             const req = await axios.get(`${API_URL}api/product/details`, {
                 params: {
@@ -58,6 +60,11 @@ const Page = () => {
 
     return (
         <div>
+            <Helmet>
+                <title>Paytusker: {productData?.product_name || ""} </title>
+                <meta name="description" content={productData?.product_name || ""} />
+                <meta property="og:image" content={`https://crm.paytusker.com${productData?.cover_image}`} />
+            </Helmet>
             <Freeze
                 show={pageLoading}
                 message={LoadingMessage}

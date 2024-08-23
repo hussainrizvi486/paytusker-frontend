@@ -16,7 +16,6 @@ export const SingleFileInput = ({ name = "", handleChange = () => { }, defaultVa
 
     return (
         <div>
-            {/* <div className="single-file-upload-wrapper"> */}
             <div className="input-file__wrapper single-file__preview-wrapper">
                 <input type="file"
                     // defaultValue={currentFile instanceof Blob || File ? currentFile : undefined}

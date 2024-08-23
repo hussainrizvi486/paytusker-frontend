@@ -4,7 +4,7 @@ import { Route, Routes, useLocation, Navigate, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Freeze } from "./components";
 import { Footer, Header, MobileSideBar } from "./layouts";
-import Logo from "./assets/logo.png";
+// import loading from "/src/loading.png";
 
 import "react-loading-skeleton/dist/skeleton.css";
 import "./styles/main.css";
@@ -13,7 +13,6 @@ import { useGetCartDetailsQuery } from "./api";
 import { closeMobileSideBar } from "./redux/slices/appUiSlice";
 import { updateCart } from "./redux/slices/cartSlice";
 import { LogOut } from "./redux/slices/authSlice";
-import { Helmet } from "react-helmet-async";
 import { ProtectedRoute } from "./utils";
 import { SidebarLayout } from "./layouts/SidebarLayout";
 
@@ -47,7 +46,6 @@ function App() {
   const mobileSideOpen = useSelector((state) => state.appUi.MobileSideOpen);
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const cartData = useGetCartDetailsQuery(undefined, { skip: !isAuthenticated });
-  useEffect(() => { }, [isAuthenticated]);
 
   useEffect(() => {
     if (cartData) {
@@ -61,7 +59,7 @@ function App() {
     return (
       <div>
         <div>
-          <img src={Logo} alt="" style={{ width: "200px" }} />
+          <img src="loading.png" alt="" style={{ width: "200px" }} />
         </div>
       </div>)
   }
@@ -70,14 +68,11 @@ function App() {
     <Suspense fallback={<><Freeze show={true}><LoadingChildren /></Freeze></>}>
 
       <main id="app-container" >
-        <Helmet>
-          <title>Paytusker Home</title>
-          <meta name="description" content="Consumer products & digital assets marketplace" />
-        </Helmet>
 
         <MobileSideBar active={mobileSideOpen} />
         <ScrollToTop />
         <div className="page-container">
+
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/product/:id" element={<Product />} />

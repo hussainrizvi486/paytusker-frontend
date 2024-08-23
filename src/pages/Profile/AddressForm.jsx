@@ -1,14 +1,12 @@
-import { FormInput } from "../../components/form/FormInput";
-import { Select } from "@components";
-import { Header, UserSidebar } from "../../layouts";
-import { useAddUserAddressMutation, useUpdateUserAddressMutation, useGetUserAddressQuery } from "../../api";
 import { useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams, useParams } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
-import { useParams } from "react-router-dom";
 import toast from 'react-hot-toast';
+
+import { Checkbox, Select, FormInput } from "@components";
+import { useAddUserAddressMutation, useUpdateUserAddressMutation, useGetUserAddressQuery } from "@api";
+import { Header, UserSidebar } from "../../layouts";
 import { countries } from "../../webData";
-import { Checkbox } from "@components";
 
 const AddressFormFields = [
     {

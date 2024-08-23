@@ -10,6 +10,7 @@ import { LogIn } from "../../redux/slices/authSlice";
 import { AuthForm } from "./form";
 import axios from "axios";
 import { API_URL } from "../../redux/store";
+import { Helmet } from "react-helmet-async";
 
 const LoginPage = () => {
     const URLParams = useSearchParams()[0]
@@ -92,6 +93,10 @@ const LoginPage = () => {
                 {
                     //  Reset password request form 
                     URLParams.get("reset_password_request") ? <>
+                        <Helmet >
+                            <title>Paytusker Forgot Password</title>
+                        </Helmet>
+
                         <AuthForm
                             title={"Password assistance"}
                             subPara={"Enter the email address associated with your Paytusker account."}
@@ -113,6 +118,10 @@ const LoginPage = () => {
                         /> </> :
                         <>
                             {/* Login user form  */}
+                            <Helmet >
+                                <title>Paytusker Login</title>
+                            </Helmet>
+
                             <AuthForm
                                 title={"Login"}
                                 subPara={"Let’s get into your account."}
@@ -152,58 +161,6 @@ const LoginPage = () => {
                         </>
 
                 }
-
-                {/* 
-                <form className='auth-form' onSubmit={(e) => submitForm(e)}>
-                    <div className="text-center auth-form__upper-text">
-                        <h1>Login</h1>
-                        <p>Let’s get into your account.</p>
-                    </div>
-
-                    <div className="auth-form__fields-container">
-                        <div className="input-box">
-                            <div className="input-box__label"></div>
-                            <div className="input-box__input">
-                                <input type="email" placeholder="Username or Email" ref={userNameRef} className="auth-input" />
-                            </div>
-                        </div>
-                        <div className="input-box">
-                            <div className="input-box__label"></div>
-                            <div className="input-box__input">
-                                <input type="password" placeholder="Password" ref={passwordRef} className="auth-input" />
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div className="text-sm text-right hover-underline">
-                        <Link >
-                            Forgot password?
-                        </Link>
-                    </div>
-
-                    <div className={`auth-form__msg-container auth-msg ${FormMsg?.type || ""}`}>
-                        {FormMsg.message}
-                    </div>
-                    <div>
-                        <div className="btn-container">
-                            <Button
-                                className="auth-form__submit-btn  btn btn-full btn-primary btn-sm"
-                                label="Login"
-                                btnLoading={pageLoading}
-                                onClick={submitForm}
-                                type="submit"
-                            />
-                        </div>
-                        <div className="auth-form__optional-text" >
-                            <Link to="/register">
-                                Don&apos;t have an account ? Register Here
-                            </Link>
-                        </div>
-                    </div>
-
-                </form>
-                 */}
             </div>
         </>
     )
