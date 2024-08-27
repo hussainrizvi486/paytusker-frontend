@@ -1,15 +1,12 @@
-import { FormInput } from "../../components/Form/FormInput";
-import { FormSelect } from "../../components/Form/FormSelect";
-import { Header, UserSidebar } from "../../layouts";
-import { useAddUserAddressMutation, useUpdateUserAddressMutation, useGetUserAddressQuery } from "../../api";
 import { useEffect, useState } from "react";
-import { json, useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams, useParams } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
-import { useParams } from "react-router-dom";
 import toast from 'react-hot-toast';
-import { countries } from "../../webData";
-import { Checkbox } from "../../components";
 
+import { Checkbox, Select, FormInput } from "@components";
+import { useAddUserAddressMutation, useUpdateUserAddressMutation, useGetUserAddressQuery } from "@api";
+import { Header, UserSidebar } from "../../layouts";
+import { countries } from "../../webData";
 
 const AddressFormFields = [
     {
@@ -50,9 +47,9 @@ const AddressFormFields = [
     },
 
     {
-        "fieldname": "address_line_1",
+        "fieldname": "address_line",
         "label": "Street Address",
-        "placeholder": "Apartment, suite, unit, building, floor, etc.",
+        "placeholder": "Apartment, suite, unit, building, floor, etc",
         "fieldtype": "text",
         "mandatory": true,
         "value": ""
@@ -87,19 +84,16 @@ const AddAddress = () => {
     const urlParams = useParams();
     let navigate = useNavigate();
 
-
-
-    useEffect(() => { }, [apiResponse.isSuccess]);
-
-
-    if (apiResponse.isSuccess) {
-        if (searchParams.get("redirect-to")) {
-            navigate(searchParams.get("redirect-to"));
+    useEffect(() => {
+        if (apiResponse.isSuccess) {
+            if (searchParams.get("redirect-to")) {
+                navigate(searchParams.get("redirect-to"));
+            }
+            else {
+                navigate("/profile/address");
+            }
         }
-        else {
-            navigate("/profile/address");
-        }
-    }
+    }, [apiResponse.isSuccess]);
     let pageHeading = urlParams.action === "add" ? "Add New Address" : "Edit";
     const [pageLoading, setPageLoading] = useState(false);
 
@@ -141,8 +135,8 @@ const generateForm = (fields, onSubmit, btnLabel) => {
     const formInputTypes = ["number", "password", "text"]
 
     const handleFormSubmit = (e) => {
-        e.preventDefault()
-        onSubmit(e)
+        e.preventDefault();
+        onSubmit(e);
     }
     return (
         <form className="web-form" onSubmit={(e) => handleFormSubmit(e)} >
@@ -153,8 +147,9 @@ const generateForm = (fields, onSubmit, btnLabel) => {
                     }
 
                     if (val.fieldtype === "select") {
-                        return <FormSelect key={i} data={val} />;
+                        return <Select key={i} data={val} />;
                     }
+
                     if (val.fieldtype === "checkbox") {
                         return <Checkbox key={i} data={val} />;
                     }
@@ -176,26 +171,18 @@ const EditAddressForm = ({ searchParams, useGetUserAddressQuery, addressFormFiel
     const [formLoading, setFormLoading] = useState(isLoading)
 
     const HandleEdit = (e) => {
-        const formDataObj = new FormData(e.target)
+        const formDataObj = new FormData(e.target);
+        const addressObject = { id: addressId };
 
-        const addressObject = {}
         for (const [key, value] of formDataObj.entries()) {
             try {
-                addressObject[key] = JSON.parse(value)
+                addressObject[key] = JSON.parse(value);
             } catch (error) {
-                addressObject[key] = value
-
+                addressObject[key] = value;
             }
-
         }
 
-        const reqBody = {
-            address_object: addressObject,
-            id: addressId,
-            action: "edit"
-        }
-
-
+        const reqBody = addressObject;
         editAddressApi(reqBody)
     };
 

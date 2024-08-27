@@ -1,0 +1,167 @@
+button:disabled {
+    cursor: not-allowed;
+}
+
+.btn {
+    padding: .4rem 1rem;
+    border: none;
+    outline: transparent;
+    cursor: pointer;
+    font-size: var(--text-sm);
+    border-radius: .25rem;
+    font-family: 'Poppins', sans-serif;
+    position: relative;
+}
+
+.btn .spinner {
+    border-color: currentColor;
+    border-bottom-color: transparent;
+}
+
+.btn-label.hidden {
+    visibility: hidden;
+
+}
+
+.btn-loading__wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+}
+
+.btn-loading__wrapper.loading {
+    display: block;
+}
+
+.btn-icon--sm {
+    padding: .45rem;
+}
+
+.btn-sm {
+    padding: 0.25rem .75rem;
+    font-size: var(--text-sm);
+}
+
+.btn-primary {
+    background-color: var(--color-primary);
+    color: #fff;
+}
+
+.btn-success {
+    background-color: #16a34a;
+    color: #fff;
+}
+
+.btn-warning {
+    background-color: #f59e0b;
+    color: #fff;
+}
+
+.btn-info {
+    background-color: #0284c7;
+    color: #fff;
+}
+
+.btn-danger {
+    background-color: var(--color-red);
+    color: var(--color-text-1);
+}
+
+.btn-primary svg {
+    color: #fff;
+}
+
+.btn-primary:focus-visible {
+    background-color: var(--color-primary);
+}
+
+.btn-primary:hover {
+    background-color: #575757;
+}
+
+.btn-full {
+    width: 100%;
+}
+
+.btn-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .5rem;
+    line-height: 1;
+    font-size: var(--text-sm);
+}
+
+.btn-icon svg {
+    height: var(--icon-size-md);
+    width: var(--icon-size-md);
+}
+
+.input {
+    border: none;
+    outline: none;
+    border: 1px solid var(--input-border-color);
+    padding: .4rem .25rem;
+    border-radius: .25rem;
+    font-family: var(--input-font);
+}
+
+.input-sm {
+    width: 5rem;
+}
+
+.link {
+    cursor: pointer;
+    color: #007185;
+}
+
+.link:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.table {
+    border-collapse: collapse;
+}
+
+
+.table td,
+th {
+    padding: var(--table-cells-padding);
+    font-size: var(--text-sm);
+}
+
+.table th {
+    text-align: left;
+}
+
+
+.table tr,
+.table .link-row,
+td,
+th {
+    border: 1px solid var(--table-border-color);
+}
+
+
+.table .link-row {
+    display: table-row;
+    vertical-align: inherit;
+    unicode-bidi: isolate;
+    border-color: inherit;
+}
+
+
+@media (max-width:768px) {
+    .table .hidden-sm {
+        display: none;
+    }
+
+    .small-sm td,
+    th {
+        font-size: var(--text-xs);
+    }
+
+}

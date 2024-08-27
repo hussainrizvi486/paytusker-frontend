@@ -1,26 +1,26 @@
-import { useEffect, useState } from "react"
-import { useParams, Link, useNavigate } from "react-router-dom"
-import { ArrowLeft, ArrowRight, BadgeCheck, ChevronLeft, ChevronRight, } from "lucide-react";
 import axios from "axios"
 import toast from "react-hot-toast";
+import { useEffect, useState } from "react";
+import { useParams, Link, useNavigate } from "react-router-dom"
+import { Helmet } from "react-helmet-async";
+import { ArrowBigDownDash, ArrowLeft, ArrowRight, BadgeCheck, ChevronLeft, ChevronRight, } from "lucide-react";
+
+import { Button, Freeze, Rating } from "@components";
+import { useAddItemToCartMutation } from "@api";
 import { API_URL } from "../../redux/store";
 import { Header } from "../../layouts";
-import { Button, Freeze, Rating } from "../../components";
-import { useAddItemToCartMutation } from "../../api";
 import { getUserDetails } from "../../redux/slices/authSlice";
-import { Helmet } from "react-helmet-async";
 
-const Product = () => {
+const Page = () => {
     const navigate = useNavigate();
     const [productData, setProductData] = useState(null);
-    const [pageLoading, setPageLoading] = useState(true);
-
+    const [pageLoading, setPageLoading] = useState(false);
     let LoadingMessage = "Loading..."
     const { id } = useParams();
     const [addItemToCart, cartApiResponse] = useAddItemToCartMutation();
 
     const getProductDetail = async () => {
-        setPageLoading(true)
+        setPageLoading(true);
         try {
             const req = await axios.get(`${API_URL}api/product/details`, {
                 params: {
@@ -29,14 +29,15 @@ const Product = () => {
             })
             if (req.status === 200) {
                 setProductData(req.data);
-                setPageLoading(false);
             }
         }
-        catch (error) { console.error(error) }
+        catch (error) { navigate("/") }
+        finally {
+            setPageLoading(false);
+        }
     }
 
     useEffect(() => { getProductDetail() }, [id])
-
 
     const addToCart = (product_id) => {
         if (!getUserDetails()[1]) {
@@ -50,7 +51,6 @@ const Product = () => {
             toast.success("Item successfully added to your cart.")
             setPageLoading(cartApiResponse.isLoading)
         }
-
     }, [cartApiResponse.isLoading, cartApiResponse.isSuccess, cartApiResponse.isError])
 
 
@@ -58,19 +58,17 @@ const Product = () => {
         toast.error(String(cartApiResponse.error.data?.message || ""))
     }
 
-    if (pageLoading) return <Freeze
-        message={LoadingMessage}
-        backdropStyle={{ "backgroundColor": "#ffffff7a" }}
-    />
-
     return (
-        <>
+        <div>
             <Helmet>
-                <title>Paytusker.com: {productData?.product_name}</title>
-                <meta name="description" content={productData?.product_name} />
-                <meta name="keywords" content={productData?.product_name} />
-                <meta property="og:image" content={productData?.images[0]} />
+                <title>Paytusker: {productData?.product_name || ""} </title>
+                <meta name="description" content={productData?.product_name || ""} />
+                <meta property="og:image" content={`https://crm.paytusker.com${productData?.cover_image}`} />
             </Helmet>
+            <Freeze
+                show={pageLoading}
+                message={LoadingMessage}
+            />
             <Header />
             <main className="product-page_main">
                 <section className="product-page__display-section">
@@ -80,6 +78,10 @@ const Product = () => {
 
                     <section className="product-info__details">
                         <div className="product-info__details-wrapper">
+                            {
+                                productData?.is_digital ?
+                                    <div className="digital-product-tag"><ArrowBigDownDash className="icon-md" /> Digital Product </div> : <></>
+                            }
                             <div className="product-name">
                                 {productData?.product_name}
                             </div>
@@ -87,20 +89,20 @@ const Product = () => {
                                 {productData?.category || ""}
                             </div>
                             <div className="product-price" >
-                                {productData.formatted_price}
+                                {productData?.formatted_price}
                             </div>
                             <div className="product-rating-wrapper">
 
                                 <Rating rating={productData?.rating || 0} />
                                 <div className="font-bold">{parseInt(productData?.rating || 0).toFixed(1)}</div>
                             </div>
-                            {productData.product_varients ?
+                            {productData?.product_varients ?
                                 <>
                                     <br />
                                     <br />
                                     <div className="text-sm font-medium">Select Options</div>
                                     <div className="product-variants__wrapper">
-                                        {productData.product_varients.map((val, index) => (
+                                        {productData?.product_varients.map((val, index) => (
                                             <ProductVariantBox data={val} key={index} />
                                         ))}
                                     </div>
@@ -170,8 +172,8 @@ const Product = () => {
                 {
                     productData?.product_reviews.length > 0 ?
                         <section className="product-reviews">
-                            <div className="section-heading">Top Cusomer reviews</div>
-                            <div>
+                            <div className="section-heading">Customer reviews</div>
+                            <div className="product-reviews__container">
                                 {productData?.product_reviews?.map((val, i) =>
                                     <ReviewCard key={i} data={val} />
                                 )}
@@ -179,11 +181,11 @@ const Product = () => {
                         </section> : <></>
                 }
             </main>
-        </>
+        </div>
     )
 }
 
-export default Product
+export default Page
 
 const ProductVariantBox = ({ data }) => {
     const { id } = useParams();

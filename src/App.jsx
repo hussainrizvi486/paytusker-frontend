@@ -1,95 +1,119 @@
 import axios from "axios";
 import { Suspense, lazy, useEffect, useState } from "react";
-import { Route, Routes, useLocation, Outlet, Navigate } from "react-router-dom";
+import { Route, Routes, useLocation, Navigate, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Freeze } from "./components";
 import { Footer, Header, MobileSideBar } from "./layouts";
-import Logo from "./assets/logo.png";
+// import loading from "/src/loading.png";
 
 import "react-loading-skeleton/dist/skeleton.css";
-import "./styles/global.css";
 import "./styles/main.css";
-import "./styles/components.css";
-import "./styles/reset.css";
-import "./styles/layout.css";
-import "./styles/forms.css";
-import "./styles/pages/home.css";
-import "./styles/pages/cart.css";
-import "./styles/pages/orders.css";
-import "./styles/pages/profile.css";
-import "./styles/utils.css";
 
 import { useGetCartDetailsQuery } from "./api";
 import { closeMobileSideBar } from "./redux/slices/appUiSlice";
 import { updateCart } from "./redux/slices/cartSlice";
 import { LogOut } from "./redux/slices/authSlice";
-import { Helmet } from "react-helmet-async";
+import { ProtectedRoute } from "./utils";
+import { SidebarLayout } from "./layouts/SidebarLayout";
 
-const Home = lazy(() => import("./pages/Home/Home"));
-const Product = lazy(() => import("./pages/Product/Product"));
-const LoginPage = lazy(() => import("./pages/LoginPage/LoginPage"));
-const Cart = lazy(() => import("./pages/Cart/Cart"));
-const Address = lazy(() => import("./pages/Profile/Address"));
-const Profile = lazy(() => import("./pages/Profile/Profile"));
-const AddressForm = lazy(() => import("./pages/Profile/AddressForm"));
-const Register = lazy(() => import("./pages/Register/Register"));
-const Search = lazy(() => import("./pages/Search/Search"));
-const OrdersListPage = lazy(() => import("./pages/Orders/Orders"));
-const OrdersDetailPage = lazy(() => import("./pages/Orders/Details"));
-const CheckOut = lazy(() => import("./pages/CheckOut/CheckOut"));
-const VourchersPage = lazy(() => import("./pages/Profile/Vourchers"));
-const ReviewsPage = lazy(() => import("./pages/Profile/Reviews"));
+const Home = lazy(() => import("./pages/home/Home"));
+const Product = lazy(() => import("./pages/product/index"));
+const LoginPage = lazy(() => import("./pages/auth/LoginPage"));
+const PasswordResetPage = lazy(() => import("./pages/auth/PasswordReset"));
+
+
+const Cart = lazy(() => import("./pages/cart/Cart"));
+const Address = lazy(() => import("./pages/profile/Address"));
+const Profile = lazy(() => import("./pages/profile/Profile"));
+const AddressForm = lazy(() => import("./pages/profile/AddressForm"));
+const Register = lazy(() => import("./pages/auth/Register"));
+const Search = lazy(() => import("./pages/search/Search"));
+const OrdersListPage = lazy(() => import("./pages/orders/Orders"));
+const OrdersDetailPage = lazy(() => import("./pages/orders/Details"));
+const VourchersPage = lazy(() => import("./pages/profile/Vourchers"));
+const ReviewsPage = lazy(() => import("./pages/profile/Reviews"));
 const FAQsPage = lazy(() => import("./pages/CustomerSupport/FAQsPage"));
+
+
+const SellerOrdersListingPage = lazy(() => import("./pages/seller/orders/ListOrders"));
+const SellerProductUploadPage = lazy(() => import("./pages/seller/products/UploadProduct"))
+const SellerProductEditPage = lazy(() => import("./pages/seller/products/EditProduct"))
+const SellerProductListing = lazy(() => import("./pages/seller/products/ProductListing"))
 
 
 function App() {
   const dispatch = useDispatch();
   const mobileSideOpen = useSelector((state) => state.appUi.MobileSideOpen);
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-  const cartData = useGetCartDetailsQuery();
+  const cartData = useGetCartDetailsQuery(undefined, { skip: !isAuthenticated });
 
-
-  useEffect(() => { }, [isAuthenticated])
-  useEffect(() => { if (cartData.data) { dispatch(updateCart(cartData.data)) } }, [cartData.data, dispatch])
+  useEffect(() => {
+    if (cartData) {
+      if (cartData.data) {
+        dispatch(updateCart(cartData.data))
+      }
+    }
+  }, [cartData]);
 
   const LoadingChildren = () => {
-    return (<div>
+    return (
       <div>
-        <img src={Logo} alt=""
-          style={{ width: "200px" }} />
-      </div>
-    </div>)
+        <div>
+          <img src="loading.png" alt="" style={{ width: "200px" }} />
+        </div>
+      </div>)
   }
 
   return (
-    <Suspense fallback={<><Freeze><LoadingChildren /></Freeze></>}>
+    <Suspense fallback={<><Freeze show={true}><LoadingChildren /></Freeze></>}>
+
       <main id="app-container" >
-        <Helmet>
-          <title>Paytusker Home</title>
-          <meta name="description" content="Consumer products & digital assets marketplace" />
-        </Helmet>
+
         <MobileSideBar active={mobileSideOpen} />
         <ScrollToTop />
         <div className="page-container">
+
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/product/:id" element={<Product />} />
             <Route path="/search" element={<Search />} />
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/login/password/reset" element={<PasswordResetPage />} />
+
             <Route path="/register" element={<Register />} />
-            {/* <Route path="/privacy" element={<PrivacyPolicyPage />} /> */}
             <Route path="/faqs" element={<FAQsPage />} />
             <Route path="/about-us" element={<AboutUs />} />
             <Route path="/logout" element={<LogOutPage />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-            <Route path="*" element={<p>Path not resolved</p>} />
+            <Route path="*" element={<>
+              <Header />
+              <div className="mx-auto flex justify-content-center">
+                <Link to={"/"}>
+                  <div className="text-5xl mt-10">SORRY</div>
+                  <div className="text-xxl">
+                    <div>we couldn&apos;t find that page </div>
+                    <div>Try searching or to Paytusker&apos;s home page.</div>
+                  </div>
+                  <img src="https://cdn-icons-png.flaticon.com/512/14040/14040336.png" alt="Not found image" width={300} className="mx-auto mt-4" />
+                </Link>
+              </div>
+            </>} />
 
-            <Route element={<ProtectedRoute isAuthenticated={isAuthenticated} />}>
+
+            <Route element={<ProtectedRoute allowRole={"seller"} redirectTo="/" />}>
+              <Route element={<SidebarLayout />}>
+                <Route path="/seller/product/upload" element={<SellerProductUploadPage />} />
+                <Route path="/seller/product/list" element={<SellerProductListing />} />
+                <Route path="/seller/product/edit/:id" element={<SellerProductEditPage />} />
+                <Route path="/seller/order/list" element={<SellerOrdersListingPage />} />
+              </Route>
+            </Route>
+
+            <Route element={<ProtectedRoute />}>
               <Route path="/cart" element={<Cart />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/profile/address" element={<Address />} />
               <Route path="/profile/address/form/:action" element={<AddressForm />} />
-              <Route path="/checkout" element={<CheckOut />} />
               <Route path="/profile/orders/:status" element={<OrdersListPage />} />
               <Route path="/profile/orders/details/:id" element={<OrdersDetailPage />} />
               <Route path="/profile/vourchers" element={<VourchersPage />} />
@@ -116,19 +140,10 @@ function ScrollToTop() {
 }
 
 
-function ProtectedRoute({ isAuthenticated }) {
-  if (!isAuthenticated) return <Navigate to={"/login"} />
-  return <Outlet />
-}
-
 function LogOutPage() {
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(LogOut())
-    window.location.href = "/"
-  }, [dispatch])
-  return <></>
+  useEffect(() => { dispatch(LogOut()) }, [dispatch])
+  return <Navigate to={"/"} />
 }
 
 
@@ -180,7 +195,6 @@ export const AboutUs = () => {
         <p><span style={{ fontSize: '14px', }}>Paytusker LLC P.O Box 102442 Denver, Co 80250</span></p>
         <p><a href="mailto:sales@paytusker.com" rel="noopener noreferrer" style={{ fontSize: '14px', }}>sales@paytusker.com</a></p>
       </div>
-
 
     </main>
   </>

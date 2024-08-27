@@ -1,8 +1,10 @@
 import { Spinner } from "../Loaders/Spinner";
 
-export const Button = ({ onClick, btnLoading = false, className = "", type = "button", label = "Label" }) => {
+export const Button = ({ onClick = () => { }, btnLoading = false, className = "", type = "button", label = "Label" }) => {
     return (
-        <button className={`btn ${className}`}
+        <button
+            disabled={Boolean(btnLoading)}
+            className={`btn ${className}`}
             onClick={(e) => onClick(e)}
             type={type}
         >

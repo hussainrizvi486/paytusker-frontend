@@ -3,8 +3,11 @@ import { orderApiSlice } from "./orderApi";
 import { cartApiSlice } from "./cartApi";
 import { apiSlice } from "./baseApi";
 import { ProductApiSlice } from "./productApi";
+import { sellerApiSlice } from "./sellerApi";
 export { apiSlice } from "./baseApi"
 
+
+export default apiSlice;
 
 export const { useGetHomeCategoriesQuery } = apiSlice;
 export const {
@@ -13,7 +16,9 @@ export const {
     useGetUserAddressQuery,
     useGetUserDetailsQuery,
     useLoginUserMutation,
-    useUpdateUserPasswordMutation
+    useUpdateUserPasswordMutation,
+    useDeleteUserAddressMutation
+
 } = userApiSlice;
 
 export const {
@@ -31,3 +36,6 @@ export const {
 } = cartApiSlice;
 
 export const { useGetProductCategoriesQuery } = ProductApiSlice;
+
+
+export const { useGetSellerProductListingQuery, useCreateSellerProductMutation, useUpdateSellerProductMutation, useProductUploadDetailsQuery } = sellerApiSlice;

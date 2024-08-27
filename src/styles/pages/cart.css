@@ -61,6 +61,7 @@
     margin-bottom: 1rem;
     border-radius: .25rem;
     box-shadow: 0 0 10px #e1e1e1;
+    border: 1px solid #cacaca;
 }
 
 .cart-item-card .cart-item-card__image-container {
@@ -88,6 +89,7 @@
 
 .cart-order-summary-container {
     padding: 1rem .5rem;
+    border: 1px solid #cacaca;
 }
 
 .order-summary__title {
@@ -95,6 +97,7 @@
     font-weight: 500;
     color: #434343;
     margin-bottom: 1rem;
+
 }
 
 .cart-page {

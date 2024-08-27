@@ -10,7 +10,7 @@ import { getUserDetails } from "../../redux/slices/authSlice"
 import { ToggleMobileSideBar } from "../../redux/slices/appUiSlice"
 import { API_URL } from "../../redux/store"
 import { UpdateQuery, UpdateSearchProducts } from "../../redux/slices/searchProducts";
-import { DropDown } from "../../components/Common/DropDown";
+import { DropDown } from "@components";
 
 
 export const Header = () => {

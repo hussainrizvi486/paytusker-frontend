@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { Link } from "react-router-dom";
 
 export const DropDown = ({ label = "", options = [], children }) => {
@@ -6,11 +6,10 @@ export const DropDown = ({ label = "", options = [], children }) => {
     const [active, setActive] = useState(false);
 
 
-    const ToggleMenu = () => {
-        setActive(prev => !prev)
+    const toggleMenu = useCallback(() => {
+        setActive(prev => !prev);
+    }, []);
 
-
-    }
     useEffect(() => {
         document.addEventListener("click", (e) => {
             if (!menuRef.current?.contains(e.target)) {
@@ -20,10 +19,24 @@ export const DropDown = ({ label = "", options = [], children }) => {
     }, [])
 
 
+    useEffect(() => {
+        const handleClickOutside = (e) => {
+            if (menuRef.current && !menuRef.current.contains(e.target)) {
+                setActive(false);
+            }
+        };
+
+        document.addEventListener("click", handleClickOutside);
+
+        return () => {
+            document.removeEventListener("click", handleClickOutside);
+        };
+    }, []);
+
     return (
         <div className="dropdown-container" ref={menuRef}>
             <div className="dropdown-label"
-                onClick={ToggleMenu}
+                onClick={toggleMenu}
             > {children || label}</div>
             <div className={`dropdown-container__detail-wrapper ${active ? "" : "hide"}`}>
                 {options.map((val, i) => (

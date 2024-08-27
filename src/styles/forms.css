@@ -1,3 +1,12 @@
+.form-row {
+    display: flex;
+}
+
+.form-row .form-col {
+    flex-basis: 100%;
+}
+
+
 .web-form__fields {
     --form-cols: 1;
     display: grid;
@@ -34,27 +43,57 @@
     appearance: none;
 }
 
-/* 
-input:invalid {
-    outline: 1px solid #ff3838;
-} */
+.input-autocomplete__wrapper {
+    width: 100%;
+    padding: .25rem;
+    /* box-shadow: 0 10px 10px #8d8d8d; */
+    box-shadow: 0px 5px 20px #b1b1b1;
+    z-index: 5;
+    top: 100%;
+    left: 0;
+    background-color: #FFF;
+    position: absolute;
+    display: block;
+    overflow-y: auto;
+    max-height: 14rem;
+}
+
+.input-box {
+    position: relative;
+}
+
+.input-box .form-control {
+    border: 1px solid #b1b1b1 !important;
+}
+
+.input-autocomplete__option {
+    font-size: var(--text-sm);
+    padding: .35rem;
+    cursor: pointer;
+}
+
+.input-autocomplete__option:not(:last-of-type) {
+    border-bottom: 1px solid #bdbdbd;
+}
+
+.input-autocomplete__option:hover {
+    background-color: #e4e4e4;
+}
 
 .mandatory-flag {
     color: #ff3838;
 }
 
-@media (min-width: 550px) {
-    .web-form__fields {
-        gap: .5rem;
-        --form-cols: 2;
-    }
-}
+
 
 .input-file__wrapper {
+    /* height: 6rem;
+    width: 6rem; */
     height: 6rem;
     width: 6rem;
     position: relative;
     cursor: pointer;
+    box-shadow: unset;
 }
 
 .input-file__wrapper input {
@@ -70,6 +109,7 @@ input:invalid {
 .input-file__wrapper img {
     height: 100%;
     width: 100%;
+    object-fit: contain;
 }
 
 .file-review__wrapper {
@@ -84,8 +124,6 @@ input:invalid {
     width: 100%;
     object-fit: cover;
 }
-
-
 
 .file-review__wrapper-btn {
     padding: .15rem;
@@ -102,20 +140,6 @@ input:invalid {
 .file-review__wrapper-btn svg {
     color: #FFF;
 }
-
-@media (min-width: 786px) {
-    .input-file__wrapper {
-        height: 8rem;
-        width: 8rem;
-    }
-
-    .file-review__wrapper {
-        height: 8rem;
-        width: 8rem;
-    }
-}
-
-
 
 
 .checkbox-wrapper {
@@ -298,5 +322,24 @@ input:invalid {
     100% {
         opacity: 0;
         transform: scale(13, 13);
+    }
+}
+
+@media (min-width: 550px) {
+    .web-form__fields {
+        gap: .5rem;
+        --form-cols: 2;
+    }
+}
+
+@media (min-width: 786px) {
+    .input-file__wrapper {
+        height: 8rem;
+        width: 8rem;
+    }
+
+    .file-review__wrapper {
+        height: 8rem;
+        width: 8rem;
     }
 }

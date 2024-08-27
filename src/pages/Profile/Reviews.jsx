@@ -8,7 +8,7 @@ import { FormInputFile } from "../../components"
 import { FormatCurreny } from "../../utils"
 import Skeleton from "react-loading-skeleton"
 import toast from "react-hot-toast"
-import { Button } from "../../components/Common/Button"
+import { Button } from "../../components/common/Button"
 
 const Reviews = () => {
     const params = useParams();

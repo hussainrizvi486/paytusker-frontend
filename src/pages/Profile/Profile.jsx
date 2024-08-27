@@ -1,7 +1,7 @@
 import { Button, FormInput, Freeze } from "../../components"
 import { useGetUserDetailsQuery, useUpdateUserPasswordMutation } from "../../api"
 import { UserSidebar, Header } from "../../layouts"
-import { Link, useNavigate, useSearchParams } from "react-router-dom"
+import { Link, Navigate, useNavigate, useSearchParams } from "react-router-dom"
 import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 
@@ -41,7 +41,8 @@ const Profile = () => {
     }
   ];
 
-  const { data, isLoading } = useGetUserDetailsQuery();
+  const { data, isLoading, isError } = useGetUserDetailsQuery();
+  if (isError) return <Navigate to={"/"} />
   if (data) { userProfileFields.map((val) => { val.value = data[val.fieldname || ""] }) }
   if (isLoading) return <Freeze />
 
@@ -53,7 +54,6 @@ const Profile = () => {
         <UserSidebar />
         <div className="sidebar-page__content profile-page">
           <div>
-
             {urlSearchParams.get("edit") ?
               <>
                 <div className="heading-md">Edit Profile</div>
@@ -133,18 +133,17 @@ const ChangePassowrd = () => {
     }
   }, [apiResponse.isLoading])
 
-
   useEffect(() => {
+
     if (apiResponse.isError || apiResponse.isSuccess) {
-      setLoading(false)
+      setLoading(false);
     }
     if (apiResponse.isError) {
-      toast.error(apiResponse.error.data?.message || "Something went wrong")
+      toast.error(apiResponse.error.data?.message || "Something went wrong");
     }
     if (apiResponse.isSuccess) {
-      toast.success(apiResponse.data?.message || "Password updated")
-      navigate("/profile")
-
+      toast.success(apiResponse.data?.message || "Password updated");
+      navigate("/profile");
     }
   }, [apiResponse.isError, apiResponse.isSuccess])
 

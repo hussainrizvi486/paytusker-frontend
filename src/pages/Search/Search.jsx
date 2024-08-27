@@ -80,7 +80,6 @@ const Search = () => {
 
 
     useEffect(() => {
-        console.log(searchParams.get("category"))
         setQueryPayload((prev) => {
             return { ...prev, category: searchParams.get("category") }
         })
