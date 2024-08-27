@@ -16,7 +16,7 @@ import { LogOut } from "./redux/slices/authSlice";
 import { ProtectedRoute } from "./utils";
 import { SidebarLayout } from "./layouts/SidebarLayout";
 
-const Home = lazy(() => import("./pages/home/Home"));
+const Home = lazy(() => import("./pages/home/index"));
 const Product = lazy(() => import("./pages/product/index"));
 const LoginPage = lazy(() => import("./pages/auth/LoginPage"));
 const PasswordResetPage = lazy(() => import("./pages/auth/PasswordReset"));
