@@ -22,7 +22,7 @@ const LoginPage = lazy(() => import("./pages/auth/LoginPage"));
 const PasswordResetPage = lazy(() => import("./pages/auth/PasswordReset"));
 
 
-const Cart = lazy(() => import("./pages/cart/Cart"));
+const CartPage = lazy(() => import("./pages/cart/index"));
 const Address = lazy(() => import("./pages/profile/Address"));
 const Profile = lazy(() => import("./pages/profile/Profile"));
 const AddressForm = lazy(() => import("./pages/profile/AddressForm"));
@@ -110,7 +110,7 @@ function App() {
             </Route>
 
             <Route element={<ProtectedRoute />}>
-              <Route path="/cart" element={<Cart />} />
+              <Route path="/cart" element={<CartPage />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/profile/address" element={<Address />} />
               <Route path="/profile/address/form/:action" element={<AddressForm />} />
