@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
-import PhoneInput, {} from 'react-phone-input-2';
+import PhoneInput, { } from 'react-phone-input-2';
 
 import { Header } from "../../layouts";
 import { Button } from "../../components";
@@ -122,7 +122,7 @@ const Register = () => {
                                         autoFocus: false, required: "required",
                                         name: "phone"
                                     }}
-                                    // disableDropdown={true}
+                                // disableDropdown={true}
                                 />
                             </div>
                         </div>
