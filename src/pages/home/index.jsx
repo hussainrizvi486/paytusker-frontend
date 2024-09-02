@@ -10,13 +10,12 @@ import { CategoryCard, HomeCarousel, ProductCard, ProductCardLoader } from "../.
 
 let cachedDataObject = {
     digital_products: null,
-    home_products: null,
+    // home_products: null,
 }
 
 
 const Home = () => {
     const productCategories = useGetProductCategoriesQuery();
-
     const [products, setProducts] = useState(cachedDataObject.home_products || {});
     const [digitalProducts, setDigitalProducts] = useState(cachedDataObject.digital_products || []);
     const [loading, setLoading] = useState(productCategories.isLoading);
@@ -41,7 +40,7 @@ const Home = () => {
 
 
     useEffect(() => {
-        if (!cachedDataObject.digital_products || !cachedDataObject.home_products) {
+        if (!cachedDataObject.digital_products) {
             getData();
         }
     }, [])
@@ -59,8 +58,8 @@ const Home = () => {
                 <section className="home-section">
                     <section className="home-section">
                         {loading ? (<CategoriesLoadingGrid />) :
-                            (<><div className="section-heading">
-                                Digital Categories
+                            (<><div className="font-semibold mb-4 text-lg fm-poppins">
+                                Popular Categories
                             </div>
                                 <div className="home-categories-row">
                                     {productCategories.data?.categories?.digital?.map((val, i) => <CategoryCard key={i}
@@ -72,7 +71,7 @@ const Home = () => {
 
                     </section>
                     <section className="home-section" >
-                        <div className="section-heading">Digital Products</div>
+                        <div className="font-semibold mb-4 text-lg fm-poppins">Top Rated Products</div>
                         <div className="home-section-products products-grid">
                             {digitalProducts?.map((val, u) => (
                                 <ProductCard product={val} key={u} />
@@ -93,19 +92,17 @@ const Home = () => {
                         </div>
                     </section>}
 
+
                 {loading ? (<ProductLoadingGrid />) : (
-                    Object.keys(products)?.map((key, i) => (
-                        products[key].length > 0 && (
-                            <section className="home-section" key={i}>
-                                <div className="section-heading">{key}</div>
-                                <div className="home-section-products products-grid">
-                                    {products[key].map((val, u) => (
-                                        <ProductCard product={val} key={u} />
-                                    ))}
-                                </div>
-                            </section>
-                        )
-                    ))
+                    <section className="home-section">
+                        <div className="section-heading">Recommend Products</div>
+                        <div className="home-section-products products-grid">
+                            {products?.map((val, u) => (
+                                <ProductCard product={val} key={u} />
+                            ))}
+                        </div>
+                    </section>
+
                 )}
 
             </main>

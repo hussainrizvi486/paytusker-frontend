@@ -39,6 +39,8 @@ const SellerOrdersListingPage = lazy(() => import("./pages/seller/orders/ListOrd
 const SellerProductUploadPage = lazy(() => import("./pages/seller/products/UploadProduct"))
 const SellerProductEditPage = lazy(() => import("./pages/seller/products/EditProduct"))
 const SellerProductListing = lazy(() => import("./pages/seller/products/ProductListing"))
+// const SellerDigitalOrderDetail = lazy(() => import("./pages/seller/orders/digital/Detail"))
+
 
 
 function App() {
@@ -106,6 +108,7 @@ function App() {
                 <Route path="/seller/product/list" element={<SellerProductListing />} />
                 <Route path="/seller/product/edit/:id" element={<SellerProductEditPage />} />
                 <Route path="/seller/order/list" element={<SellerOrdersListingPage />} />
+                {/* <Route path="/test/seller/order/digital/:id" element={<SellerDigitalOrderDetail />} /> */}
               </Route>
             </Route>
 
