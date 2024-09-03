@@ -51,44 +51,46 @@ export const Header = () => {
 
 
     return (
-        <header className="page-header header-main__nav">
-            <div className="header-left__section">
-                <div className="header-left__mobile-menu" onClick={() => ToggleSideBar()}>
-                    <Menu strokeWidth={2.5} />
-                </div>
-                <div className="header-logo">
-                    <Link to={"/"}>
-                        <img src={Logo} alt="" />
-                    </Link>
-                </div>
-            </div>
-
-            <div className="header-center__section">
-                <div className="search-box__wrapper">
-                    <HeaderSearchBox handleSearch={searchProduct} />
-                </div>
-            </div>
-
-            <div className="header-right__section">
-                <nav className="header-nav">
-                    <Link className="header-nav__link nav-cart__link" to={"/cart"}>
-                        {cartCount > 0 ? <span className="count">{cartCount}</span> : <></>}
-                        <ShoppingCart />
-                    </Link>
-                    {isAuthenticated ?
-                        <DropDown options={ProfileDropDownOptions}>
-                            <span className="header-nav__link">
-                                <User2 />
-                            </span>
-                        </DropDown>
-                        :
-                        <Link className="header-nav__link" to={"/login"}>
-                            <User2 />
+        <>
+            <header className="page-header header-main__nav">
+                <div className="header-left__section">
+                    <div className="header-left__mobile-menu" onClick={() => ToggleSideBar()}>
+                        <Menu strokeWidth={2.5} />
+                    </div>
+                    <div className="header-logo">
+                        <Link to={"/"}>
+                            <img src={Logo} alt="" />
                         </Link>
-                    }
-                </nav>
-            </div>
-        </header >
+                    </div>
+                </div>
+
+                <div className="header-center__section">
+                    <div className="search-box__wrapper">
+                        <HeaderSearchBox handleSearch={searchProduct} />
+                    </div>
+                </div>
+
+                <div className="header-right__section">
+                    <nav className="header-nav">
+                        <Link className="header-nav__link nav-cart__link" to={"/cart"}>
+                            {cartCount > 0 ? <span className="count">{cartCount}</span> : <></>}
+                            <ShoppingCart />
+                        </Link>
+                        {isAuthenticated ?
+                            <DropDown options={ProfileDropDownOptions}>
+                                <span className="header-nav__link">
+                                    <User2 />
+                                </span>
+                            </DropDown>
+                            :
+                            <Link className="header-nav__link" to={"/login"}>
+                                <User2 />
+                            </Link>
+                        }
+                    </nav>
+                </div>
+            </header >
+        </>
     )
 }
 
